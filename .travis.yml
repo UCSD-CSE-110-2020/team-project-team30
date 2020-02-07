@@ -45,6 +45,7 @@ jobs:
    - name: android_test
      if: (type = push AND branch IN (master, dev)) OR (type = pull_request)
      before_install:
-       - openssl aes-256-cbc -K $encrypted_c204a8432fde_key -iv $encrypted_c204a8432fde_iv -in gcloud-service-key.json.enc -out gcloud-service-key.json -d
+       - openssl aes-256-cbc -K $encrypted_999c4b7a2e49_key -iv $encrypted_999c4b7a2e49_iv -in gcloud-service-key.json.enc -out gcloud-service-key.json -d
+         # - openssl aes-256-cbc -K $encrypted_c204a8432fde_key -iv $encrypted_c204a8432fde_iv -in gcloud-service-key.json.enc -out gcloud-service-key.json -d
        - chmod +x ./run_tests_on_firebase_test_lab.sh
      script: ./run_tests_on_firebase_test_lab.sh

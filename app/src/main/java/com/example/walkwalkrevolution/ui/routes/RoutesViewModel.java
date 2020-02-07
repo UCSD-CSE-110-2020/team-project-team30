@@ -1,14 +1,18 @@
-package com.example.walkwalkrevolution.ui.dashboard;
+package com.example.walkwalkrevolution.ui.routes;
+
+import android.widget.ListView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+import com.example.walkwalkrevolution.R;
+
+public class RoutesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public RoutesViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is dashboard fragment");
     }
@@ -16,4 +20,5 @@ public class DashboardViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mText;
     }
+
 }

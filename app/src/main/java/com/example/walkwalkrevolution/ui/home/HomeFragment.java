@@ -110,16 +110,22 @@ public class HomeFragment extends Fragment {
         String steps = sharedPreferences.getString("steps", "");
         String miles = sharedPreferences.getString("miles", "");
         String time = sharedPreferences.getString("time", "");
+
+        TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
+        TextView displayTotalMiles = (TextView) root.findViewById(R.id.text_Miles);
+
+        displayTotalMiles.setText(miles+" Miles");
+        displayTotalSteps.setText(steps+" Steps");
+
+
         TextView displaySteps = (TextView) root.findViewById(R.id.tv_last_steps);
         TextView displayMiles = (TextView) root.findViewById(R.id.tv_last_miles);
         TextView displayTime = (TextView) root.findViewById(R.id.tv_last_time);
-        TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
-        TextView displayTotalMiles = (TextView) root.findViewById(R.id.text_Miles);
-        displayTotalMiles.setText(miles+"Miles");
-        displayTotalSteps.setText(steps+"Steps");
-        displayMiles.setText(miles+"Miles");
-        displaySteps.setText(steps+"Steps");
-        displayTime.setText(time + "ms");
+
+        displayMiles.setText(miles+" Miles");
+        displaySteps.setText(steps+" Steps");
+        displayTime.setText(time + " ms");
+
     }
 
     public void setStepCount(long stepCount) {

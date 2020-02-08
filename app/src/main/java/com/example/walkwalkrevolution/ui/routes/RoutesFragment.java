@@ -22,6 +22,8 @@ import com.example.walkwalkrevolution.Route;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class RoutesFragment extends Fragment {
     private String[] myStringArray;
     private RoutesViewModel routesViewModel;
@@ -42,6 +44,7 @@ public class RoutesFragment extends Fragment {
 
         //later, have array of routes objects! i.e ArrayList<Routes>()
         //need to figure out how to dynamically set the height
+
         Route route1 = new Route("Arlington Park", "02/07/20");
         Route route2 = new Route("Birmingham Ave", "02/03/20");
         Route route3 = new Route("Colorado Trail", "02/04/20");
@@ -54,8 +57,7 @@ public class RoutesFragment extends Fragment {
         Route route10 = new Route("Matrix Inverse", "01/06/20");
         Route route11 = new Route("Julian's Apartment", "01/28/20");
         Route route12 = new Route("Team30 Clubhouse", "02/07/20");
-
-        //myStringArray = new String[] {"Route 1", "Route 2", "Route 3", "Route 4", "Route 5", "Route 6", "Route 7", "Route 8", "Route 9", "Route 10", "Route 11", "Route 12"};
+        /*
         String[] routeStringArray = new String[] {route1.toString(),
                 route2.toString(), route3.toString(), route4.toString(), route5.toString(), route6.toString(),
                 route7.toString(), route8.toString(), route9.toString(), route10.toString(), route11.toString(),
@@ -63,6 +65,26 @@ public class RoutesFragment extends Fragment {
         ListView listView = (ListView) root.findViewById(R.id.routesListView);
         listView.setAdapter(new ArrayAdapter<String>(root.getContext(),
                 android.R.layout.simple_list_item_1 , routeStringArray));
+        */
+        super.onCreate(savedInstanceState);
+
+        ListView listView = (ListView) root.findViewById(R.id.routesListView);
+        ArrayList<Route> routeList = new ArrayList<Route>();
+        routeList.add(route1);
+        routeList.add(route2);
+        routeList.add(route3);
+        routeList.add(route4);
+        routeList.add(route5);
+        routeList.add(route6);
+        routeList.add(route7);
+        routeList.add(route8);
+        routeList.add(route9);
+        routeList.add(route10);
+        routeList.add(route11);
+        routeList.add(route12);
+
+        ArrayAdapter myAdapter = new RouteAdapter(root.getContext(), routeList);
+        listView.setAdapter(myAdapter);
 
     }
 

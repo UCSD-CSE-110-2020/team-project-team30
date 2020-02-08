@@ -23,6 +23,7 @@ public class WalkInProgress extends AppCompatActivity {
 
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
 
+    public static final String STEP_COUNT = "STEP_COUNT";
     private static final String TAG = "WalkInProgress";
 
     private TextView textSteps;
@@ -30,6 +31,9 @@ public class WalkInProgress extends AppCompatActivity {
     private Chronometer chronometer;
     private FitnessService fitnessService;
     private long elapsedTime;
+
+    private int preStep;
+    private int nowStep;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,14 @@ public class WalkInProgress extends AppCompatActivity {
         chronometer = findViewById(R.id.chronometer);
 
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+
+        preStep = getIntent().getIntExtra(STEP_COUNT, 0);
+
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+
+        fitnessService.updateStepCount();
+
+        textSteps.setText(String.valueOf(nowStep));
 
         Button stopWalk = (Button) findViewById(R.id.btn_STOP);
 
@@ -54,7 +65,6 @@ public class WalkInProgress extends AppCompatActivity {
             }
         });
 
-        fitnessService.updateStepCount();
         chronometer.start();
 
         fitnessService.setup();
@@ -76,7 +86,8 @@ public class WalkInProgress extends AppCompatActivity {
     }
 
     public void setStepCount(long stepCount) {
-        textSteps.setText(String.valueOf(stepCount));
+        nowStep = (int) stepCount - preStep;
+//        textSteps.setText(String.valueOf(stepCount));
     }
 
     public void setMiles(long stepCount){
@@ -91,8 +102,10 @@ public class WalkInProgress extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("last_walk", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString("steps", steps.getText().toString());
+//        nowStep = nowStep + preStep;
+        nowStep = Integer.parseInt(steps.getText().toString()) + preStep;
+        editor.putString("steps",String.valueOf(nowStep));
+//        editor.putString("steps", steps.getText().toString());
         editor.putString("miles", miles.getText().toString());
         editor.putString("time", String.valueOf(elapsedTime));
 

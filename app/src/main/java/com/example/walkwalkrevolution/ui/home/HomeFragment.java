@@ -1,10 +1,13 @@
 package com.example.walkwalkrevolution.ui.home;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,8 +81,22 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         display(root);
 
+//        AsyncTaskRunner runner = new AsyncTaskRunner();
+//        runner.execute("0");
+        final Handler r = new Handler();
+        r.post(new Runnable() {
+            @Override
+            public void run() {
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences("last_walk", MODE_PRIVATE);
+                String steps = sharedPreferences.getString("steps", "");
+                TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
+                displayTotalSteps.setText(steps);
+                r.postDelayed(this, 1000);
+            }
+        });
         return root;
     }
 
@@ -94,7 +111,11 @@ public class HomeFragment extends Fragment {
     }*/
 
     private void launchActivity() {
+        int step = 0;
+        textSteps = root.findViewById(R.id.text_Step);
         Intent intent = new Intent(getActivity(), WalkInProgress.class);
+        step = Integer.parseInt(textSteps.getText().toString());
+        intent.putExtra(WalkInProgress.STEP_COUNT, step);
         intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
         startActivity(intent);
     }
@@ -116,14 +137,45 @@ public class HomeFragment extends Fragment {
         TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
         TextView displayTotalMiles = (TextView) root.findViewById(R.id.text_Miles);
         displayTotalMiles.setText(miles+"Miles");
-        displayTotalSteps.setText(steps+"Steps");
+        displayTotalSteps.setText(steps);
         displayMiles.setText(miles+"Miles");
         displaySteps.setText(steps+"Steps");
         displayTime.setText(time + "ms");
     }
 
-    public void setStepCount(long stepCount) {
-        textSteps.setText(String.valueOf(stepCount));
+    private class AsyncTaskRunner extends AsyncTask<String, String, String> {
+        private String resp;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                int time = Integer.parseInt(params[0])*100;
+
+                Thread.sleep(time);
+                resp = "Slept for " + params[0] + " seconds";
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                resp = e.getMessage();
+            } catch (Exception e) {
+                e.printStackTrace();
+                resp = e.getMessage();
+            }
+            return resp;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences("last_walk", MODE_PRIVATE);
+            String steps = sharedPreferences.getString("steps", "");
+            TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
+            displayTotalSteps.setText(steps);
+        }
     }
+
+//    public void setStepCount(long stepCount) {
+//        textSteps.setText(String.valueOf(stepCount));
+//    }
 
 }

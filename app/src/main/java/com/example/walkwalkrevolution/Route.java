@@ -5,8 +5,8 @@ public class Route {
     private String date;
 
     public Route(String n, String d) {
-        name = n + "\n";
-        date = d;
+        name = n;
+        date = "\n" + d;
     }
 
     public String getName() {

@@ -65,9 +65,9 @@
         android:id="@+id/text_Last"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="171dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="2dp"
-        android:layout_marginEnd="171dp"
+        android:layout_marginEnd="310dp"
         android:layout_marginBottom="20dp"
         android:text="Last Walk:"
         android:textAlignment="center"
@@ -76,6 +76,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_Miles" />
+
+    <TextView
+        android:id="@+id/tv_last_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="237dp"
+        android:layout_marginBottom="91dp"
+        android:text="Steps"
+        app:layout_constraintBottom_toTopOf="@+id/btn_GoToWalk"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/text_Last"
+        app:layout_constraintTop_toBottomOf="@+id/text_Miles" />
+
+    <TextView
+        android:id="@+id/tv_last_miles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="77dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="90dp"
+        android:text="Miles"
+        app:layout_constraintBottom_toTopOf="@+id/btn_GoToWalk"
+        app:layout_constraintEnd_toStartOf="@+id/tv_last_time"
+        app:layout_constraintStart_toEndOf="@+id/tv_last_steps"
+        app:layout_constraintTop_toBottomOf="@+id/text_Miles" />
+
+    <TextView
+        android:id="@+id/tv_last_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="46dp"
+        android:layout_marginTop="322dp"
+        android:layout_marginEnd="74dp"
+        android:layout_marginBottom="272dp"
+        android:text="Time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_last_miles"
+        app:layout_constraintTop_toBottomOf="@+id/text_Progress" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

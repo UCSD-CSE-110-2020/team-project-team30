@@ -1,7 +1,9 @@
 package com.example.walkwalkrevolution.ui.home;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,20 +24,34 @@ import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.ui.WalkInProgress;
 
+import org.w3c.dom.Text;
+
 import java.util.Observable;
 import java.util.concurrent.TimeUnit;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private View root;
+    public Context mContext;
+    TextView textSteps;
 
     private String fitnessServiceKey = "GOOGLE_FIT";
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_Progress);
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -43,6 +59,8 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        textSteps = root.findViewById(R.id.text_Step);
 
         Button btn_GoToWalk = root.findViewById(R.id.btn_GoToWalk);
         btn_GoToWalk.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +77,8 @@ public class HomeFragment extends Fragment {
                 return new GoogleFitAdapter(walkInProgress);
             }
         });
+
+        display(root);
 
         return root;
     }
@@ -81,6 +101,29 @@ public class HomeFragment extends Fragment {
 
     public void setFitnessServiceKey(String fitnessServiceKey){
         this.fitnessServiceKey = fitnessServiceKey;
+    }
+
+
+    public void display(View view){
+
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("last_walk", MODE_PRIVATE);
+        String steps = sharedPreferences.getString("steps", "");
+        String miles = sharedPreferences.getString("miles", "");
+        String time = sharedPreferences.getString("time", "");
+        TextView displaySteps = (TextView) root.findViewById(R.id.tv_last_steps);
+        TextView displayMiles = (TextView) root.findViewById(R.id.tv_last_miles);
+        TextView displayTime = (TextView) root.findViewById(R.id.tv_last_time);
+        TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
+        TextView displayTotalMiles = (TextView) root.findViewById(R.id.text_Miles);
+        displayTotalMiles.setText(miles+"Miles");
+        displayTotalSteps.setText(steps+"Steps");
+        displayMiles.setText(miles+"Miles");
+        displaySteps.setText(steps+"Steps");
+        displayTime.setText(time + "ms");
+    }
+
+    public void setStepCount(long stepCount) {
+        textSteps.setText(String.valueOf(stepCount));
     }
 
 }

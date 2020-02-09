@@ -26,7 +26,7 @@ public class RouteAdapter extends ArrayAdapter {
     private List<Route> routeList = new ArrayList<Route>();
     private String fitnessServiceKey = "GOOGLE_FIT";
 
-    public RouteAdapter(@NonNull Context context, @LayoutRes ArrayList<Route> list) {
+    public RouteAdapter(@NonNull Context context, ArrayList<Route> list) {
         super(context, 0 , list);
         mContext = context;
         routeList = list;

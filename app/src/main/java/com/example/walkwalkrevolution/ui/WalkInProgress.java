@@ -1,4 +1,4 @@
-package com.example.walkwalkrevolution;
+package com.example.walkwalkrevolution.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;

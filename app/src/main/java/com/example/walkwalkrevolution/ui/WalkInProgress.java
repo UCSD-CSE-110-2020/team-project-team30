@@ -1,11 +1,13 @@
 package com.example.walkwalkrevolution.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -16,12 +18,20 @@ import android.widget.Toast;
 
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
+import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
+import com.google.android.gms.common.data.DataBufferObserver;
+
+import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class WalkInProgress extends AppCompatActivity {
 
     public static final String FITNESS_SERVICE_KEY = "FITNESS_SERVICE_KEY";
+    private String fitnessServiceKey = "GOOGLE_FIT";
 
     private static final String TAG = "WalkInProgress";
 
@@ -31,6 +41,11 @@ public class WalkInProgress extends AppCompatActivity {
     private FitnessService fitnessService;
     private long elapsedTime;
 
+
+    final Handler handler = new Handler();
+    private Timer t;
+    private TimerTask updateSteps;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +54,26 @@ public class WalkInProgress extends AppCompatActivity {
         textMiles = findViewById(R.id.tv_Miles);
         chronometer = findViewById(R.id.chronometer);
 
+
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+
+        updateSteps = new TimerTask() {
+            //long pseudoStep = 0;
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        fitnessService.updateStepCount();
+                        //setStepCount(pseudoStep);
+                    }
+                });
+                //pseudoStep++;
+            }
+        };
+
+        t = new Timer();
+        t.schedule(updateSteps, 100, 500);
 
         Button stopWalk = (Button) findViewById(R.id.btn_STOP);
 
@@ -54,7 +87,6 @@ public class WalkInProgress extends AppCompatActivity {
             }
         });
 
-        fitnessService.updateStepCount();
         chronometer.start();
 
         fitnessService.setup();
@@ -70,7 +102,8 @@ public class WalkInProgress extends AppCompatActivity {
             if (requestCode == fitnessService.getRequestCode()) {
                 fitnessService.updateStepCount();
             }
-        } else {
+        }
+        else {
             Log.e(TAG, "ERROR, google fit result code: " + resultCode);
         }
     }
@@ -102,6 +135,17 @@ public class WalkInProgress extends AppCompatActivity {
     public long getElapsedTime() {
         long time = SystemClock.elapsedRealtime() - chronometer.getBase();
         return time;
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
 }

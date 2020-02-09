@@ -57,16 +57,6 @@ public class RoutesFragment extends Fragment {
         Route route10 = new Route("Matrix Inverse", "01/06/20", "My house");
         Route route11 = new Route("Julian's Apartment", "01/28/20", "My house");
         Route route12 = new Route("Team30 Clubhouse", "02/07/20", "My house");
-        /*
-        String[] routeStringArray = new String[] {route1.toString(),
-                route2.toString(), route3.toString(), route4.toString(), route5.toString(), route6.toString(),
-                route7.toString(), route8.toString(), route9.toString(), route10.toString(), route11.toString(),
-                route12.toString()};
-        ListView listView = (ListView) root.findViewById(R.id.routesListView);
-        listView.setAdapter(new ArrayAdapter<String>(root.getContext(),
-                android.R.layout.simple_list_item_1 , routeStringArray));
-        */
-        //super.onCreate(savedInstanceState);
 
         ListView listView = (ListView) root.findViewById(R.id.routesListView);
         ArrayList<Route> routeList = new ArrayList<Route>();

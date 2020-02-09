@@ -19,10 +19,14 @@ import android.widget.Toast;
 
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
+import com.example.walkwalkrevolution.ui.information.InformationFragment;
 import com.example.walkwalkrevolution.ui.routes.RoutesFragment;
+
+import static java.lang.Thread.sleep;
 
 public class WalkInProgress extends AppCompatActivity {
 
@@ -47,7 +51,7 @@ public class WalkInProgress extends AppCompatActivity {
         String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
 
-        Button stopWalk = (Button) findViewById(R.id.btn_STOP);
+        final Button stopWalk = (Button) findViewById(R.id.btn_STOP);
 
         stopWalk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,14 +59,14 @@ public class WalkInProgress extends AppCompatActivity {
                 chronometer.stop();
                 elapsedTime = getElapsedTime();
                 save(v);
-                /*
-                Fragment fragment = new RoutesFragment();
+
+                Fragment walkInformation = new InformationFragment();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
-                transaction.show(fragment);
+                transaction.replace(R.id.walk_container, walkInformation);
                 transaction.commit();
-                */
-                finish();
+                transaction.show(walkInformation);
+                stopWalk.setVisibility(View.GONE);
             }
         });
 

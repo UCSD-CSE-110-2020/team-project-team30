@@ -10,14 +10,10 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
-import com.example.walkwalkrevolution.ui.WalkInProgress;
-import com.example.walkwalkrevolution.ui.information.InformationViewModel;
 
 import static android.content.ContentValues.TAG;
 

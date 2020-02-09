@@ -6,8 +6,8 @@
     android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/walk_container"
-    tools:context=".ui.WalkInProgress">
+    android:id="@+id/walk_screen_container"
+    tools:context=".WalkInProgress">
 
     <TextView
         android:id="@+id/tv_WalkScreen"

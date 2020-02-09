@@ -10,13 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.ui.WalkInProgress;
+import com.example.walkwalkrevolution.WalkInProgress;
 
 import java.util.ArrayList;
 import java.util.List;

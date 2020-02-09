@@ -54,6 +54,9 @@ public class WalkInProgress extends AppCompatActivity {
     private Timer t;
     private TimerTask updateSteps;
 
+    public long stepCount = -1;
+    public long stepCountOnStart = 10000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +71,17 @@ public class WalkInProgress extends AppCompatActivity {
 
         updateSteps = new TimerTask() {
             //long pseudoStep = 0;
+            boolean isFirstTime = true;
             @Override
             public void run() {
                 handler.post(new Runnable() {
                     public void run() {
                         fitnessService.updateStepCount();
-                        //setStepCount(pseudoStep);
+                        if( stepCount > 0 && isFirstTime == true) {
+                            isFirstTime = false;
+                            stepCountOnStart = stepCount;
+                        }
+                        setStepTextView(stepCount - stepCountOnStart);
                     }
                 });
                 //pseudoStep++;
@@ -106,6 +114,8 @@ public class WalkInProgress extends AppCompatActivity {
 
         fitnessService.setup();
 
+
+
     }
 
 
@@ -125,6 +135,11 @@ public class WalkInProgress extends AppCompatActivity {
     }
 
     public void setStepCount(long stepCount) {
+        //textSteps.setText(String.valueOf(stepCount));
+        this.stepCount = stepCount;
+    }
+
+    public void setStepTextView(long stepCount) {
         textSteps.setText(String.valueOf(stepCount));
     }
 
@@ -157,6 +172,14 @@ public class WalkInProgress extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        /*
+        long t0 = getElapsedTime();
+        while(getElapsedTime() - t0 < 1000);
+        fitnessService.updateStepCount();
+        stepCountOnStart = stepCount;
+        //setStepTextView(stepCount - stepCountOnStart);
+*/
     }
 
     @Override

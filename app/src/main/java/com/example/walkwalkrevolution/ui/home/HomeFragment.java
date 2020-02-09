@@ -1,11 +1,9 @@
 package com.example.walkwalkrevolution.ui.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +20,7 @@ import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
 import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
 import com.example.walkwalkrevolution.R;
-import com.example.walkwalkrevolution.ui.WalkInProgress;
-
-import org.w3c.dom.Text;
-
-import java.util.Observable;
-import java.util.concurrent.TimeUnit;
+import com.example.walkwalkrevolution.WalkInProgress;
 
 import static android.content.Context.MODE_PRIVATE;
 

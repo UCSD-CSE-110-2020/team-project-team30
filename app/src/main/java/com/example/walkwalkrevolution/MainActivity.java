@@ -1,14 +1,7 @@
 package com.example.walkwalkrevolution;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 
-import com.example.walkwalkrevolution.ui.WalkInProgress;
-import com.example.walkwalkrevolution.ui.home.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,10 +9,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import com.example.walkwalkrevolution.Fitness.FitnessService;
-import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
-import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
 
 
 public class MainActivity extends AppCompatActivity{

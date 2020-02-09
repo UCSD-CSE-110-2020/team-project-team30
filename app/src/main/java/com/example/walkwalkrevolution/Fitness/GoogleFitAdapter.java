@@ -4,8 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.walkwalkrevolution.ui.WalkInProgress;
-import com.example.walkwalkrevolution.ui.home.HomeFragment;
+import com.example.walkwalkrevolution.WalkInProgress;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.fitness.Fitness;

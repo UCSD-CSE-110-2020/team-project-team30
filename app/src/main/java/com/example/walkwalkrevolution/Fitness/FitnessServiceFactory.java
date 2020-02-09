@@ -2,7 +2,7 @@ package com.example.walkwalkrevolution.Fitness;
 
 import android.util.Log;
 
-import com.example.walkwalkrevolution.ui.WalkInProgress;
+import com.example.walkwalkrevolution.WalkInProgress;
 
 import java.util.HashMap;
 import java.util.Map;

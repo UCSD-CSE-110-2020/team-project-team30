@@ -81,7 +81,9 @@ public class WalkInProgress extends AppCompatActivity {
                             isFirstTime = false;
                             stepCountOnStart = stepCount;
                         }
+
                         setStepTextView(stepCount - stepCountOnStart);
+                        setMilesTextView(stepCount - stepCountOnStart);
                     }
                 });
                 //pseudoStep++;
@@ -89,7 +91,7 @@ public class WalkInProgress extends AppCompatActivity {
         };
 
         t = new Timer();
-        t.schedule(updateSteps, 100, 500);
+        t.schedule(updateSteps, 0, 100);
 
         Button stopWalk = (Button) findViewById(R.id.btn_STOP);
 
@@ -143,7 +145,9 @@ public class WalkInProgress extends AppCompatActivity {
         textSteps.setText(String.valueOf(stepCount));
     }
 
-    public void setMiles(long stepCount){
+    public void setMiles(long stepCount) {}
+
+    public void setMilesTextView(long stepCount){
         double stride = (65*0.413)/63360;
         double result = (stepCount*stride);
         textMiles.setText(String.format("%.2f", result));

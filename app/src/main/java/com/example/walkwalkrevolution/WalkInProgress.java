@@ -27,6 +27,7 @@ import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
 
+import com.example.walkwalkrevolution.ui.information.InformationFragment;
 import com.google.android.gms.common.data.DataBufferObserver;
 
 import java.util.Observable;
@@ -66,7 +67,7 @@ public class WalkInProgress extends AppCompatActivity {
         chronometer = findViewById(R.id.chronometer);
 
 
-        String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
+        final String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
 
         updateSteps = new TimerTask() {
@@ -93,7 +94,7 @@ public class WalkInProgress extends AppCompatActivity {
         t = new Timer();
         t.schedule(updateSteps, 0, 100);
 
-        Button stopWalk = (Button) findViewById(R.id.btn_STOP);
+        final Button stopWalk = (Button) findViewById(R.id.btn_STOP);
 
         stopWalk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,14 +102,13 @@ public class WalkInProgress extends AppCompatActivity {
                 chronometer.stop();
                 elapsedTime = getElapsedTime();
                 save(v);
-                /*
-                Fragment fragment = new RoutesFragment();
+
+                stopWalk.setVisibility(View.GONE);
+                Fragment informationFragment = new InformationFragment();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
-                transaction.show(fragment);
+                transaction.replace(R.id.walk_screen_container, informationFragment);
                 transaction.commit();
-                */
-                finish();
             }
         });
 

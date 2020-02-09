@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?attr/actionBarSize"
-    >
+    android:layout_marginBottom="?attr/actionBarSize">
 
     <ListView
         android:id="@+id/routesListView"
@@ -18,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_height="match_parent" >
+        tools:layout_height="match_parent">
 
     </ListView>
 
@@ -27,10 +26,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="1dp"
-        android:textSize="20sp"
         android:fontFamily="sans-serif-thin"
         android:textColor="#FFFFFF"
-        android:textStyle="bold"/>
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_date"
@@ -38,11 +39,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_name"
         android:layout_margin="1dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="619dp"
         android:fontFamily="sans-serif-thin"
         android:textColor="#00AAF9"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/textView_name"
-        android:textSize="20sp"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_start"
@@ -52,19 +57,20 @@
         android:layout_margin="1dp"
         android:fontFamily="sans-serif-thin"
         android:textColor="#FFFFFF"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/textView_date"
         app:layout_constraintLeft_toRightOf="@id/imageView_locationPNG"
-        android:textSize="20sp"/>
+        app:layout_constraintTop_toBottomOf="@id/textView_date" />
 
     <ImageView
         android:id="@+id/imageView_locationPNG"
+        android:contentDescription="@string/bottom_sheet_behavior"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_margin="1dp"
         android:visibility="invisible"
-        app:layout_constraintTop_toBottomOf="@id/textView_date"
         app:layout_constraintLeft_toLeftOf="@id/textView_name"
+        app:layout_constraintTop_toBottomOf="@id/textView_date"
         app:srcCompat="@drawable/start_white" />
 
 

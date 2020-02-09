@@ -3,29 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize"
+    >
 
     <ListView
         android:id="@+id/routesListView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#f2f2f2"
-        android:divider="#000000"
-        android:dividerHeight="0.4dp"
+        android:background="#000000"
+        android:divider="#00AAF9"
+        android:dividerHeight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_height="match_parent" />
+        tools:layout_height="match_parent" >
+
+    </ListView>
 
     <TextView
         android:id="@+id/textView_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
+        android:layout_margin="1dp"
         android:textSize="20sp"
         android:fontFamily="sans-serif-thin"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textStyle="bold"/>
 
     <TextView
@@ -33,10 +37,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView_name"
-        android:layout_margin="30dp"
+        android:layout_margin="1dp"
         android:fontFamily="sans-serif-thin"
         android:textColor="#00AAF9"
         android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/textView_name"
         android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/textView_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_name"
+        android:layout_margin="1dp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/textView_date"
+        app:layout_constraintLeft_toRightOf="@id/imageView_locationPNG"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/imageView_locationPNG"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="1dp"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/textView_date"
+        app:layout_constraintLeft_toLeftOf="@id/textView_name"
+        app:srcCompat="@drawable/start_white" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

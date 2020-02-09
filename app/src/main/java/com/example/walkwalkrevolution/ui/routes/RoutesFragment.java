@@ -45,18 +45,18 @@ public class RoutesFragment extends Fragment {
         //later, have array of routes objects! i.e ArrayList<Routes>()
         //need to figure out how to dynamically set the height
 
-        Route route1 = new Route("Arlington Park", "02/07/20");
-        Route route2 = new Route("Birmingham Ave", "02/03/20");
-        Route route3 = new Route("Colorado Trail", "02/04/20");
-        Route route4 = new Route("Dolmant Grove", "02/01/20");
-        Route route5 = new Route("Desert's Garden", "01/11/20");
-        Route route6 = new Route("Erlington Hiking Trail", "01/21/20");
-        Route route7 = new Route("Fisherman's Meadows", "02/05/20");
-        Route route8 = new Route("Figeroa's Lane", "01/24/20");
-        Route route9 = new Route("Goodie's Curve", "01/12/20");
-        Route route10 = new Route("Matrix Inverse", "01/06/20");
-        Route route11 = new Route("Julian's Apartment", "01/28/20");
-        Route route12 = new Route("Team30 Clubhouse", "02/07/20");
+        Route route1 = new Route("Arlington Park", "02/07/20", "My house");
+        Route route2 = new Route("Birmingham Ave", "02/03/20", "My house");
+        Route route3 = new Route("Colorado Trail", "02/04/20", "My house");
+        Route route4 = new Route("Dolmant Grove", "02/01/20", "My house");
+        Route route5 = new Route("Desert's Garden", "01/11/20", "My house");
+        Route route6 = new Route("Erlington Hiking Trail", "01/21/20", "My house");
+        Route route7 = new Route("Fisherman's Meadows", "02/05/20", "My house");
+        Route route8 = new Route("Figeroa's Lane", "01/24/20","My house");
+        Route route9 = new Route("Goodie's Curve", "01/12/20", "My house");
+        Route route10 = new Route("Matrix Inverse", "01/06/20", "My house");
+        Route route11 = new Route("Julian's Apartment", "01/28/20", "My house");
+        Route route12 = new Route("Team30 Clubhouse", "02/07/20", "My house");
         /*
         String[] routeStringArray = new String[] {route1.toString(),
                 route2.toString(), route3.toString(), route4.toString(), route5.toString(), route6.toString(),
@@ -66,7 +66,7 @@ public class RoutesFragment extends Fragment {
         listView.setAdapter(new ArrayAdapter<String>(root.getContext(),
                 android.R.layout.simple_list_item_1 , routeStringArray));
         */
-        super.onCreate(savedInstanceState);
+        //super.onCreate(savedInstanceState);
 
         ListView listView = (ListView) root.findViewById(R.id.routesListView);
         ArrayList<Route> routeList = new ArrayList<Route>();

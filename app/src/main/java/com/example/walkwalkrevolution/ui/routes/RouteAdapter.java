@@ -24,6 +24,7 @@ import java.util.List;
 public class RouteAdapter extends ArrayAdapter {
     private Context mContext;
     private List<Route> routeList = new ArrayList<Route>();
+    private String fitnessServiceKey = "GOOGLE_FIT";
 
     public RouteAdapter(@NonNull Context context, @LayoutRes ArrayList<Route> list) {
         super(context, 0 , list);
@@ -39,23 +40,37 @@ public class RouteAdapter extends ArrayAdapter {
             listItem = LayoutInflater.from(mContext).inflate(R.layout.fragment_routes,parent,false);
 
         final Route currentRoute = routeList.get(position);
-        //ImageView image = (ImageView)listItem.findViewById(R.id.imageView_poster);
-        //image.setImageResource();
 
-        TextView name = (TextView) listItem.findViewById(R.id.textView_name);
+        final TextView name = (TextView) listItem.findViewById(R.id.textView_name);
         name.setText(currentRoute.getName());
 
-        TextView date = (TextView) listItem.findViewById(R.id.textView_date);
+        final TextView date = (TextView) listItem.findViewById(R.id.textView_date);
         date.setText(currentRoute.getDate());
+
+        final TextView start = (TextView) listItem.findViewById(R.id.textView_start);
+        start.setText(currentRoute.getStart());
+
+        final ImageView location = (ImageView) listItem.findViewById(R.id.imageView_locationPNG);
+        location.setVisibility(View.VISIBLE);
+
+
 
         listItem.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(mContext, currentRoute.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Starting: " + currentRoute.getName(), Toast.LENGTH_SHORT).show();
+                launchActivity();
+                //name.setBackground("#00FF00");
             }
         });
 
 
         return listItem;
+    }
+
+    private void launchActivity() {
+        Intent intent = new Intent(getContext(), WalkInProgress.class);
+        intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        mContext.startActivity(intent);
     }
 }

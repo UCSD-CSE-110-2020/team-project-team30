@@ -3,10 +3,12 @@ package com.example.walkwalkrevolution;
 public class Route {
     private String name;
     private String date;
+    private String start;
 
-    public Route(String n, String d) {
-        name = n;
-        date = "\n" + d;
+    public Route(String name, String date, String start) {
+        this.name = name;
+        this.date = date;
+        this.start = start;
     }
 
     public String getName() {
@@ -17,7 +19,9 @@ public class Route {
         return date;
     }
 
+    public String getStart() {return start;}
+
     public String toString(){
-        return name + date;
+        return name + date + start;
     }
 }

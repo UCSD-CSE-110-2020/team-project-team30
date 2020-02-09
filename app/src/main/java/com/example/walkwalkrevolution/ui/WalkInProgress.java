@@ -3,6 +3,10 @@ package com.example.walkwalkrevolution.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,13 +24,17 @@ import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
 import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
+
 import com.google.android.gms.common.data.DataBufferObserver;
 
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+import com.example.walkwalkrevolution.ui.routes.RoutesFragment;
 
 public class WalkInProgress extends AppCompatActivity {
 
@@ -83,6 +91,13 @@ public class WalkInProgress extends AppCompatActivity {
                 chronometer.stop();
                 elapsedTime = getElapsedTime();
                 save(v);
+                /*
+                Fragment fragment = new RoutesFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.show(fragment);
+                transaction.commit();
+                */
                 finish();
             }
         });
@@ -90,12 +105,13 @@ public class WalkInProgress extends AppCompatActivity {
         chronometer.start();
 
         fitnessService.setup();
+
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        //super.onActivityResult(requestCode, resultCode, data);
 
 //       If authentication was required during google fit setup, this will be called after the user authenticates
         if (resultCode == Activity.RESULT_OK) {

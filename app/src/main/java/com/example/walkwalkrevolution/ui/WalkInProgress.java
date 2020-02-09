@@ -1,6 +1,9 @@
 package com.example.walkwalkrevolution.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +20,9 @@ import android.widget.Toast;
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
+import com.example.walkwalkrevolution.ui.routes.RoutesFragment;
 
 public class WalkInProgress extends AppCompatActivity {
 
@@ -50,6 +55,13 @@ public class WalkInProgress extends AppCompatActivity {
                 chronometer.stop();
                 elapsedTime = getElapsedTime();
                 save(v);
+                /*
+                Fragment fragment = new RoutesFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.show(fragment);
+                transaction.commit();
+                */
                 finish();
             }
         });

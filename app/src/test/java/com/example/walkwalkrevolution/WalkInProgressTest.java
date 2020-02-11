@@ -1,6 +1,7 @@
 package com.example.walkwalkrevolution;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,10 +18,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.content.Context.MODE_PRIVATE;
 import static org.junit.Assert.*;
 
 import static org.junit.Assert.*;
 import static com.google.common.truth.Truth.assertThat;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 @RunWith(value = AndroidJUnit4.class)
 public class WalkInProgressTest {
@@ -36,6 +39,12 @@ public class WalkInProgressTest {
         FitnessServiceFactory.put(TEST_SERVICE, TestFitnessService::new);
         intent = new Intent(ApplicationProvider.getApplicationContext(), WalkInProgress.class);
         intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, TEST_SERVICE);
+
+        SharedPreferences sharedPreferences = InstrumentationRegistry.getInstrumentation().getContext().getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString("height", "65");
+        editor.apply();
     }
 
 

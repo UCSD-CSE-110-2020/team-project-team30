@@ -1,6 +1,8 @@
 package com.example.walkwalkrevolution.ui.home;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -53,6 +56,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        /*SharedPreferences prefs = mContext.getSharedPreferences("prefs",  MODE_PRIVATE);
+        boolean firstStart = prefs.getBoolean("firstStart", true);
+
+        if(firstStart) {
+            showEnterHeight();
+        }*/
+
         textSteps = root.findViewById(R.id.text_Step);
 
         Button btn_GoToWalk = root.findViewById(R.id.btn_GoToWalk);
@@ -75,16 +85,6 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
-
-    /*public void update(Observable o, Object arg){
-        stepCount = (long) arg;
-        runOnUiThread(new Runnable(){
-            @Override
-            public void run(){
-                textSteps.setText(String.valueOf(stepCount));
-            }
-        });
-    }*/
 
     private void launchActivity() {
         Intent intent = new Intent(getActivity(), WalkInProgress.class);
@@ -124,5 +124,24 @@ public class HomeFragment extends Fragment {
     public void setStepCount(long stepCount) {
         textSteps.setText(String.valueOf(stepCount));
     }
+
+    /*private void showEnterHeight(){
+        new AlertDialog.Builder(mContext)
+                .setTitle("One Time Enter")
+                .setView(input)
+                .setMessage("This should only be shown once")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create().show();
+
+        SharedPreferences prefs = mContext.getSharedPreferences("prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstStart", false);
+        editor.apply();
+    }*/
 
 }

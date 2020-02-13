@@ -116,8 +116,6 @@ public class WalkInProgress extends AppCompatActivity {
 
         fitnessService.setup();
 
-
-
     }
 
 
@@ -148,7 +146,10 @@ public class WalkInProgress extends AppCompatActivity {
     public void setMiles(long stepCount) {}
 
     public void setMilesTextView(long stepCount){
-        double stride = (65*0.413)/63360;
+        SharedPreferences sharedPreferences = getSharedPreferences("prefs", MODE_PRIVATE);
+        String heightStr = sharedPreferences.getString("height", "");
+        int height = Integer.valueOf(heightStr);
+        double stride = (height*0.413)/63360;
         double result = (stepCount*stride);
         textMiles.setText(String.format("%.2f", result));
     }

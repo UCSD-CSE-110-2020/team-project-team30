@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -17,6 +18,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity{
@@ -60,6 +63,13 @@ public class MainActivity extends AppCompatActivity{
             //switch to routes screen
 
             Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
+            Log.d("MainActivity", "Entered mainActivity from Done button");
+        }
+        else {
+            Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
+
+            RouteStorage.init();
+            addDefaultRoutesToRouteStorage();
         }
     }
 
@@ -82,6 +92,20 @@ public class MainActivity extends AppCompatActivity{
                     }
                 })
                 .create().show();
+    }
+
+    /**
+     * This is called as a testing method to give some initial routes for testing purposes.
+     * Remove manually when pushing to production
+     */
+    private void addDefaultRoutesToRouteStorage() {
+        Log.d("MainActivity", "Populating RouteStorage with default routes inside MainActivity onCreate");
+
+        Route route1 = new Route("Arlington Park", "02/07/20", "George house");
+        Route route2 = new Route("Birmingham Ave", "02/03/20", "Julian house");
+        List<Route> routeList = RouteStorage.getRoutes();
+        routeList.add(route1);
+        routeList.add(route2);
     }
 
 }

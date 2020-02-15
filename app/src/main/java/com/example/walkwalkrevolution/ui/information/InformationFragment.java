@@ -21,6 +21,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.Route;
+import com.example.walkwalkrevolution.RouteStorage;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class InformationFragment extends Fragment {
             public void onClick(View v){
                 boolean allowed = allowedToBeDone();
                 if(allowed){
-                    launchActivity();
+                    finishWalkAndResumeRoutesActivity();
                 }
                 else{
                     Toast.makeText(getContext(), "Route name is required", Toast.LENGTH_SHORT).show();
@@ -87,11 +89,24 @@ public class InformationFragment extends Fragment {
         return true;
     }
 
-    private void launchActivity() {
+    private void finishWalkAndResumeRoutesActivity() {
+        createRouteAndSave();
+
         Intent intent = new Intent(getActivity(), MainActivity.class);
         String strName = "PRESSED DONE";
         intent.putExtra("STRING_I_NEED", strName);
         startActivity(intent);
+    }
+
+    public void createRouteAndSave() {
+        TextView stepsView = (TextView) root.findViewById(R.id.tv_WalkScreen);
+        TextView milesView = (TextView) root.findViewById(R.id.tv_Miles);
+
+        String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
+        String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
+
+        Route route = new Route(routeName, "TODO Date", routeStartLoc);
+        RouteStorage.addRoute(route);
     }
 
 }

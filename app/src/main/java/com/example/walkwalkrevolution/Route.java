@@ -32,6 +32,6 @@ public class Route {
     }
 
     public String toString(){
-        return name + date + start;
+        return String.format("{name: %s, date: %s, start_loc: %s, favorite: %s}", name, date, start, (favorite ? "true" : "false"));
     }
 }

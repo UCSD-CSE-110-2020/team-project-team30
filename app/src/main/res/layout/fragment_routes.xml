@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?attr/actionBarSize">
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:background="@color/colorPrimary">
 
     <ListView
         android:id="@+id/routesListView"
@@ -64,10 +65,10 @@
 
     <ImageView
         android:id="@+id/imageView_locationPNG"
-        android:contentDescription="@string/bottom_sheet_behavior"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_margin="1dp"
+        android:contentDescription="@string/bottom_sheet_behavior"
         android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="@id/textView_name"
         app:layout_constraintTop_toBottomOf="@id/textView_date"

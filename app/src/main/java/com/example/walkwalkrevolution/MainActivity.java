@@ -5,11 +5,14 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.walkwalkrevolution.ui.routes.RoutesFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -38,6 +41,25 @@ public class MainActivity extends AppCompatActivity{
 
         if(firstStart) {
             showEnterHeight();
+        }
+
+        //checking if was switched to from pressing "done"
+        String stringFromPrevActivity;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                stringFromPrevActivity = null;
+            } else {
+                stringFromPrevActivity = extras.getString("STRING_I_NEED");
+            }
+        } else {
+            stringFromPrevActivity = (String) savedInstanceState.getSerializable("STRING_I_NEED");
+        }
+
+        if(stringFromPrevActivity != null && stringFromPrevActivity.equals("PRESSED DONE")){
+            //switch to routes screen
+
+            Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
         }
     }
 

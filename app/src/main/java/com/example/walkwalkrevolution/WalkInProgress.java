@@ -1,11 +1,8 @@
 package com.example.walkwalkrevolution;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,24 +15,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
-import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
-import com.example.walkwalkrevolution.R;
-import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.ui.home.HomeFragment;
 
 import com.example.walkwalkrevolution.ui.information.InformationFragment;
-import com.google.android.gms.common.data.DataBufferObserver;
 
-import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
-
-
-import com.example.walkwalkrevolution.ui.routes.RoutesFragment;
 
 public class WalkInProgress extends AppCompatActivity {
 
@@ -104,11 +91,17 @@ public class WalkInProgress extends AppCompatActivity {
                 save(v);
 
                 stopWalk.setVisibility(View.GONE);
+                /*
                 Fragment informationFragment = new InformationFragment();
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
                 transaction.replace(R.id.walk_screen_container, informationFragment);
                 transaction.commit();
+                 */
+                //stop the fitness service!
+                Fragment InformationFragment = new InformationFragment();
+                // adding fragment to relative layout by using layout id
+                getSupportFragmentManager().beginTransaction().add(R.id.walk_screen_container, InformationFragment).commit();
             }
         });
 

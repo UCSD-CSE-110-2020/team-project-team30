@@ -73,6 +73,8 @@ public class NotesFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra("STRING_I_NEED", "PRESSED DONE");
+        String routeSavedMessage = routeName + " saved";
+        intent.putExtra("routeSaved", routeSavedMessage);
         startActivity(intent);
     }
 }

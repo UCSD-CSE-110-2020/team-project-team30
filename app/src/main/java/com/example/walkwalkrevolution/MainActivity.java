@@ -65,7 +65,10 @@ public class MainActivity extends AppCompatActivity{
         }
             else{
             Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
-            RouteStorage.init();
+
+            RouteStorage.init(this.getApplicationContext());
+
+            // This method is for testing only during development. Remove in production
             addDefaultRoutesToRouteStorage();
         }
     }
@@ -110,5 +113,4 @@ public class MainActivity extends AppCompatActivity{
             RouteStorage.addRoute(route2);
         }
     }
-
 }

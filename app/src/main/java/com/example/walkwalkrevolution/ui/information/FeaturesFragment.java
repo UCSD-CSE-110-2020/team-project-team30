@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -70,11 +71,11 @@ public class FeaturesFragment extends Fragment {
                 RadioGroup rg_even = (RadioGroup) root.findViewById(R.id.rg_even);
                 RadioGroup rg_difficulty = (RadioGroup) root.findViewById(R.id.rg_difficulty);
 
-                int featureLoop = rg_loop.getCheckedRadioButtonId();
-                int featureFlatHilly = rg_flatHilly.getCheckedRadioButtonId();
-                int featureStreetTrail = rg_streetTrail.getCheckedRadioButtonId();
-                int featureEven = rg_even.getCheckedRadioButtonId();
-                int featureDifficulty = rg_difficulty.getCheckedRadioButtonId();
+                int featureLoop = rg_loop.indexOfChild((RadioButton) root.findViewById(rg_loop.getCheckedRadioButtonId()));
+                int featureFlatHilly = rg_flatHilly.indexOfChild((RadioButton) root.findViewById(rg_flatHilly.getCheckedRadioButtonId()));
+                int featureStreetTrail = rg_streetTrail.indexOfChild((RadioButton) root.findViewById(rg_streetTrail.getCheckedRadioButtonId()));
+                int featureEven = rg_even.indexOfChild((RadioButton) root.findViewById(rg_even.getCheckedRadioButtonId()));
+                int featureDifficulty = rg_difficulty.indexOfChild((RadioButton) root.findViewById(rg_difficulty.getCheckedRadioButtonId()));
 
                 //Log.d("FeaturesFragment", String.format(""));
 

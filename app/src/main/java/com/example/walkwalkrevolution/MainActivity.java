@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity{
         if(stringFromPrevActivity != null && stringFromPrevActivity.equals("PRESSED DONE")){
             //switch to routes screen
 
-            Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
             Log.d("MainActivity", "Entered mainActivity from Done button");
         }
         else {

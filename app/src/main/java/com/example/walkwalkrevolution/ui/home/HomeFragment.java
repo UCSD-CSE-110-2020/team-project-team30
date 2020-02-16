@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
 import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
+import com.example.walkwalkrevolution.MockActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.WalkInProgress;
 
@@ -56,13 +57,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /*SharedPreferences prefs = mContext.getSharedPreferences("prefs",  MODE_PRIVATE);
-        boolean firstStart = prefs.getBoolean("firstStart", true);
-
-        if(firstStart) {
-            showEnterHeight();
-        }*/
-
         textSteps = root.findViewById(R.id.text_Step);
 
         Button btn_GoToWalk = root.findViewById(R.id.btn_GoToWalk);
@@ -72,6 +66,13 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 launchActivity();
             }
+        });
+
+        Button btn_GoToMock = root.findViewById(R.id.btn_mock);
+        btn_GoToMock.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){ launchMockActivity();}
         });
 
         FitnessServiceFactory.put(fitnessServiceKey, new FitnessServiceFactory.BluePrint() {
@@ -89,6 +90,11 @@ public class HomeFragment extends Fragment {
     private void launchActivity() {
         Intent intent = new Intent(getActivity(), WalkInProgress.class);
         intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        startActivity(intent);
+    }
+
+    private void launchMockActivity(){
+        Intent intent = new Intent(getActivity(), MockActivity.class);
         startActivity(intent);
     }
 
@@ -125,23 +131,5 @@ public class HomeFragment extends Fragment {
         textSteps.setText(String.valueOf(stepCount));
     }
 
-    /*private void showEnterHeight(){
-        new AlertDialog.Builder(mContext)
-                .setTitle("One Time Enter")
-                .setView(input)
-                .setMessage("This should only be shown once")
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create().show();
-
-        SharedPreferences prefs = mContext.getSharedPreferences("prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("firstStart", false);
-        editor.apply();
-    }*/
 
 }

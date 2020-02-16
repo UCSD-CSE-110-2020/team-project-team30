@@ -146,7 +146,7 @@ public class WalkInProgressTest {
 
 
     // 8
-    @Test
+    /*@Test
     public void testIntentionalAfter(){
         nextStepCount = 1337;
         ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
@@ -166,7 +166,7 @@ public class WalkInProgressTest {
                 assertThat(textSteps2.getText().toString()).isEqualTo("0.57 Miles");
             });
         }
-    }
+    }*/
 
 
 

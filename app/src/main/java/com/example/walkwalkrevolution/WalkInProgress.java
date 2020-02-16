@@ -58,7 +58,6 @@ public class WalkInProgress extends AppCompatActivity {
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
 
         updateSteps = new TimerTask() {
-            //long pseudoStep = 0;
             boolean isFirstTime = true;
             @Override
             public void run() {
@@ -74,7 +73,6 @@ public class WalkInProgress extends AppCompatActivity {
                         setMilesTextView(stepCount - stepCountOnStart);
                     }
                 });
-                //pseudoStep++;
             }
         };
 
@@ -91,13 +89,6 @@ public class WalkInProgress extends AppCompatActivity {
                 save(v);
 
                 stopWalk.setVisibility(View.GONE);
-                /*
-                Fragment informationFragment = new InformationFragment();
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.walk_screen_container, informationFragment);
-                transaction.commit();
-                 */
                 //stop the fitness service!
                 Fragment InformationFragment = new InformationFragment();
                 // adding fragment to relative layout by using layout id
@@ -128,7 +119,6 @@ public class WalkInProgress extends AppCompatActivity {
     }
 
     public void setStepCount(long stepCount) {
-        //textSteps.setText(String.valueOf(stepCount));
         this.stepCount = stepCount;
     }
 
@@ -170,14 +160,6 @@ public class WalkInProgress extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        /*
-        long t0 = getElapsedTime();
-        while(getElapsedTime() - t0 < 1000);
-        fitnessService.updateStepCount();
-        stepCountOnStart = stepCount;
-        //setStepTextView(stepCount - stepCountOnStart);
-*/
     }
 
     @Override

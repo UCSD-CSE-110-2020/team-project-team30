@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".WalkInProgress"></activity>
+        <activity android:name=".MockActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">

@@ -1,6 +1,7 @@
 package com.example.walkwalkrevolution.ui.information;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +25,6 @@ public class FavoriteFragment extends Fragment {
                 ViewModelProviders.of(this).get(FavoriteViewModel.class);
         root = inflater.inflate(R.layout.fragment_favorite, container, false);
 
-        //by default, make the user
-        allowToContinue(false);
-
         ImageView filledStar = root.findViewById(R.id.imageView_star_filled);
         ImageView unfilledStar = root.findViewById(R.id.imageView_star_unfilled);
         setStarsOnClick(filledStar, unfilledStar);
@@ -34,31 +32,12 @@ public class FavoriteFragment extends Fragment {
         return root;
     }
 
-    //allow the user to continue only if they selected if it is a favorite or not
-    public void allowToContinue(boolean allowed){
-        ImageView nextButton = root.findViewById(R.id.imageView_next);
-        nextButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                if(allowed){
-                    nextButton.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
-                    NotesFragment notesFragment = new NotesFragment();
-                    getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, notesFragment).commit();
-                }
-                else{
-                    Toast.makeText(getContext(), "Please choose an option", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
     public void setStarsOnClick(ImageView filledStar, ImageView unfilledStar){
         filledStar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 filledStar.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
-                Toast.makeText(getContext(), "Route Favorited", Toast.LENGTH_SHORT).show();
-                allowToContinue(true);
+                proceedToNotesFragment(true);
             }
         });
 
@@ -66,9 +45,19 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void onClick(View v){
                 unfilledStar.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
-                Toast.makeText(getContext(), "Route Unfavorited", Toast.LENGTH_SHORT).show();
-                allowToContinue(true);
+                proceedToNotesFragment(false);
             }
         });
+    }
+
+    private void proceedToNotesFragment(boolean isFavoriteRoute) {
+        NotesFragment notesFragment = new NotesFragment();
+
+        // Pass previous route options to next fragment, appending the "favorite route" option
+        Bundle routeOptions = getArguments();
+        routeOptions.putBoolean("favorite", isFavoriteRoute);
+        notesFragment.setArguments(routeOptions);
+
+        getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, notesFragment).commit();
     }
 }

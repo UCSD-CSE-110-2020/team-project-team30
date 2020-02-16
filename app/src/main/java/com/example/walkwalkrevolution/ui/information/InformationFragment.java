@@ -48,19 +48,28 @@ public class InformationFragment extends Fragment {
         doneButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
+                String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
+                String routeDate = "TODO Date";
+
                 boolean allowed = allowedToBeDone();
                 if(allowed){
-                    finishWalkAndResumeRoutesActivity();
+                    finishWalkAndResumeRoutesActivity(routeName, routeDate, routeStartLoc);
                 }
                 else{
                     Toast.makeText(getContext(), "Route name is required", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
         Button enterMoreInfoButton = root.findViewById(R.id.button_enter_more_info);
         enterMoreInfoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
+                String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
+                String routeDate = "TODO Date";
+
                 boolean allowed = allowedToBeDone();
                 if(allowed){
                     Fragment featuresFragment = new FeaturesFragment();
@@ -70,6 +79,14 @@ public class InformationFragment extends Fragment {
                     steps.setVisibility(View.GONE);
                     miles.setVisibility(View.GONE);
                     chronometer.setVisibility(View.GONE);
+
+                    // Pass information from this route to next fragment
+                    Bundle routeOptions = new Bundle();
+                    routeOptions.putString("routeName", routeName);
+                    routeOptions.putString("routeDate", routeDate);
+                    routeOptions.putString("routeStartLoc", routeStartLoc);
+                    featuresFragment.setArguments(routeOptions);
+
                     getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, featuresFragment).commit();
                 }
                 else{
@@ -89,24 +106,14 @@ public class InformationFragment extends Fragment {
         return true;
     }
 
-    private void finishWalkAndResumeRoutesActivity() {
-        createRouteAndSave();
+    private void finishWalkAndResumeRoutesActivity(String routeName, String dateStarted, String startLoc) {
+        // Create a basic route with no additional information
+        Route route = new Route(routeName, dateStarted, startLoc);
+        RouteStorage.addRoute(route);
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         String strName = "PRESSED DONE";
         intent.putExtra("STRING_I_NEED", strName);
         startActivity(intent);
     }
-
-    public void createRouteAndSave() {
-        TextView stepsView = (TextView) root.findViewById(R.id.tv_WalkScreen);
-        TextView milesView = (TextView) root.findViewById(R.id.tv_Miles);
-
-        String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
-        String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
-
-        Route route = new Route(routeName, "TODO Date", routeStartLoc);
-        RouteStorage.addRoute(route);
-    }
-
 }

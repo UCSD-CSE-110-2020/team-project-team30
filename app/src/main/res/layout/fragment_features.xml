@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <RadioGroup
-        android:id="@+id/first_radio_group"
+        android:id="@+id/rg_loop"
         android:layout_width="213dp"
         android:layout_height="61dp"
         android:layout_marginStart="21dp"
@@ -35,7 +35,7 @@
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/second_radio_group"
+        android:id="@+id/rg_flatHilly"
         android:layout_width="213dp"
         android:layout_height="65dp"
         android:layout_marginStart="21dp"
@@ -63,7 +63,7 @@
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/third_radio_group"
+        android:id="@+id/rg_streetTrail"
         android:layout_width="213dp"
         android:layout_height="65dp"
         android:layout_marginStart="21dp"
@@ -97,7 +97,7 @@
         android:layout_marginTop="413dp"
         android:layout_marginEnd="178dp"
         android:layout_marginBottom="253dp"
-        android:id="@+id/fourth_radio_group"
+        android:id="@+id/rg_even"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -125,7 +125,7 @@
         android:layout_marginTop="486dp"
         android:layout_marginEnd="177dp"
         android:layout_marginBottom="153dp"
-        android:id="@+id/fifth_radio_group"
+        android:id="@+id/rg_difficulty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -94,7 +94,6 @@ public class WalkInProgress extends AppCompatActivity {
             public void onClick(View v) {
                 chronometer.stop();
                 elapsedTime = getElapsedTime();
-                save(v);
 
                 stopWalk.setVisibility(View.GONE);
 
@@ -145,20 +144,6 @@ public class WalkInProgress extends AppCompatActivity {
         double stride = (height*0.413)/63360;
         double result = (stepCount*stride);
         textMiles.setText(String.format("%.2f", result));
-    }
-
-    public void save(View view){
-        TextView steps = (TextView) findViewById(R.id.tv_WalkScreen);
-        TextView miles = (TextView) findViewById(R.id.tv_Miles);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("last_walk", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString("steps", steps.getText().toString());
-        editor.putString("miles", miles.getText().toString());
-        editor.putString("time", String.valueOf(elapsedTime));
-
-        editor.apply();
     }
 
     public long getElapsedTime() {

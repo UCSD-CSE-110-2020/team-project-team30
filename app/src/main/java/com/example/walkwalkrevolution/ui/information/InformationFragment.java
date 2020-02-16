@@ -21,6 +21,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.Route;
+import com.example.walkwalkrevolution.RouteStorage;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
 
 import java.util.ArrayList;
@@ -59,11 +61,15 @@ public class InformationFragment extends Fragment {
             @Override
             public void onClick(View v){
                 boolean allowed = true;
+                String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
+                String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
+                String routeDate = "TODO Date";
+
                 if(performCheck){
                     allowed = allowedToBeDone();
                 }
                 if(allowed){
-                    launchActivity(routeExists);
+                    finishWalkAndResumeRoutesActivity(routeName, routeDate, routeStartLoc);
                 }
                 else{
                     Toast.makeText(getContext(), "Route name is required", Toast.LENGTH_SHORT).show();
@@ -75,6 +81,10 @@ public class InformationFragment extends Fragment {
             @Override
             public void onClick(View v){
                 boolean allowed = allowedToBeDone();
+                String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
+                String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
+                String routeDate = "TODO Date";
+
                 if(allowed){
                     Fragment featuresFragment = new FeaturesFragment();
                     TextView steps = getActivity().findViewById(R.id.tv_WalkScreen);
@@ -83,6 +93,14 @@ public class InformationFragment extends Fragment {
                     steps.setVisibility(View.GONE);
                     miles.setVisibility(View.GONE);
                     chronometer.setVisibility(View.GONE);
+
+                    // Pass information from this route to next fragment
+                    Bundle routeOptions = new Bundle();
+                    routeOptions.putString("routeName", routeName);
+                    routeOptions.putString("routeDate", routeDate);
+                    routeOptions.putString("routeStartLoc", routeStartLoc);
+                    featuresFragment.setArguments(routeOptions);
+
                     getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, featuresFragment).commit();
                 }
                 else{
@@ -102,10 +120,13 @@ public class InformationFragment extends Fragment {
         return true;
     }
 
-    private void launchActivity(boolean routeExistedPreviously) {
+    private void finishWalkAndResumeRoutesActivity(String routeName, String dateStarted, String startLoc) {
+        // Create a basic route with no additional information
+        Route route = new Route(routeName, dateStarted, startLoc);
+        RouteStorage.addRoute(route);
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
-        if(routeExistedPreviously){
+        if(routeExists){
             TextView routeNameTextView = getActivity().findViewById(R.id.textView_routeName);
             String routeSavedMessage = routeNameTextView.getText().toString() + " saved";
             intent.putExtra("routeSaved", routeSavedMessage);
@@ -126,5 +147,4 @@ public class InformationFragment extends Fragment {
         startingLocationEditText.setVisibility(View.GONE);
         enterMoreInfo.setVisibility(View.GONE);
     }
-
 }

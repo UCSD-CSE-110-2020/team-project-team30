@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editText_routeNotes"
         android:layout_width="330dp"
         android:layout_height="375dp"
         android:layout_marginStart="40dp"

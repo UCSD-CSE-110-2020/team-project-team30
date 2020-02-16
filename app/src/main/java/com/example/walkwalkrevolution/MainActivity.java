@@ -65,7 +65,10 @@ public class MainActivity extends AppCompatActivity{
         }
             else{
             Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
-            RouteStorage.init();
+
+            RouteStorage.init(this.getApplicationContext());
+
+            // This method is for testing only during development. Remove in production
             addDefaultRoutesToRouteStorage();
         }
     }
@@ -96,13 +99,17 @@ public class MainActivity extends AppCompatActivity{
      * Remove manually when pushing to production
      */
     private void addDefaultRoutesToRouteStorage() {
-        Log.d("MainActivity", "Populating RouteStorage with default routes inside MainActivity onCreate");
-
-        Route route1 = new Route("Arlington Park", "02/07/20", "George house");
-        Route route2 = new Route("Birmingham Ave", "02/03/20", "Julian house");
         List<Route> routeList = RouteStorage.getRoutes();
-        routeList.add(route1);
-        routeList.add(route2);
-    }
 
+        // Only initialize these if the list of routes is empty
+        if (routeList.size() == 0) {
+            Log.d("MainActivity", "Populating RouteStorage with default routes inside MainActivity onCreate");
+
+            Route route1 = new Route("Arlington Park", "02/07/20", "George house");
+            Route route2 = new Route("Birmingham Ave", "02/03/20", "Julian house");
+
+            RouteStorage.addRoute(route1);
+            RouteStorage.addRoute(route2);
+        }
+    }
 }

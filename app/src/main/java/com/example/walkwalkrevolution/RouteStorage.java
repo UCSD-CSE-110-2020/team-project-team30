@@ -1,18 +1,30 @@
 package com.example.walkwalkrevolution;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class RouteStorage {
-    private List<Route> routes;
+    private static List<Route> routes;
 
-    public RouteStorage() {
-
+    private RouteStorage() {
     }
 
-    public List<Route> getRoutes() {
-       return null;
+    public static void init() {
+        routes = Collections.synchronizedList(new ArrayList<Route>());
     }
 
-    public void addRoute(Route r) {
+    public static List<Route> getRoutes() {
+       return routes;
+    }
+
+    public static void addRoute(Route r) {
+        Log.d("RouteStorage", String.format("Adding route to storage: %s", r.toString()));
+        routes.add(r);
+
+        for (Route z : routes)
+            Log.d("RouteStorage", String.format("Route in list: %s", z.toString()));
     }
 }

@@ -124,24 +124,4 @@ public class HomeFragment extends Fragment {
     public void setStepCount(long stepCount) {
         textSteps.setText(String.valueOf(stepCount));
     }
-
-    /*private void showEnterHeight(){
-        new AlertDialog.Builder(mContext)
-                .setTitle("One Time Enter")
-                .setView(input)
-                .setMessage("This should only be shown once")
-                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create().show();
-
-        SharedPreferences prefs = mContext.getSharedPreferences("prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("firstStart", false);
-        editor.apply();
-    }*/
-
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,9 @@ public class RouteAdapter extends ArrayAdapter {
 
         final ImageView location = (ImageView) listItem.findViewById(R.id.imageView_locationPNG);
         location.setVisibility(View.VISIBLE);
+
+        final Button addNewRouteButton = (Button) listItem.findViewById(R.id.button_add_new_route);
+        addNewRouteButton.setVisibility(View.GONE);
 
 
 

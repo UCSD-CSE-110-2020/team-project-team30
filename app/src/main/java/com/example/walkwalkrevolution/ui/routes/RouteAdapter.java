@@ -58,7 +58,7 @@ public class RouteAdapter extends ArrayAdapter {
             @Override
             public void onClick(View v){
                 Toast.makeText(mContext, "Starting: " + currentRoute.getName(), Toast.LENGTH_SHORT).show();
-                launchActivity();
+                launchActivity(currentRoute.getName());
                 //name.setBackground("#00FF00");
             }
         });
@@ -67,9 +67,11 @@ public class RouteAdapter extends ArrayAdapter {
         return listItem;
     }
 
-    private void launchActivity() {
+    private void launchActivity(String currentRouteName) {
         Intent intent = new Intent(getContext(), WalkInProgress.class);
         intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        intent.putExtra("route name", currentRouteName);
+        intent.putExtra("route exists", true);
         mContext.startActivity(intent);
     }
 }

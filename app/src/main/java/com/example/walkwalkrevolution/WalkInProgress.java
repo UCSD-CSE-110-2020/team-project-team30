@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.walkwalkrevolution.Fitness.FitnessService;
@@ -53,9 +54,14 @@ public class WalkInProgress extends AppCompatActivity {
         textMiles = findViewById(R.id.tv_Miles);
         chronometer = findViewById(R.id.chronometer);
 
-
         final String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
+        String routeName = getIntent().getStringExtra("route name");
+
+        if(routeName != null){
+            TextView routeNameTextView = findViewById(R.id.textView_routeName);
+            routeNameTextView.setText(routeName);
+        }
 
         updateSteps = new TimerTask() {
             //long pseudoStep = 0;
@@ -91,14 +97,8 @@ public class WalkInProgress extends AppCompatActivity {
                 save(v);
 
                 stopWalk.setVisibility(View.GONE);
-                /*
-                Fragment informationFragment = new InformationFragment();
-                FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction transaction = fm.beginTransaction();
-                transaction.replace(R.id.walk_screen_container, informationFragment);
-                transaction.commit();
-                 */
-                //stop the fitness service!
+
+                //stop the fitness service????
                 Fragment InformationFragment = new InformationFragment();
                 // adding fragment to relative layout by using layout id
                 getSupportFragmentManager().beginTransaction().add(R.id.walk_screen_container, InformationFragment).commit();

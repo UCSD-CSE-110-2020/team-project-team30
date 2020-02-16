@@ -31,6 +31,7 @@ public class InformationFragment extends Fragment {
     private String[] myStringArray;
     private InformationViewModel informationViewModel;
     private View root;
+    private boolean routeExists;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,21 +39,35 @@ public class InformationFragment extends Fragment {
                 ViewModelProviders.of(this).get(InformationViewModel.class);
         root = inflater.inflate(R.layout.fragment_information, container, false);
 
-        performContinuationCheck();
+
+        Intent currentIntent = getActivity().getIntent();
+        //boolean defaultValue = false;
+        routeExists = currentIntent.getBooleanExtra("route exists", false);
+
+        if(routeExists){
+            onlyDisplayDoneButton();
+            performContinuationCheck(false); //check whether use can proceed
+        }
+        else{
+            performContinuationCheck(true); //check whether use can proceed
+        }
 
         return root;
     }
 
-    public void performContinuationCheck(){
+    public void performContinuationCheck(boolean performCheck){
         Button doneButton = root.findViewById(R.id.button_done);
         doneButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                boolean allowed = true;
                 String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
                 String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
                 String routeDate = "TODO Date";
 
-                boolean allowed = allowedToBeDone();
+                if(performCheck){
+                    allowed = allowedToBeDone();
+                }
                 if(allowed){
                     finishWalkAndResumeRoutesActivity(routeName, routeDate, routeStartLoc);
                 }
@@ -61,16 +76,15 @@ public class InformationFragment extends Fragment {
                 }
             }
         });
-
         Button enterMoreInfoButton = root.findViewById(R.id.button_enter_more_info);
         enterMoreInfoButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                boolean allowed = allowedToBeDone();
                 String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
                 String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
                 String routeDate = "TODO Date";
 
-                boolean allowed = allowedToBeDone();
                 if(allowed){
                     Fragment featuresFragment = new FeaturesFragment();
                     TextView steps = getActivity().findViewById(R.id.tv_WalkScreen);
@@ -112,8 +126,25 @@ public class InformationFragment extends Fragment {
         RouteStorage.addRoute(route);
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
-        String strName = "PRESSED DONE";
-        intent.putExtra("STRING_I_NEED", strName);
+        if(routeExists){
+            TextView routeNameTextView = getActivity().findViewById(R.id.textView_routeName);
+            String routeSavedMessage = routeNameTextView.getText().toString() + " saved";
+            intent.putExtra("routeSaved", routeSavedMessage);
+        }
+        else{
+            EditText newRouteNameEditText = root.findViewById(R.id.editText_route_name);
+            String routeSavedMessage = newRouteNameEditText.getText().toString() + " saved";
+            intent.putExtra("routeSaved", routeSavedMessage);
+        }
         startActivity(intent);
+    }
+
+    private void onlyDisplayDoneButton(){
+        EditText routeNameEditText = root.findViewById(R.id.editText_route_name);
+        EditText startingLocationEditText = root.findViewById(R.id.editText_starting_location);
+        Button enterMoreInfo = root.findViewById(R.id.button_enter_more_info);
+        routeNameEditText.setVisibility(View.GONE);
+        startingLocationEditText.setVisibility(View.GONE);
+        enterMoreInfo.setVisibility(View.GONE);
     }
 }

@@ -53,20 +53,17 @@ public class MainActivity extends AppCompatActivity{
             if(extras == null) {
                 stringFromPrevActivity = null;
             } else {
-                stringFromPrevActivity = extras.getString("STRING_I_NEED");
+                stringFromPrevActivity = extras.getString("routeSaved");
             }
         } else {
-            stringFromPrevActivity = (String) savedInstanceState.getSerializable("STRING_I_NEED");
+            stringFromPrevActivity = (String) savedInstanceState.getSerializable("routeSaved");
         }
 
-        if(stringFromPrevActivity != null && stringFromPrevActivity.equals("PRESSED DONE")){
-            //switch to routes screen
-
+        if(stringFromPrevActivity != null){
+            Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
             Log.d("MainActivity", "Entered mainActivity from Done button");
-        }
-        else {
+        else{
             Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
-
             RouteStorage.init();
             addDefaultRoutesToRouteStorage();
         }

@@ -106,11 +106,18 @@ public class MainActivity extends AppCompatActivity{
         if (routeList.size() == 0) {
             Log.d("MainActivity", "Populating RouteStorage with default routes inside MainActivity onCreate");
 
-            Route route1 = new Route("Arlington Park", "02/07/2020", "George house");
-            Route route2 = new Route("Birmingham Ave", "02/03/2020", "Julian house");
+            Route route2 = new Route("GliderPort Beach", "02/04/2020", "The Village");
+            Route route1 = new Route("Birmingham Park", "02/07/2020", "George house");
+            Route route3 = new Route("Arlington Park", "02/03/2020", "Julian house");
 
             RouteStorage.addRoute(route1);
             RouteStorage.addRoute(route2);
+            RouteStorage.addRoute(route3);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

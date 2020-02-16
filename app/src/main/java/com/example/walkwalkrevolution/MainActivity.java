@@ -59,10 +59,11 @@ public class MainActivity extends AppCompatActivity{
             stringFromPrevActivity = (String) savedInstanceState.getSerializable("routeSaved");
         }
 
-        if(stringFromPrevActivity != null){
+        if(stringFromPrevActivity != null) {
             Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
             Log.d("MainActivity", "Entered mainActivity from Done button");
-        else{
+        }
+            else{
             Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
             RouteStorage.init();
             addDefaultRoutesToRouteStorage();

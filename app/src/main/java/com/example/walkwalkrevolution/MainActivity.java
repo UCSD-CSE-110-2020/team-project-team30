@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity{
     private void addDefaultRoutesToRouteStorage() {
         Log.d("MainActivity", "Populating RouteStorage with default routes inside MainActivity onCreate");
 
-        Route route1 = new Route("Arlington Park", "02/07/20", "George house");
-        Route route2 = new Route("Birmingham Ave", "02/03/20", "Julian house");
+        Route route1 = new Route("Arlington Park", "02/07/2020", "George house");
+        Route route2 = new Route("Birmingham Ave", "02/03/2020", "Julian house");
         List<Route> routeList = RouteStorage.getRoutes();
         routeList.add(route1);
         routeList.add(route2);

@@ -25,7 +25,11 @@ import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.RouteStorage;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class InformationFragment extends Fragment {
     private String[] myStringArray;
@@ -63,7 +67,11 @@ public class InformationFragment extends Fragment {
                 boolean allowed = true;
                 String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
                 String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
-                String routeDate = "TODO Date";
+
+                String dateFormatStr = "MM/dd/YYYY";
+                SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
+                Date currentDate = Calendar.getInstance().getTime();
+                String routeDate = dateFormat.format(currentDate);
 
                 if(performCheck){
                     allowed = allowedToBeDone();
@@ -83,7 +91,11 @@ public class InformationFragment extends Fragment {
                 boolean allowed = allowedToBeDone();
                 String routeName = ((TextView) root.findViewById(R.id.editText_route_name)).getText().toString();
                 String routeStartLoc = ((TextView) root.findViewById(R.id.editText_starting_location)).getText().toString();
-                String routeDate = "TODO Date";
+
+                String dateFormatStr = "MM/dd/YYYY";
+                SimpleDateFormat dateFormat = new SimpleDateFormat(dateFormatStr);
+                Date currentDate = Calendar.getInstance().getTime();
+                String routeDate = dateFormat.format(currentDate);
 
                 if(allowed){
                     Fragment featuresFragment = new FeaturesFragment();

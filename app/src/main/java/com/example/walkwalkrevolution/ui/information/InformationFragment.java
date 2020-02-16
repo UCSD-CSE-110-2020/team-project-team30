@@ -123,9 +123,6 @@ public class InformationFragment extends Fragment {
     }
 
     private void finishWalkAndResumeRoutesActivity(String routeName, String dateStarted, String startLoc) {
-        // Create a basic route with no additional information
-        Route route = new Route(routeName, dateStarted, startLoc);
-        RouteStorage.addRoute(route);
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         if(routeExists){
@@ -134,6 +131,9 @@ public class InformationFragment extends Fragment {
             intent.putExtra("routeSaved", routeSavedMessage);
         }
         else{
+            // Create a basic route with no additional information
+            Route route = new Route(routeName, dateStarted, startLoc);
+            RouteStorage.addRoute(route);
             EditText newRouteNameEditText = root.findViewById(R.id.editText_route_name);
             String routeSavedMessage = newRouteNameEditText.getText().toString() + " saved";
             intent.putExtra("routeSaved", routeSavedMessage);

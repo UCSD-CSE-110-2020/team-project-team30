@@ -1,17 +1,17 @@
 package com.example.walkwalkrevolution.ui.information;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.R;
@@ -80,5 +80,32 @@ public class FavoriteFragment extends Fragment {
         notesFragment.setArguments(routeOptions);
 
         getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, notesFragment).commit();
+    }
+
+    public static class DescriptionFragment extends Fragment {
+
+        private DescriptionViewModel mViewModel;
+
+        public static DescriptionFragment newInstance() {
+            return new DescriptionFragment();
+        }
+
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                                 @Nullable Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.fragment_description, container, false);
+        }
+
+        @Override
+        public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            mViewModel = ViewModelProviders.of(this).get(DescriptionViewModel.class);
+            // TODO: Use the ViewModel
+        }
+
+    }
+
+    public static class DescriptionViewModel extends ViewModel {
+        // TODO: Implement the ViewModel
     }
 }

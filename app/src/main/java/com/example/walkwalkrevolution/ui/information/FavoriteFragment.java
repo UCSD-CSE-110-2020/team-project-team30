@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -18,6 +19,8 @@ import com.example.walkwalkrevolution.R;
 public class FavoriteFragment extends Fragment {
     private FavoriteViewModel favoriteViewModel;
     private View root;
+    private boolean optionSelected;
+    private boolean isFavoriteRoute;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -27,8 +30,10 @@ public class FavoriteFragment extends Fragment {
 
         ImageView filledStar = root.findViewById(R.id.imageView_star_filled);
         ImageView unfilledStar = root.findViewById(R.id.imageView_star_unfilled);
+        ImageView nextButton = root.findViewById(R.id.imageView_next);
         setStarsOnClick(filledStar, unfilledStar);
-
+        setNextOnClick(nextButton);
+        optionSelected = false;
         return root;
     }
 
@@ -37,7 +42,8 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void onClick(View v){
                 filledStar.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
-                proceedToNotesFragment(true);
+                optionSelected=true;
+                isFavoriteRoute = true;
             }
         });
 
@@ -45,14 +51,29 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void onClick(View v){
                 unfilledStar.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
-                proceedToNotesFragment(false);
+                optionSelected=true;
+                isFavoriteRoute = false;
             }
         });
     }
 
-    private void proceedToNotesFragment(boolean isFavoriteRoute) {
-        NotesFragment notesFragment = new NotesFragment();
+    public void setNextOnClick(ImageView nextButton){
+        nextButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                nextButton.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
+                if(optionSelected){
+                    proceedToNotesFragment();
+                }
+                else{
+                    Toast.makeText(getContext(), "Please select an option", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
+    private void proceedToNotesFragment() {
+        NotesFragment notesFragment = new NotesFragment();
         // Pass previous route options to next fragment, appending the "favorite route" option
         Bundle routeOptions = getArguments();
         routeOptions.putBoolean("favorite", isFavoriteRoute);

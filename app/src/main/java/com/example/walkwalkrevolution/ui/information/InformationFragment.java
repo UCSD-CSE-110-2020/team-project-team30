@@ -87,12 +87,14 @@ public class InformationFragment extends Fragment {
 
                 if(allowed){
                     Fragment featuresFragment = new FeaturesFragment();
+                    TextView routeNameTextView = getActivity().findViewById(R.id.textView_routeName);
                     TextView steps = getActivity().findViewById(R.id.tv_WalkScreen);
                     TextView miles = getActivity().findViewById(R.id.tv_Miles);
                     Chronometer chronometer = getActivity().findViewById(R.id.chronometer);
                     steps.setVisibility(View.GONE);
                     miles.setVisibility(View.GONE);
                     chronometer.setVisibility(View.GONE);
+                    routeNameTextView.setVisibility(View.GONE);
 
                     // Pass information from this route to next fragment
                     Bundle routeOptions = new Bundle();

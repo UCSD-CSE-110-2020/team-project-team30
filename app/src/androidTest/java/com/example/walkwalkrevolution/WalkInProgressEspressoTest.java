@@ -48,16 +48,6 @@ public class WalkInProgressEspressoTest {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.tv_Miles),
-                        isDisplayed()));
-        textView.check(matches(withText("-2.61")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.tv_WalkScreen),
-                        isDisplayed()));
-        textView2.check(matches(withText("-10000")));
-
         ViewInteraction button2 = onView(
                 allOf(withId(R.id.btn_STOP), withText("STOP"),
                         isDisplayed()));

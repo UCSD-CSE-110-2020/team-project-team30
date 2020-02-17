@@ -8,14 +8,13 @@
 
     <RadioGroup
         android:id="@+id/rg_loop"
-        android:layout_width="213dp"
+        android:layout_width="wrap_content"
         android:layout_height="61dp"
-        android:layout_marginStart="21dp"
         android:layout_marginTop="186dp"
-        android:layout_marginEnd="177dp"
         android:layout_marginBottom="484dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -36,14 +35,13 @@
 
     <RadioGroup
         android:id="@+id/rg_flatHilly"
-        android:layout_width="213dp"
+        android:layout_width="wrap_content"
         android:layout_height="65dp"
-        android:layout_marginStart="21dp"
         android:layout_marginTop="257dp"
-        android:layout_marginEnd="177dp"
         android:layout_marginBottom="409dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -64,14 +62,13 @@
 
     <RadioGroup
         android:id="@+id/rg_streetTrail"
-        android:layout_width="213dp"
+        android:layout_width="wrap_content"
         android:layout_height="65dp"
-        android:layout_marginStart="21dp"
         android:layout_marginTop="336dp"
-        android:layout_marginEnd="177dp"
         android:layout_marginBottom="330dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -91,15 +88,14 @@
     </RadioGroup>
 
     <RadioGroup
-        android:layout_width="213dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="413dp"
-        android:layout_marginEnd="178dp"
-        android:layout_marginBottom="253dp"
         android:id="@+id/rg_even"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_marginTop="413dp"
+        android:layout_marginBottom="253dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -119,15 +115,14 @@
     </RadioGroup>
 
     <RadioGroup
-        android:layout_width="213dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="486dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="153dp"
         android:id="@+id/rg_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="92dp"
+        android:layout_marginTop="486dp"
+        android:layout_marginBottom="153dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -174,98 +169,75 @@
         android:id="@+id/imageView_easy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="241dp"
-        android:layout_marginTop="494dp"
-        android:layout_marginEnd="154dp"
-        android:layout_marginBottom="221dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rg_difficulty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/rg_difficulty"
+        app:layout_constraintTop_toTopOf="@+id/rg_difficulty"
+        app:layout_constraintVertical_bias="0.100000024"
         app:srcCompat="@android:drawable/presence_online" />
 
     <ImageView
         android:id="@+id/imageView_medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="241dp"
-        android:layout_marginTop="526dp"
-        android:layout_marginEnd="154dp"
-        android:layout_marginBottom="189dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rg_difficulty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/rg_difficulty"
+        app:layout_constraintTop_toTopOf="@+id/rg_difficulty"
         app:srcCompat="@android:drawable/presence_away" />
 
     <ImageView
         android:id="@+id/imageView_hard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="241dp"
-        android:layout_marginTop="554dp"
-        android:layout_marginEnd="154dp"
-        android:layout_marginBottom="161dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rg_difficulty"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/rg_difficulty"
+        app:layout_constraintTop_toTopOf="@+id/rg_difficulty"
+        app:layout_constraintVertical_bias="0.9"
         app:srcCompat="@android:drawable/presence_busy" />
 
     <ImageView
         android:id="@+id/imageView_loop"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="234dp"
-        android:layout_marginTop="186dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="513dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/rg_loop"
+        app:layout_constraintTop_toTopOf="@+id/rg_loop"
         app:srcCompat="@android:drawable/ic_menu_rotate" />
 
     <ImageView
         android:id="@+id/imageView_out_and_back"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="234dp"
-        android:layout_marginTop="218dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="481dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rg_loop"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/rg_loop"
         app:srcCompat="@android:drawable/ic_menu_revert" />
 
     <ImageView
         android:id="@+id/imageView_road"
-        android:layout_width="33dp"
+        android:layout_width="wrap_content"
         android:layout_height="28dp"
-        android:layout_marginStart="231dp"
-        android:layout_marginTop="336dp"
-        android:layout_marginEnd="147dp"
-        android:layout_marginBottom="367dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/rg_streetTrail"
+        app:layout_constraintTop_toTopOf="@+id/rg_streetTrail"
         app:srcCompat="@drawable/ic_road" />
 
     <ImageView
         android:id="@+id/imageView_trail"
-        android:layout_width="35dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginStart="231dp"
-        android:layout_marginTop="371dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="330dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/rg_streetTrail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/rg_streetTrail"
         app:srcCompat="@drawable/ic_route" />
 
     <ImageView

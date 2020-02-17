@@ -8,11 +8,19 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RouteStorage {
     private static List<Route> routes;
     private static Context context;
+
+    private static class RouteComparator implements Comparator<Route>{
+        @Override
+        public int compare(Route r1, Route r2) {
+            return r1.getName().compareTo(r2.getName());
+        }
+    }
 
     private RouteStorage() {
     }
@@ -44,6 +52,10 @@ public class RouteStorage {
             Log.d("RouteStorage Init", String.format("Retrieving Route of index %d from SharedPrefs: %s", i, route.toString()));
             routes.add(route);
         }
+
+        // Once routes are retrieved, make sure they are sorted, and save them back
+        Collections.sort(routes, new RouteComparator());
+        saveRoutesToPersistentStorage();
     }
 
     public static List<Route> getRoutes() {
@@ -53,18 +65,10 @@ public class RouteStorage {
     public static void addRoute(Route r) {
         Log.d("RouteStorage", String.format("Adding route to storage: %s", r.toString()));
 
-        SharedPreferences routePrefs = context.getSharedPreferences("routeStorageInfo", Context.MODE_PRIVATE);
-        SharedPreferences.Editor routePrefsEditor = routePrefs.edit();
-
-        Gson gson = new Gson();
-        String routeStr = gson.toJson(r, Route.class);
-        routePrefsEditor.putString("Route_" + routes.size(), routeStr);
-
         // Update the size of `routes' after it is placed in persistent storage for proper indexing
         routes.add(r);
-        routePrefsEditor.putInt("NumRoutesStored", routes.size());
-
-        routePrefsEditor.commit();
+        Collections.sort(routes, new RouteComparator());
+        saveRoutesToPersistentStorage();
     }
 
     /**
@@ -95,6 +99,6 @@ public class RouteStorage {
             routePrefsEditor.putString("Route_" + i, routeStr);
         }
 
-        routePrefsEditor.commit();
+        routePrefsEditor.apply();
     }
 }

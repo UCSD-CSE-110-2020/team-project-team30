@@ -50,11 +50,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-<<<<<<< HEAD
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-=======
     implementation 'com.google.code.gson:gson:2.8.5'
->>>>>>> 0a18b87111ff522dc743789fbfe60890639e0c09
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
@@ -62,5 +58,6 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.3.1'
     testImplementation 'androidx.test.ext:junit:1.1.1'
     testImplementation 'androidx.test.ext:truth:1.2.0'
+    implementation 'com.android.support:design:28.0.0'
 
 }

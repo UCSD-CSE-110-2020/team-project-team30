@@ -17,6 +17,7 @@ import com.example.walkwalkrevolution.ui.home.HomeFragment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.w3c.dom.Text;
 
 import static android.content.Context.MODE_PRIVATE;
 import static org.junit.Assert.*;
@@ -48,79 +49,35 @@ public class WalkInProgressTest {
     }
 
 
-    //1
+    //Test initial state of the stats
     @Test
     public void testBeginingOfNewwalk() {
         ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
 
             TextView textSteps = activity.findViewById(R.id.tv_WalkScreen);
-            assertThat(textSteps.getText().toString()).isEqualTo("-10000");
+            TextView textMiles = activity.findViewById(R.id.tv_Miles);
+            assertThat(textSteps.getText().toString()).isEqualTo("0");
+            assertThat(textMiles.getText().toString()).isEqualTo("0.00");
         });
     }
 
-    //2
+    //Set the nextStepCount to see if it calculate step according to height
     @Test
-    public void testBeginingOfMile() {
-        ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
-        scenario.onActivity(activity -> {
-
-            TextView textSteps = activity.findViewById(R.id.tv_Miles);
-            assertThat(textSteps.getText().toString()).isEqualTo("-4.24");
-        });
-    }
-
-    //3
-    @Test
-    public void testStepCount() {
+    public void testMilesAccordingToSteps() {
         nextStepCount = 1337;
         ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
             TextView textSteps = activity.findViewById(R.id.tv_WalkScreen);
+            TextView textMiles = activity.findViewById(R.id.tv_Miles);
             activity.setStepTextView(nextStepCount);
-            assertThat(textSteps.getText().toString()).isEqualTo("1337");
-        });
-    }
-
-
-    //4
-    @Test
-    public void testMileCount() {
-        nextStepCount = 1337;
-        ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
-        scenario.onActivity(activity -> {
-            TextView textSteps = activity.findViewById(R.id.tv_Miles);
             activity.setMilesTextView(nextStepCount);
-            assertThat(textSteps.getText().toString()).isEqualTo("0.57");
+            assertThat(textSteps.getText().toString()).isEqualTo("1337");
+            assertThat(textMiles.getText().toString()).isEqualTo("0.57");
         });
     }
-
-
-    // 5
-    @Test
-    public void testHomesStep() {
-        try(ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
-            scenario.moveToState(Lifecycle.State.CREATED);
-            scenario.onActivity(activity -> {
-                TextView textSteps = activity.findViewById(R.id.text_Step);
-                assertThat(textSteps.getText().toString()).isEqualTo("0 Steps");
-            });
-        }
-    }
-
-    // 6
-    @Test
-    public void testHomeMile() {
-        try(ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
-            scenario.moveToState(Lifecycle.State.CREATED);
-            scenario.onActivity(activity -> {
-                TextView textSteps = activity.findViewById(R.id.text_Miles);
-                assertThat(textSteps.getText().toString()).isEqualTo(" Miles");
-            });
-        }
-    }
-
-    // 7
+  
+    //Test the initial stage of the home screen
     @Test
     public void testIntentionalBefore(){
         nextStepCount = 0;
@@ -137,14 +94,34 @@ public class WalkInProgressTest {
                 TextView textSteps1 = activity.findViewById(R.id.tv_last_steps);
                 TextView textSteps2 = activity.findViewById(R.id.tv_last_miles);
                 TextView textSteps3 = activity.findViewById(R.id.tv_last_time);
-                assertThat(textSteps1.getText().toString()).isEqualTo(" Steps");
-                assertThat(textSteps2.getText().toString()).isEqualTo(" Miles");
-                assertThat(textSteps3.getText().toString()).isEqualTo(" ms");
+                assertThat(textSteps1.getText().toString()).isEqualTo("0 Steps");
+                assertThat(textSteps2.getText().toString()).isEqualTo("0.00 Miles");
+                assertThat(textSteps3.getText().toString()).isEqualTo("0 ms");
             });
         }
     }
 
+    // 8
+    @Test
+    public void testIntentionalAfter(){
+        nextStepCount = 1337;
+        ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
+        scenario.onActivity(activity -> {
+            activity.setMilesTextView(nextStepCount);
+            activity.setStepTextView(nextStepCount);
+            Button b = activity.findViewById(R.id.btn_STOP);
+        });
 
+        try(ActivityScenario<MainActivity> scenario1 = ActivityScenario.launch(MainActivity.class)) {
+            scenario1.moveToState(Lifecycle.State.CREATED);
+            scenario1.onActivity(activity -> {
+                TextView textSteps1 = activity.findViewById(R.id.tv_last_steps);
+                TextView textSteps2 = activity.findViewById(R.id.tv_last_miles);
+                TextView textSteps3 = activity.findViewById(R.id.tv_last_time);
+                assertThat(textSteps3.getText().toString()).isEqualTo("0 ms");
+            });
+        }
+    }
 
     private class TestFitnessService implements FitnessService {
         private static final String TAG = "[TestFitnessService]: ";

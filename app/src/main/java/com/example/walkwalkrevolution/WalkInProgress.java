@@ -40,7 +40,6 @@ public class WalkInProgress extends AppCompatActivity {
     private FitnessService fitnessService;
     private long elapsedTime;
 
-
     final Handler handler = new Handler();
     private Timer t;
     private TimerTask updateSteps;
@@ -62,6 +61,18 @@ public class WalkInProgress extends AppCompatActivity {
         if(!mockStatus){
             mockTime.setVisibility(View.GONE);
             mockSubmit.setVisibility(View.GONE);
+          
+            boolean newRoute = getIntent().getBooleanExtra("skip route", false);
+
+        if(newRoute){
+            //switch to the fragment
+            Log.d("NEW ROUTE", "it's a new route so skipping onto information fragment");
+            Fragment informationFragment = new InformationFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.walk_screen_container, informationFragment).commit();
+            modifyForEmptyStats();
+            return;
+        }
+          
         final String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         String routeName = getIntent().getStringExtra("route name");
@@ -83,7 +94,7 @@ public class WalkInProgress extends AppCompatActivity {
                             isFirstTime = false;
                             stepCountOnStart = stepCount;
                         }
-
+                        Log.d("WalkInProgress: updateSteps()","SETTING THE TEXT VIEWS APPROPRIATELY");
                         setStepTextView(stepCount - stepCountOnStart);
                         setMilesTextView(stepCount - stepCountOnStart);
                     }
@@ -210,10 +221,23 @@ public class WalkInProgress extends AppCompatActivity {
         super.onResume();
     }
 
+
     private void launchActivity() {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("mocking", true);
         startActivity(intent);
+    }
+  
+    public void modifyForEmptyStats(){
+        TextView routeName = findViewById(R.id.textView_routeName);
+        TextView steps = findViewById(R.id.tv_WalkScreen);
+        TextView miles = findViewById(R.id.tv_Miles);
+        Button stopButton = findViewById(R.id.btn_STOP);
+
+        routeName.setVisibility(View.GONE);
+        stopButton.setVisibility(View.GONE);
+        steps.setText("0");
+        miles.setText("0.00");
     }
 
 }

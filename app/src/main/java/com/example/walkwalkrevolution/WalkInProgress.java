@@ -34,6 +34,8 @@ public class WalkInProgress extends AppCompatActivity {
 
     private TextView textSteps;
     private TextView textMiles;
+    EditText mockTime;
+    Button mockSubmit;
     private Chronometer chronometer;
     private FitnessService fitnessService;
     private long elapsedTime;
@@ -44,7 +46,7 @@ public class WalkInProgress extends AppCompatActivity {
     private TimerTask updateSteps;
 
     public long stepCount = -1;
-    public long stepCountOnStart = 10000;
+    public long stepCountOnStart = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +55,17 @@ public class WalkInProgress extends AppCompatActivity {
         textSteps = findViewById(R.id.tv_WalkScreen);
         textMiles = findViewById(R.id.tv_Miles);
         chronometer = findViewById(R.id.chronometer);
+        mockTime = findViewById(R.id.mock_time);
+        mockSubmit = findViewById(R.id.mock_submit);
 
+        boolean mockStatus = getIntent().getBooleanExtra("mockStatus", false);
+        if(!mockStatus){
+            mockTime.setVisibility(View.GONE);
+            mockSubmit.setVisibility(View.GONE);
         final String fitnessServiceKey = getIntent().getStringExtra(FITNESS_SERVICE_KEY);
         fitnessService = FitnessServiceFactory.create(fitnessServiceKey, this);
         String routeName = getIntent().getStringExtra("route name");
+
 
         if(routeName != null){
             TextView routeNameTextView = findViewById(R.id.textView_routeName);
@@ -64,7 +73,6 @@ public class WalkInProgress extends AppCompatActivity {
         }
 
         updateSteps = new TimerTask() {
-            //long pseudoStep = 0;
             boolean isFirstTime = true;
             @Override
             public void run() {
@@ -80,7 +88,6 @@ public class WalkInProgress extends AppCompatActivity {
                         setMilesTextView(stepCount - stepCountOnStart);
                     }
                 });
-                //pseudoStep++;
             }
         };
 
@@ -108,15 +115,42 @@ public class WalkInProgress extends AppCompatActivity {
         chronometer.start();
 
         fitnessService.setup();
+        }
+
+        else{
+            textSteps.setText("0");
+            textMiles.setText("0.00");
+            chronometer.setVisibility(View.GONE);
+
+            mockSubmit.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    SharedPreferences sharedPreferences = getSharedPreferences("mock", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    String str = mockTime.getText().toString();
+                    editor.putString("time", str);
+                    editor.apply();
+                }
+            });
+
+            final Button stopWalk = (Button) findViewById(R.id.btn_STOP);
+            stopWalk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchActivity();
+                    finish();
+
+                }
+            });
+        }
 
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
 
-//       If authentication was required during google fit setup, this will be called after the user authenticates
+        //If authentication was required during google fit setup, this will be called after the user authenticates
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == fitnessService.getRequestCode()) {
                 fitnessService.updateStepCount();
@@ -128,7 +162,6 @@ public class WalkInProgress extends AppCompatActivity {
     }
 
     public void setStepCount(long stepCount) {
-        //textSteps.setText(String.valueOf(stepCount));
         this.stepCount = stepCount;
     }
 
@@ -170,19 +203,17 @@ public class WalkInProgress extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        /*
-        long t0 = getElapsedTime();
-        while(getElapsedTime() - t0 < 1000);
-        fitnessService.updateStepCount();
-        stepCountOnStart = stepCount;
-        //setStepTextView(stepCount - stepCountOnStart);
-*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    private void launchActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("mocking", true);
+        startActivity(intent);
     }
 
 }

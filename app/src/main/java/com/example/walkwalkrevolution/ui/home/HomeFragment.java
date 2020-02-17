@@ -1,8 +1,6 @@
 package com.example.walkwalkrevolution.ui.home;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -22,17 +19,24 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
 import com.example.walkwalkrevolution.Fitness.GoogleFitAdapter;
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.WalkInProgress;
+
+import org.w3c.dom.Text;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private boolean mocking;
     private View root;
     public Context mContext;
     TextView textSteps;
+    TextView mockSteps;
+    TextView textMiles;
+    boolean inMock = false;
 
     private String fitnessServiceKey = "GOOGLE_FIT";
 
@@ -56,21 +60,54 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        /*SharedPreferences prefs = mContext.getSharedPreferences("prefs",  MODE_PRIVATE);
-        boolean firstStart = prefs.getBoolean("firstStart", true);
-
-        if(firstStart) {
-            showEnterHeight();
-        }*/
-
+        mocking = getActivity().getIntent().getBooleanExtra("mocking", false);
         textSteps = root.findViewById(R.id.text_Step);
+        textMiles = root.findViewById(R.id.text_Miles);
+        mockSteps = root.findViewById(R.id.btn_mockStep);
+        mockSteps.setVisibility(View.GONE);
 
         Button btn_GoToWalk = root.findViewById(R.id.btn_GoToWalk);
         btn_GoToWalk.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                launchActivity();
+                if(!inMock) {
+                    launchActivity();
+                }else {
+                    SharedPreferences sharedPreferences = mContext.getSharedPreferences("mock", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("totalSteps", textSteps.getText().toString());
+                    editor.putString("totalMiles", textMiles.getText().toString());
+                    editor.apply();
+                    Intent mockIntent = new Intent(getActivity(), WalkInProgress.class);
+                    mockIntent.putExtra("mockStatus", inMock);
+                    startActivity(mockIntent);
+                }
+            }
+        });
+
+        Button btn_mock = root.findViewById(R.id.btn_goToMock);
+        btn_mock.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v){
+                inMock = true;
+                mockSteps.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mockSteps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str = textSteps.getText().toString();
+                int total = Integer.valueOf(str.split(" ")[0]);
+                textSteps.setText(total+500+" Steps");
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences("prefs", MODE_PRIVATE);
+                String heightStr = sharedPreferences.getString("height", "");
+                int height = Integer.valueOf(heightStr);
+                double stride = (height*0.413)/63360;
+                double result = ((total+500)*stride);
+                textMiles.setText(String.format("%.2f", result) + " Miles");
             }
         });
 
@@ -81,7 +118,11 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        display(root);
+        if(!mocking) {
+            display(root);
+        } else{
+            displayMock(root);
+        }
 
         return root;
     }
@@ -100,9 +141,9 @@ public class HomeFragment extends Fragment {
     public void display(View view){
 
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("last_walk", MODE_PRIVATE);
-        String steps = sharedPreferences.getString("steps", "");
-        String miles = sharedPreferences.getString("miles", "");
-        String time = sharedPreferences.getString("time", "");
+        String steps = sharedPreferences.getString("steps", "0");
+        String miles = sharedPreferences.getString("miles", "0.00");
+        String time = sharedPreferences.getString("time", "0");
 
         TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
         TextView displayTotalMiles = (TextView) root.findViewById(R.id.text_Miles);
@@ -118,6 +159,22 @@ public class HomeFragment extends Fragment {
         displayMiles.setText(miles+" Miles");
         displaySteps.setText(steps+" Steps");
         displayTime.setText(time + " ms");
+
+    }
+
+    public void displayMock(View view){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("mock", MODE_PRIVATE);
+        String steps = sharedPreferences.getString("totalSteps", "");
+        String miles = sharedPreferences.getString("totalMiles", "");
+        String mockTime = sharedPreferences.getString("time", "");
+
+        TextView displayTotalSteps = (TextView) root.findViewById(R.id.text_Step);
+        TextView displayTotalMiles = (TextView) root.findViewById(R.id.text_Miles);
+        displayTotalSteps.setText(steps);
+        displayTotalMiles.setText(miles);
+
+        TextView displayTime = (TextView) root.findViewById(R.id.tv_last_time);
+        displayTime.setText(mockTime+" mins");
 
     }
 

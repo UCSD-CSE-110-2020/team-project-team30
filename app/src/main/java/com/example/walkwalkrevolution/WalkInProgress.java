@@ -3,6 +3,8 @@ package com.example.walkwalkrevolution;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -68,7 +70,7 @@ public class WalkInProgress extends AppCompatActivity {
             //switch to the fragment
             Log.d("NEW ROUTE", "it's a new route so skipping onto information fragment");
             Fragment informationFragment = new InformationFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.walk_screen_container, informationFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.walk_screen_container, informationFragment, "INFO FRAG").commit();
             modifyForEmptyStats();
             return;
         }
@@ -115,11 +117,8 @@ public class WalkInProgress extends AppCompatActivity {
                 save(v);
 
                 stopWalk.setVisibility(View.GONE);
-
-                //stop the fitness service????
-                Fragment InformationFragment = new InformationFragment();
-                // adding fragment to relative layout by using layout id
-                getSupportFragmentManager().beginTransaction().add(R.id.walk_screen_container, InformationFragment).commit();
+                Fragment informationFragment = new InformationFragment();
+                getSupportFragmentManager().beginTransaction().add(R.id.walk_screen_container, informationFragment, "INFO FRAG").commit();
             }
         });
 
@@ -154,7 +153,6 @@ public class WalkInProgress extends AppCompatActivity {
                 }
             });
         }
-
     }
 
 

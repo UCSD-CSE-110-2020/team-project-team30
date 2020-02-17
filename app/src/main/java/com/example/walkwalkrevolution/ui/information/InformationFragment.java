@@ -115,7 +115,7 @@ public class InformationFragment extends Fragment {
                     routeOptions.putString("routeStartLoc", routeStartLoc);
                     featuresFragment.setArguments(routeOptions);
 
-                    getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, featuresFragment).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, featuresFragment, "FEATURES FRAG").commit();
                 }
                 else{
                     Toast.makeText(getContext(), "Route name is required", Toast.LENGTH_SHORT).show();

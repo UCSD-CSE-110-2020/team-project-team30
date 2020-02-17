@@ -103,7 +103,7 @@ public class WalkInProgressTest {
             scenario.moveToState(Lifecycle.State.CREATED);
             scenario.onActivity(activity -> {
                 TextView textSteps = activity.findViewById(R.id.text_Step);
-                assertThat(textSteps.getText().toString()).isEqualTo(" Steps");
+                assertThat(textSteps.getText().toString()).isEqualTo("0 Steps");
             });
         }
     }
@@ -140,30 +140,6 @@ public class WalkInProgressTest {
                 assertThat(textSteps1.getText().toString()).isEqualTo(" Steps");
                 assertThat(textSteps2.getText().toString()).isEqualTo(" Miles");
                 assertThat(textSteps3.getText().toString()).isEqualTo(" ms");
-            });
-        }
-    }
-
-
-    // 8
-    @Test
-    public void testIntentionalAfter(){
-        nextStepCount = 1337;
-        ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
-        scenario.onActivity(activity -> {
-            activity.setMilesTextView(nextStepCount);
-            activity.setStepTextView(nextStepCount);
-            Button b = activity.findViewById(R.id.btn_STOP);
-        });
-
-        try(ActivityScenario<MainActivity> scenario1 = ActivityScenario.launch(MainActivity.class)) {
-            scenario1.moveToState(Lifecycle.State.CREATED);
-            scenario1.onActivity(activity -> {
-                TextView textSteps1 = activity.findViewById(R.id.tv_last_steps);
-                TextView textSteps2 = activity.findViewById(R.id.tv_last_miles);
-                TextView textSteps3 = activity.findViewById(R.id.tv_last_time);
-                assertThat(textSteps1.getText().toString()).isEqualTo("1337 Steps");
-                assertThat(textSteps2.getText().toString()).isEqualTo("0.57 Miles");
             });
         }
     }

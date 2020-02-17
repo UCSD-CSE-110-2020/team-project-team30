@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.core.app.ActivityScenario;
@@ -19,12 +21,17 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
+import com.example.walkwalkrevolution.ui.information.FavoriteFragment;
+import com.example.walkwalkrevolution.ui.information.FeaturesFragment;
 import com.example.walkwalkrevolution.ui.information.InformationFragment;
+import com.example.walkwalkrevolution.ui.information.NotesFragment;
 
+import org.apache.tools.ant.Main;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -32,7 +39,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static junit.framework.TestCase.assertEquals;
 
 @RunWith(value = AndroidJUnit4.class)
-public class InformationTest {
+public class NotesTest {
     private static final String TEST_SERVICE = "TEST_SERVICE";
 
     private Intent intent;
@@ -40,7 +47,10 @@ public class InformationTest {
     private long nextMile;
     private AppCompatActivity walkActivity;
     private InformationFragment infoFragment;
+    private FeaturesFragment featuresFragment;
+    private FavoriteFragment favoriteFrag;
     private Button stopButton;
+    private NotesFragment notesFragment;
 
     @Before
     public void setUp() {
@@ -63,29 +73,37 @@ public class InformationTest {
             stopButton.performClick();
             infoFragment =
                     (InformationFragment) walkActivity.getSupportFragmentManager().findFragmentByTag("INFO FRAG");
+            EditText routeName = infoFragment.getView().findViewById(R.id.editText_route_name);
+            routeName.setText("TEST ROUTE");
+            Button enterMoreInfo = infoFragment.getView().findViewById(R.id.button_enter_more_info);
+            enterMoreInfo.performClick();
+            featuresFragment =
+                    (FeaturesFragment) walkActivity.getSupportFragmentManager().findFragmentByTag("FEATURES FRAG");
+            clickAllTheButtons();
+            favoriteFrag =
+                    (FavoriteFragment) walkActivity.getSupportFragmentManager().findFragmentByTag("FAVORITE FRAG");
+            ImageView filledStar = favoriteFrag.getView().findViewById(R.id.imageView_star_filled);
+            filledStar.performClick();
+
+            ImageView nextButton = favoriteFrag.getView().findViewById(R.id.imageView_next);
+            nextButton.performClick();
+
+            notesFragment =
+                    (NotesFragment) walkActivity.getSupportFragmentManager().findFragmentByTag("NOTES FRAG");
+
         });
     }
 
     @Test
-    public void stopButtonRemoved(){
-        assertEquals(View.GONE, stopButton.getVisibility());
+    public void favoriteFragmentWasCreated(){
+        assertEquals(false, notesFragment == null);
     }
 
     @Test
-    public void informationFragmentWasCreated(){
-        assertEquals(false, infoFragment == null);
-    }
-
-    @Test
-    public void noInformationEntered(){
-        assertEquals(false, infoFragment.allowedToBeDone());
-    }
-
-    @Test
-    public void requiredInformationEntered(){
-        EditText routeName = infoFragment.getView().findViewById(R.id.editText_route_name);
-        routeName.setText("TEST ROUTE");
-        assertEquals(true, infoFragment.allowedToBeDone());
+    public void textAppearsInTextBox(){
+        EditText notesBox = notesFragment.getView().findViewById(R.id.editText_routeNotes);
+        notesBox.setText("This is some text");
+        assertEquals(notesBox.getText().toString(), "This is some text");
     }
 
     private class TestFitnessService implements FitnessService {
@@ -112,6 +130,27 @@ public class InformationTest {
             stepCountActivity.setStepCount(nextStepCount);
         }
 
+    }
+
+    private void clickAllTheButtons(){
+        RadioGroup firstGroup = (RadioGroup) featuresFragment.getView().findViewById(R.id.rg_loop);
+        RadioGroup secondGroup = (RadioGroup) featuresFragment.getView().findViewById(R.id.rg_flatHilly);
+        RadioGroup thirdGroup = (RadioGroup) featuresFragment.getView().findViewById(R.id.rg_streetTrail);
+        RadioGroup fourthGroup = (RadioGroup) featuresFragment.getView().findViewById(R.id.rg_even);
+        RadioGroup fifthGroup = (RadioGroup) featuresFragment.getView().findViewById(R.id.rg_difficulty);
+        ArrayList<RadioGroup> groups = new ArrayList<RadioGroup>();
+        groups.add(firstGroup);
+        groups.add(secondGroup);
+        groups.add(thirdGroup);
+        groups.add(fourthGroup);
+        groups.add(fifthGroup);
+        for(int index = 0; index < groups.size(); index++){
+            RadioGroup currGroup = groups.get(index);
+            RadioButton currFirstRadio = (RadioButton) currGroup.getChildAt(0);
+            currFirstRadio.performClick();
+        }
+        ImageView nextButton = featuresFragment.getView().findViewById(R.id.imageView_next);
+        nextButton.performClick();
     }
 
 }

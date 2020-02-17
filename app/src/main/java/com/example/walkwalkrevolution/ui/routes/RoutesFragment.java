@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.walkwalkrevolution.DescriptionActivity;
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
@@ -43,6 +45,18 @@ public class RoutesFragment extends Fragment {
                 ViewModelProviders.of(this).get(RoutesViewModel.class);
         root = inflater.inflate(R.layout.fragment_routes, container, false);
 
+        RouteAdapter listAdapter = new RouteAdapter(root.getContext(), RouteStorage.getRoutes());
+        ListView listView = root.findViewById(R.id.routesListView);
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), DescriptionActivity.class);
+                intent.putExtra("ROUTE_NUM", (int)id);
+                startActivity(intent);
+            }
+        });
+
         return root;
     }
 
@@ -50,25 +64,25 @@ public class RoutesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Log.d("RoutesFragment", "onActivityCreated called");
-
-        ListView listView = (ListView) root.findViewById(R.id.routesListView);
-        List<Route> routeList = RouteStorage.getRoutes();
-
-        for (Route r : routeList)
-            Log.d("RoutesFragment", String.format("Route in list: %s", r.toString()));
-
-        ArrayAdapter myAdapter = new RouteAdapter(root.getContext(), routeList);
-        listView.setAdapter(myAdapter);
-
-        Button addNewRouteButton = (Button) root.findViewById(R.id.button_add_new_route);
-        addNewRouteButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                addNewRouteButton.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
-                launchActivity();
-            }
-        });
+//        Log.d("RoutesFragment", "onActivityCreated called");
+//
+//        ListView listView = (ListView) root.findViewById(R.id.routesListView);
+//        List<Route> routeList = RouteStorage.getRoutes();
+//
+//        for (Route r : routeList)
+//            Log.d("RoutesFragment", String.format("Route in list: %s", r.toString()));
+//
+//        ArrayAdapter myAdapter = new RouteAdapter(root.getContext(), routeList);
+//        listView.setAdapter(myAdapter);
+//
+//        Button addNewRouteButton = (Button) root.findViewById(R.id.button_add_new_route);
+//        addNewRouteButton.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                addNewRouteButton.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
+//                launchActivity();
+//            }
+//        });
     }
 
     private void launchActivity() {

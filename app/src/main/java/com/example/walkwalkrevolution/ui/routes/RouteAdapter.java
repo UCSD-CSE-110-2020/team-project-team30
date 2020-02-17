@@ -58,18 +58,26 @@ public class RouteAdapter extends ArrayAdapter {
 
 
 
-        listItem.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Toast.makeText(mContext, "Starting: " + currentRoute.getName(), Toast.LENGTH_SHORT).show();
-                launchActivity(currentRoute.getName());
-                //name.setBackground("#00FF00");
-            }
-        });
+//        listItem.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v){
+//                Toast.makeText(mContext, "Starting: " + currentRoute.getName(), Toast.LENGTH_SHORT).show();
+//                launchActivity(currentRoute.getName());
+//                //name.setBackground("#00FF00");
+//            }
+//        });
 
 
         return listItem;
     }
+
+//    private void launchActivity(String currentRouteName) {
+//        Intent intent = new Intent(getContext(), WalkInProgress.class);
+//        intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
+//        intent.putExtra("route name", currentRouteName);
+//        intent.putExtra("route exists", true);
+//        mContext.startActivity(intent);
+//    }
 
     private void launchActivity(String currentRouteName) {
         Intent intent = new Intent(getContext(), WalkInProgress.class);

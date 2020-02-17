@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
     TextView mockSteps;
     TextView textMiles;
     boolean inMock = false;
+    boolean firstClickMock = true;
 
     private String fitnessServiceKey = "GOOGLE_FIT";
 
@@ -91,8 +93,17 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onClick(View v){
-                inMock = true;
-                mockSteps.setVisibility(View.VISIBLE);
+                if(firstClickMock) {
+                    inMock = true;
+                    mockSteps.setVisibility(View.VISIBLE);
+                    firstClickMock = false;
+                    Toast.makeText(mContext, "Mocking enabled", Toast.LENGTH_SHORT).show();
+                } else{
+                    inMock = false;
+                    mockSteps.setVisibility(View.GONE);
+                    firstClickMock = true;
+                    Toast.makeText(mContext, "Mocking disabled", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

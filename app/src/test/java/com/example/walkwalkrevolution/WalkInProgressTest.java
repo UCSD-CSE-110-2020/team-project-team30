@@ -76,7 +76,7 @@ public class WalkInProgressTest {
             assertThat(textMiles.getText().toString()).isEqualTo("0.57");
         });
     }
-
+  
     //Test the initial stage of the home screen
     @Test
     public void testIntentionalBefore(){
@@ -101,7 +101,6 @@ public class WalkInProgressTest {
         }
     }
 
-
     // 8
     @Test
     public void testIntentionalAfter(){
@@ -123,8 +122,6 @@ public class WalkInProgressTest {
             });
         }
     }
-
-
 
     private class TestFitnessService implements FitnessService {
         private static final String TAG = "[TestFitnessService]: ";

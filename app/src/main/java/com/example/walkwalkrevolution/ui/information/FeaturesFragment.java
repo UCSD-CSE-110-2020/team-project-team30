@@ -93,7 +93,7 @@ public class FeaturesFragment extends Fragment {
                     routeOptions.putInt("featureDifficulty", featureDifficulty);
                     favoriteFragment.setArguments(routeOptions);
 
-                    getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, favoriteFragment).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, favoriteFragment, "FAVORITE FRAG").commit();
                 }
                 else{
                     Toast.makeText(getContext(), "Please choose an option from each group", Toast.LENGTH_SHORT).show();

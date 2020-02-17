@@ -79,6 +79,6 @@ public class FavoriteFragment extends Fragment {
         routeOptions.putBoolean("favorite", isFavoriteRoute);
         notesFragment.setArguments(routeOptions);
 
-        getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, notesFragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.walk_screen_container, notesFragment, "NOTES FRAG").commit();
     }
 }

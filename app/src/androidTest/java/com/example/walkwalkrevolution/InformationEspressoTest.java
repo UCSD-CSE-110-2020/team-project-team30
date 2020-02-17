@@ -48,7 +48,7 @@ public class InformationEspressoTest {
         });
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.btn_GoToWalk), withText("Go To Walk"),
+                allOf(withId(R.id.btn_GoToWalk), withText("BEGIN NEW WALK OR RUN"),
                         isDisplayed()));
         appCompatButton.perform(click());
 
@@ -95,7 +95,7 @@ public class InformationEspressoTest {
         });
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.btn_GoToWalk), withText("Go To Walk"),
+                allOf(withId(R.id.btn_GoToWalk), withText("BEGIN NEW WALK OR RUN"),
                         isDisplayed()));
         appCompatButton.perform(click());
 

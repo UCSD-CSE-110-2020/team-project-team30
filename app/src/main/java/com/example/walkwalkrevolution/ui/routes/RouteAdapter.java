@@ -2,6 +2,7 @@ package com.example.walkwalkrevolution.ui.routes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.walkwalkrevolution.DescriptionActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.WalkInProgress;
@@ -61,9 +63,8 @@ public class RouteAdapter extends ArrayAdapter {
         listItem.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Toast.makeText(mContext, "Starting: " + currentRoute.getName(), Toast.LENGTH_SHORT).show();
+                Log.d("route name...", currentRoute.getName());
                 launchActivity(currentRoute.getName());
-                //name.setBackground("#00FF00");
             }
         });
 
@@ -72,8 +73,11 @@ public class RouteAdapter extends ArrayAdapter {
     }
 
     private void launchActivity(String currentRouteName) {
-        Intent intent = new Intent(getContext(), WalkInProgress.class);
-        intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        //Intent intent = new Intent(getContext(), WalkInProgress.class);
+        //intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
+        //intent.putExtra("route name", currentRouteName);
+        //intent.putExtra("route exists", true);
+        Intent intent = new Intent(getContext(), DescriptionActivity.class);
         intent.putExtra("route name", currentRouteName);
         intent.putExtra("route exists", true);
         mContext.startActivity(intent);

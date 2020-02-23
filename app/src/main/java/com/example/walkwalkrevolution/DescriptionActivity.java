@@ -57,5 +57,6 @@ public class DescriptionActivity extends AppCompatActivity {
         intent.putExtra("route exists", true);
         Toast.makeText(this, "Starting: " + routeName, Toast.LENGTH_SHORT).show();
         startActivity(intent);
+        finish();
     }
 }

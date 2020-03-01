@@ -16,4 +16,9 @@
         android:name="com.example.walkwalkrevolution.ui.routes.RoutesFragment"
         android:label="@string/title_routes"
         tools:layout="@layout/fragment_routes" />
+    <fragment
+        android:id="@+id/navigation_team"
+        android:name="com.example.walkwalkrevolution.ui.team.TeamFragment"
+        android:label="@string/title_team"
+        tools:layout="@layout/fragment_team" />
 </navigation>

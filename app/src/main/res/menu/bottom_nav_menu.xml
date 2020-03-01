@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/navigation_team"
+        android:enabled="true"
+        android:icon="@drawable/ic_group_icon"
+        android:title="@string/title_team"
+        android:visible="true" />
     <item
         android:id="@+id/navigation_home"
         android:enabled="true"

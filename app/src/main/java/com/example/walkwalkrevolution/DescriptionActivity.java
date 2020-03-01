@@ -1,5 +1,6 @@
 package com.example.walkwalkrevolution;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,9 +9,12 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.walkwalkrevolution.ui.team.AddTeammatePromptActivity;
 
 import java.util.List;
 
@@ -46,6 +50,15 @@ public class DescriptionActivity extends AppCompatActivity {
                 startButton.setColorFilter(Color.YELLOW, PorterDuff.Mode.MULTIPLY );
             }
         });
+
+        Button proposeButton = findViewById(R.id.btn_propose);
+        proposeButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                launchProposeActivity();
+            }
+        });
+
         startButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.nav_default_enter_anim));
     }
 
@@ -58,5 +71,11 @@ public class DescriptionActivity extends AppCompatActivity {
         Toast.makeText(this, "Starting: " + routeName, Toast.LENGTH_SHORT).show();
         startActivity(intent);
         finish();
+    }
+
+    public void launchProposeActivity(){
+        Intent intent = new Intent(this, ProposeWalkPromptActivity.class);
+        intent.putExtra("route name", routeName.getText().toString());
+        startActivity(intent);
     }
 }

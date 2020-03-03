@@ -9,24 +9,16 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
-import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.RouteStorage;
 import com.example.walkwalkrevolution.Teammate;
-import com.example.walkwalkrevolution.ui.routes.RouteAdapter;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +48,7 @@ public class TeamFragment extends Fragment {
 
         /*
         for (Route r : routeList)
-            Log.d("RoutesFragment", String.format("Route in list: %s", r.toString()));
+            Log.d("MyRoutesFragment", String.format("Route in list: %s", r.toString()));
         */
 
         List<Teammate> teammatesList = new ArrayList<Teammate>();

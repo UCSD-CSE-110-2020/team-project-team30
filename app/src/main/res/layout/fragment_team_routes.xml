@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:background="@color/colorPrimary">
+
+    <ListView
+        android:id="@+id/routesListView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#000000"
+        android:divider="#00AAF9"
+        android:dividerHeight="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_height="match_parent">
+
+    </ListView>
+
+    <TextView
+        android:id="@+id/textView_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/color_coded_icon"
+        />
+
+    <TextView
+        android:id="@+id/color_coded_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_circle"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="26sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/textView_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_name"
+        android:layout_margin="1dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="619dp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="#00AAF9"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/color_coded_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_name"
+        android:layout_margin="1dp"
+        android:fontFamily="sans-serif-thin"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/imageView_locationPNG"
+        app:layout_constraintTop_toBottomOf="@id/textView_date" />
+
+    <ImageView
+        android:id="@+id/imageView_locationPNG"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="1dp"
+        android:contentDescription="@string/bottom_sheet_behavior"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="@id/textView_name"
+        app:layout_constraintTop_toBottomOf="@id/textView_date"
+        app:layout_constraintStart_toEndOf="@id/color_coded_icon"
+        app:srcCompat="@drawable/start_white" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

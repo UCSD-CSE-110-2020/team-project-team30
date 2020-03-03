@@ -19,7 +19,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_height="match_parent">
+        tools:layout_height="match_parent"
+        >
 
     </ListView>
 
@@ -34,7 +35,21 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    <TextView
+        android:id="@+id/color_coded_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_circle"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center_vertical"
+        android:text=""
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="26sp"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@id/textView_date"
+        />
     <TextView
         android:id="@+id/textView_date"
         android:layout_width="wrap_content"
@@ -89,7 +104,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"
+        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="15dp"
         />
 
 

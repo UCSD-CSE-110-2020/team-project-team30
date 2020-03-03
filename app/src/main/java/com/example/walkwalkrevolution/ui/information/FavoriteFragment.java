@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.ui.WalkPlan.WalkPlanFragment;
 
 public class FavoriteFragment extends Fragment {
     private FavoriteViewModel favoriteViewModel;

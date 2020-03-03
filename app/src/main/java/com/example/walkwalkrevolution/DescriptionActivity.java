@@ -1,6 +1,5 @@
 package com.example.walkwalkrevolution;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.walkwalkrevolution.ui.team.AddTeammatePromptActivity;
-
-import java.util.List;
+import com.example.walkwalkrevolution.ui.WalkPlan.ProposeWalkPromptActivity;
 
 public class DescriptionActivity extends AppCompatActivity {
 

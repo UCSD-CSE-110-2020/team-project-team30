@@ -2,6 +2,8 @@ package com.example.walkwalkrevolution.ui.routes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,26 +11,28 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.util.Pair;
 
 import com.example.walkwalkrevolution.DescriptionActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.WalkInProgress;
+import com.example.walkwalkrevolution.Teammate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouteAdapter extends ArrayAdapter {
+public class TeamRouteAdapter extends ArrayAdapter {
     private Context mContext;
-    private List<Route> routeList = new ArrayList<Route>();
+    private List<Pair<Route, Teammate>> routeList = new ArrayList<Pair<Route, Teammate>>();
     private String fitnessServiceKey = "GOOGLE_FIT";
 
-    public RouteAdapter(@NonNull Context context, List<Route> list) {
+    public TeamRouteAdapter(@NonNull Context context, List<Pair<Route, Teammate>> list) {
         super(context, 0 , list);
         mContext = context;
         routeList = list;
@@ -39,9 +43,11 @@ public class RouteAdapter extends ArrayAdapter {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
         if(listItem == null)
-            listItem = LayoutInflater.from(mContext).inflate(R.layout.fragment_routes,parent,false);
+            listItem = LayoutInflater.from(mContext).inflate(R.layout.fragment_team_routes,parent,false);
 
-        final Route currentRoute = routeList.get(position);
+        final Pair<Route, Teammate> current = routeList.get(position);
+        Route currentRoute = current.first;
+        Teammate currentTeammate = current.second;
 
         final TextView name = (TextView) listItem.findViewById(R.id.textView_name);
         name.setText(currentRoute.getName());
@@ -55,11 +61,17 @@ public class RouteAdapter extends ArrayAdapter {
         final ImageView location = (ImageView) listItem.findViewById(R.id.imageView_locationPNG);
         location.setVisibility(View.VISIBLE);
 
-        final Button addNewRouteButton = (Button) listItem.findViewById(R.id.button_add_new_route);
-        addNewRouteButton.setVisibility(View.GONE);
+        final TextView initialsTextView = (TextView) listItem.findViewById(R.id.color_coded_icon);
+        initialsTextView.setVisibility(View.VISIBLE);
 
+        Log.d("Checking if color coded icon is null", String.valueOf(initialsTextView == null));
+        Log.d("Checking if current teammate is null", String.valueOf(currentTeammate == null));
+        initialsTextView.setText(currentTeammate.getIconInitials());
+        initialsTextView.setVisibility(View.VISIBLE);
+        GradientDrawable tvBackground = (GradientDrawable) initialsTextView.getBackground();
+        tvBackground.setColor(Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
 
-
+        listItem.setPadding(10, 0, 0, 0);
         listItem.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -68,15 +80,10 @@ public class RouteAdapter extends ArrayAdapter {
             }
         });
 
-
         return listItem;
     }
 
     private void launchActivity(String currentRouteName) {
-        //Intent intent = new Intent(getContext(), WalkInProgress.class);
-        //intent.putExtra(WalkInProgress.FITNESS_SERVICE_KEY, fitnessServiceKey);
-        //intent.putExtra("route name", currentRouteName);
-        //intent.putExtra("route exists", true);
         Intent intent = new Intent(getContext(), DescriptionActivity.class);
         intent.putExtra("route name", currentRouteName);
         intent.putExtra("route exists", true);

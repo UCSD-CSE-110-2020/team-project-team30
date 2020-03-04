@@ -5,7 +5,7 @@ import com.example.walkwalkrevolution.Route;
 import java.util.Map;
 import java.util.TreeMap;
 
-class WalkPlan {
+public class WalkPlan {
     private Route routeData;
     private String date;
     private String time;

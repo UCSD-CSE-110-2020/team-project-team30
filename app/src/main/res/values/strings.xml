@@ -6,4 +6,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="walkplan_message">Not yet! To propose a walk, go to the Route Screen, click
             on a Route, and click "propose walk"</string>
+    <string name="invite_message">Join the Team!</string>
 </resources>

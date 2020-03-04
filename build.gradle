@@ -16,13 +16,6 @@ buildscript {
   }
 }
   
-android {
-      lintOptions {
-          warningsAsErrors false
-          abortOnError false
-      }
-}
-  
 allprojects {
   repositories {
     google()

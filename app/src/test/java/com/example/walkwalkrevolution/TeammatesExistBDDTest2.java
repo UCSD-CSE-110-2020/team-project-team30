@@ -63,7 +63,6 @@ public class TeammatesExistBDDTest2 {
         TextView noTeammatesTextView = teamFragment.getView().findViewById(R.id.textView_no_teammates);
         String noTeammatesText = noTeammatesTextView.getText().toString();
         assertEquals("No Teammates", noTeammatesText);
-        assertEquals(View.VISIBLE, noTeammatesTextView.getVisibility());
         System.out.println(THEN);
 
     }

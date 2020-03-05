@@ -8,12 +8,13 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.walkwalkrevolution.ui.routes.RoutesFragment;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
+import com.example.walkwalkrevolution.appdata.UserID;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -23,6 +24,11 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity{
+
+    private static final String TAG = "MainActivity";
+    private ApplicationStateInteractor appdata;
+
+    private UserID currentUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +69,30 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
             Log.d("MainActivity", "Entered mainActivity from Done button");
         }
-            else{
+        else{
             Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
 
             RouteStorage.init(this.getApplicationContext());
 
-            // This method is for testing only during development. Remove in production
-            addDefaultRoutesToRouteStorage();
+            appdata = new FirebaseInteractor(this.getApplicationContext());
+
+
+            // This will be initialized when the user logs in
+            // TODO: Store this in shared preferences
+            String userID = prefs.getString("current_user_id", null);
+            if (userID != null)
+                currentUserID = new UserID(userID);
+            else {
+                currentUserID = new UserID("amartinez@gmail.com");
+            }
+
+            if (appdata.isUserEmailTaken("gtroulis@software_mock.com")) {
+                Log.d(TAG, "user gtroulis@software_mock.com exists!");
+            }
+            else {
+                Log.d(TAG, "user gtroulis@software_mock.com does not exist");
+            }
+
         }
     }
 
@@ -119,5 +142,12 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * Returns the ID of the user that is currently logged into this app.
+     */
+    public UserID getCurrentUserID() {
+        return currentUserID;
     }
 }

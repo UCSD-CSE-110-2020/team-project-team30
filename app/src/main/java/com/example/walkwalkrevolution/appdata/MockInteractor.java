@@ -1,18 +1,29 @@
 package com.example.walkwalkrevolution.appdata;
 
-import android.app.DownloadManager;
-
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-class FirebaseInteractor implements ApplicationStateInteractor {
+
+public class MockInteractor implements  ApplicationStateInteractor{
+
+    private int scenarioVersion;
+    private static List<Teammate> teammates = new ArrayList<Teammate>();
+    private static String email;
 
 
+    public MockInteractor() {
+
+    }
+
+
+    public static void dummyAddEmail(String __email) {email = __email;}
     @Override
     public String getMyEmail() {
-        return null;
+        return email;
     }
 
     @Override
@@ -60,9 +71,12 @@ class FirebaseInteractor implements ApplicationStateInteractor {
         return null;
     }
 
-    @Override
+
+    public static void dummyAddTeammates(Teammate teammate) {
+        teammates.add(teammate);
+    }
     public List<Teammate> getTeammates(UserID userID) {
-        return null;
+        return teammates;
     }
 
 

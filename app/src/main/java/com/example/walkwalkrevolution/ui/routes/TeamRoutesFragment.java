@@ -23,6 +23,9 @@ import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.RouteStorage;
 import com.example.walkwalkrevolution.Teammate;
 import com.example.walkwalkrevolution.WalkInProgress;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.MockInteractor;
+import com.example.walkwalkrevolution.appdata.UserID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +54,39 @@ public class TeamRoutesFragment extends Fragment {
         //----------------TEAM ROUTE STORAGE IMPLEMENTATION HERE-----------------------------------
 
         List<Pair<Route, Teammate>> pairedList = new ArrayList<Pair<Route, Teammate>>();
+        /*
         Route routeExample = new Route("The park", "03/02/20", "My House");
         Teammate teammateExample = new Teammate("Julian", "Alberto");
 
         Pair<Route, Teammate> pairExample =
                 new Pair<Route, Teammate>(routeExample, teammateExample);
         pairedList.add(pairExample);
+        */
+/*
+        MockInteractor.dummyAddUserRoute(new UserID("Amy@Zhu.com"),
+                                         new Route("Geisel", "01/01/2020", "gate"));
+        MockInteractor.dummyAddUserRoute(new UserID("Amy@Zhu.com"),
+                new Route("BioMedLib", "01/02/2020", "rear"));
+
+        MockInteractor.dummyAddUserRoute(new UserID("Linda@Zhu.com"),
+                new Route("Geisel", "01/03/2020", "gate"));
+        MockInteractor.dummyAddUserRoute(new UserID("Linda@Zhu.com"),
+                new Route("BioMedLib", "04/02/2020", "rear"));
+*/
+
+        ApplicationStateInteractor firebase = new MockInteractor();
+        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getMyEmail()));
+        //Log.d("000", String.valueOf(teammatesList.size()));
+        for(Teammate teammate : teammatesList) {
+            List<Route> routes = firebase.getUserRoutes(new UserID(teammate.getEmail()));
+
+           // Log.d("xxx", String.valueOf(routes.size()));
+            for(Route route : routes) {
+               // Log.d("YYY", route.getName());
+                Pair<Route, Teammate> p = new Pair<Route, Teammate>(route, teammate);
+                pairedList.add(p);
+            }
+        }
 
         ArrayAdapter myAdapter = new TeamRouteAdapter(root.getContext(), pairedList);
         listView.setAdapter(myAdapter);

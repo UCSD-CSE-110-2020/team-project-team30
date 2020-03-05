@@ -6,4 +6,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="walkplan_message">Not yet! To propose a walk, tap on either \"My Routes\" or
         \"Team Routes\", tap a route, and press on "propose walk"</string>
+    <string name="invite_message">Join the Team</string>
 </resources>

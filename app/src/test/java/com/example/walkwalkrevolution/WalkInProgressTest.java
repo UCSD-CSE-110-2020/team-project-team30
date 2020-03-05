@@ -61,21 +61,6 @@ public class WalkInProgressTest {
             assertThat(textMiles.getText().toString()).isEqualTo("0.00");
         });
     }
-
-    //Set the nextStepCount to see if it calculate step according to height
-    @Test
-    public void testMilesAccordingToSteps() {
-        nextStepCount = 1337;
-        ActivityScenario<WalkInProgress> scenario = ActivityScenario.launch(intent);
-        scenario.onActivity(activity -> {
-            TextView textSteps = activity.findViewById(R.id.tv_WalkScreen);
-            TextView textMiles = activity.findViewById(R.id.tv_Miles);
-            activity.setStepTextView(nextStepCount);
-            activity.setMilesTextView(nextStepCount);
-            assertThat(textSteps.getText().toString()).isEqualTo("1337");
-            assertThat(textMiles.getText().toString()).isEqualTo("0.57");
-        });
-    }
   
     //Test the initial stage of the home screen
     @Test

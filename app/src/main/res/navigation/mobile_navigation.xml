@@ -13,18 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.walkwalkrevolution.ui.routes.RoutesFragment"
+        android:name="com.example.walkwalkrevolution.ui.routes.RoutesTabbedFragment"
         android:label="@string/title_routes"
-        tools:layout="@layout/fragment_routes" />
+        tools:layout="@layout/fragment_my_routes" />
     <fragment
         android:id="@+id/navigation_team"
         android:name="com.example.walkwalkrevolution.ui.team.TeamFragment"
         android:label="@string/title_team"
         tools:layout="@layout/fragment_team" />
-    <fragment
-        android:id="@+id/navigation_walkplan"
-        android:name="com.example.walkwalkrevolution.ui.WalkPlan.WalkPlanFragment"
-        android:label="Walk Plan"
-        tools:layout="@layout/fragment_walkplan" />
 
 </navigation>

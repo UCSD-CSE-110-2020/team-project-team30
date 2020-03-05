@@ -20,11 +20,4 @@
         android:title="@string/title_routes"
         android:visible="true" />
 
-    <item
-        android:id="@+id/navigation_walkplan"
-        android:enabled="true"
-        android:icon="@drawable/ic_road"
-        android:title="Walk Plan"
-        android:visible="true" />
-
 </menu>

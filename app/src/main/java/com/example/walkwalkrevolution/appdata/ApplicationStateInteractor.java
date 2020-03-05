@@ -1,6 +1,7 @@
 package com.example.walkwalkrevolution.appdata;
 
 import com.example.walkwalkrevolution.Route;
+import com.example.walkwalkrevolution.Teammate;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ public interface ApplicationStateInteractor {
     void addUserToTeam(UserID userID, TeamID teamID);
 
     List<UserID> getTeamMemberIDs(UserID userID);
+    Teammate getTeammate(UserID userID);
+    TeamID getUsersTeamID(UserID userID);
     List<Route> getUserRoutes(UserID userID);
     void addUserRoute(UserID userID, Route route);
 

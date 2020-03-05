@@ -1,18 +1,30 @@
 package com.example.walkwalkrevolution.appdata;
 
-import android.app.DownloadManager;
-
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
+import com.google.firebase.firestore.auth.User;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-class FirebaseInteractor implements ApplicationStateInteractor {
+
+public class MockInteractor implements  ApplicationStateInteractor{
+
+    private int scenarioVersion;
+
+    private static String email;
+
+    public MockInteractor() {
+
+    }
 
 
+    public static void dummySetEmail(String __email) {email = __email;}
     @Override
     public String getMyEmail() {
-        return null;
+        return email;
     }
 
     @Override
@@ -60,20 +72,30 @@ class FirebaseInteractor implements ApplicationStateInteractor {
         return null;
     }
 
-    @Override
-    public List<Teammate> getTeammates(UserID userID) {
-        return null;
+    private static List<Teammate> teammates = new ArrayList<Teammate>();
+
+    public static void dummyAddTeammates(Teammate teammate, String t_email) {
+        teammate.setEmail(t_email);
+        teammates.add(teammate);
     }
 
+    public List<Teammate> getTeammates(UserID userID) {
+        return teammates;
+    }
 
     @Override
     public TeamID getUsersTeamID(UserID userID) {
         return null;
     }
 
+    private static Map<String, List<Route>> userRoutes = new HashMap<String, List<Route>>();
+    public static void dummyAddUserRoute(UserID usr, Route route) {
+        if(!userRoutes.containsKey(usr.toString())) userRoutes.put(usr.toString(), new ArrayList<Route>() );
+        (userRoutes.get(usr.toString())).add(route);
+    }
     @Override
     public List<Route> getUserRoutes(UserID userID) {
-        return null;
+        return userRoutes.get( userID.toString() );
     }
 
     @Override
@@ -109,5 +131,12 @@ class FirebaseInteractor implements ApplicationStateInteractor {
     @Override
     public void setWalkRSVP(UserID userID, String status) {
 
+    }
+
+    public static String dummyGetTeammateEmail(String email){
+        for(Teammate teammate: teammates){
+            return teammate.getEmail();
+        }
+        return "";
     }
 }

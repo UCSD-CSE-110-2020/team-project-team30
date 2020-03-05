@@ -16,6 +16,8 @@ import java.time.Duration;
 //Activity only appear for the invited person(link to addteammatepromptactivity
 public class JoinTeamPromptActivity extends AppCompatActivity {
 
+    public String result;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -46,6 +48,7 @@ public class JoinTeamPromptActivity extends AppCompatActivity {
     }
 
     public void displayMessage(String message){
+        result = message;
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 

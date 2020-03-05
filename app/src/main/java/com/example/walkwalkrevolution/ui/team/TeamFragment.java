@@ -18,6 +18,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Teammate;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.MockInteractor;
+import com.example.walkwalkrevolution.appdata.UserID;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,23 +47,29 @@ public class TeamFragment extends Fragment {
 
         ListView listView = (ListView) root.findViewById(R.id.teamListView);
         //ROUTE STORAGE/FIREBASE IMPLEMENTATION HERE FOR LEADING TEAMMATES
-        //List<Teammate> teammates = RouteStorage.getTeammates();
+
+/*
+        MockInteractor.dummySetEmail("dummy@stupid.ude");
+        MockInteractor.dummyAddTeammates(new Teammate("Amy", "zhu"), "Amy@Zhu.com");
+        MockInteractor.dummyAddTeammates(new Teammate("Linda", "zhu"), "Linda@Zhu.com");
+  */
+
+
+        ApplicationStateInteractor firebase = new MockInteractor();
+        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getMyEmail()));
 
         /*
         for (Route r : routeList)
             Log.d("MyRoutesFragment", String.format("Route in list: %s", r.toString()));
         */
-
+/*
         List<Teammate> teammatesList = new ArrayList<Teammate>();
         Teammate me = new Teammate("Julian", "Alberto");
         Teammate Celine = new Teammate("Celine", "Hernandez");
         Teammate example = new Teammate("First", "Last");
         teammatesList.add(me);
         teammatesList.add(Celine);
-        //populating the list
-        for(int i = 0; i < 5; i++){
-            teammatesList.add(example);
-        }
+*/
 
         ArrayAdapter myAdapter = new TeammateAdapter(root.getContext(), teammatesList);
         listView.setAdapter(myAdapter);

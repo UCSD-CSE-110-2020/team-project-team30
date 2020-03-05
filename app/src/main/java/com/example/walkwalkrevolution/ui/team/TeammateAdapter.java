@@ -42,6 +42,9 @@ public class TeammateAdapter extends ArrayAdapter {
         if(listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.fragment_team,parent,false);
 
+        if(listItem.findViewById(R.id.textView_no_teammates).getVisibility() == View.VISIBLE){
+            listItem.findViewById(R.id.textView_no_teammates).setVisibility(View.GONE);
+        }
         final Teammate currentTeammate = teammateList.get(position);
 
         final TextView nameTextView = (TextView) listItem.findViewById(R.id.textView_teammate_name);

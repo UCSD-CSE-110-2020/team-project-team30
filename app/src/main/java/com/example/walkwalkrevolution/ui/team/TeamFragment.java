@@ -57,10 +57,6 @@ public class TeamFragment extends Fragment {
         Teammate example = new Teammate("First", "Last");
         teammatesList.add(me);
         teammatesList.add(Celine);
-        //populating the list
-        for(int i = 0; i < 5; i++){
-            teammatesList.add(example);
-        }
 
         ArrayAdapter myAdapter = new TeammateAdapter(root.getContext(), teammatesList);
         listView.setAdapter(myAdapter);

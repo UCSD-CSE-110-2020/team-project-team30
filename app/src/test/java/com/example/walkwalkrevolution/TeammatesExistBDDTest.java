@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -49,12 +51,14 @@ public class TeammatesExistBDDTest {
 
     @Before
     public void setUp() {
+        System.out.println(GIVEN);
         SharedPreferences sharedPreferences =
                 InstrumentationRegistry.getInstrumentation().getContext().getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("height", "65");
         editor.apply();
 
+        System.out.println(WHEN);
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
@@ -73,8 +77,9 @@ public class TeammatesExistBDDTest {
     }
 
     @Test
-    public void addTeammateButtonLocated(){
+    public void addButtonLocatedANDFriendsNamesLocated(){
         assert(addTeammate != null);
+
     }
 
 }

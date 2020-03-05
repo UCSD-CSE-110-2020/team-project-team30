@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.example.walkwalkrevolution.ui.WalkPlan.WalkPlanFragment;
+
 //Example built on: https://www.simplifiedcoding.net/android-tablayout-example-using-viewpager-fragments/
 public class RoutesPagerAdapter extends FragmentStatePagerAdapter {
     //integer to count number of tabs
@@ -31,7 +33,7 @@ public class RoutesPagerAdapter extends FragmentStatePagerAdapter {
                 Log.d("Pressing tab2", "I PRESSED tab 2");
                 return tab2;
             case 2:
-                TeamRoutesFragment tab3 = new TeamRoutesFragment();
+                WalkPlanFragment tab3 = new WalkPlanFragment();
                 return tab3;
             default:
                 return null;

@@ -1,6 +1,9 @@
 package com.example.walkwalkrevolution.appdata;
 
+import android.app.DownloadManager;
+
 import com.example.walkwalkrevolution.Route;
+import com.example.walkwalkrevolution.Teammate;
 
 import java.util.List;
 
@@ -42,6 +45,16 @@ class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public List<UserID> getTeamMemberIDs(UserID userID) {
+        return null;
+    }
+
+    @Override
+    public Teammate getTeammate(UserID userID) {
+        return null;
+    }
+
+    @Override
+    public TeamID getUsersTeamID(UserID userID) {
         return null;
     }
 

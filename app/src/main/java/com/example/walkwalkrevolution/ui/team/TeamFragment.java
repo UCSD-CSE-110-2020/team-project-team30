@@ -48,12 +48,12 @@ public class TeamFragment extends Fragment {
         ListView listView = (ListView) root.findViewById(R.id.teamListView);
         //ROUTE STORAGE/FIREBASE IMPLEMENTATION HERE FOR LEADING TEAMMATES
 
-        /*
-        MockInteractor.dummyAddEmail("dummy@stupid.ude");
-        MockInteractor.dummyAddTeammates(new Teammate("Amy", "zhu"));
-        MockInteractor.dummyAddTeammates(new Teammate("Linda", "zhu"));
-        MockInteractor.dummyAddTeammates(new Teammate("Hans", "Zimmer"));
-        */
+/*
+        MockInteractor.dummySetEmail("dummy@stupid.ude");
+        MockInteractor.dummyAddTeammates(new Teammate("Amy", "zhu"), "Amy@Zhu.com");
+        MockInteractor.dummyAddTeammates(new Teammate("Linda", "zhu"), "Linda@Zhu.com");
+  */
+
 
         ApplicationStateInteractor firebase = new MockInteractor();
         List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getMyEmail()));

@@ -73,10 +73,12 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     private static List<Teammate> teammates = new ArrayList<Teammate>();
+
     public static void dummyAddTeammates(Teammate teammate, String t_email) {
         teammate.setEmail(t_email);
         teammates.add(teammate);
     }
+
     public List<Teammate> getTeammates(UserID userID) {
         return teammates;
     }
@@ -129,5 +131,12 @@ public class MockInteractor implements  ApplicationStateInteractor{
     @Override
     public void setWalkRSVP(UserID userID, String status) {
 
+    }
+
+    public static String dummyGetTeammateEmail(String email){
+        for(Teammate teammate: teammates){
+            return teammate.getEmail();
+        }
+        return "";
     }
 }

@@ -4,13 +4,20 @@ import android.util.Log;
 
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FirebaseInteractor implements ApplicationStateInteractor {
 
@@ -31,12 +38,50 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public boolean isUserEmailTaken(String email) {
+//
+//        AtomicBoolean emailTaken = new AtomicBoolean(false);
+//        AtomicBoolean queryDone = new AtomicBoolean(false);
+//
+//        Log.d(TAG, "Query about to execute");
+//
+//        Task<QuerySnapshot> emailTakenQuery =
+//        collection_users.whereEqualTo(UserData.KEY_USERID, email)
+//        .get();
+//
+//        emailTakenQuery.addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                for (QueryDocumentSnapshot document : task.getResult()) {
+//                    Log.d(TAG, "User found!");
+//                    emailTaken.set(true);
+//                    queryDone.set(true);
+//                }
+//            } else {
+//                Log.d(TAG, "User not found");
+//                emailTaken.set(false);
+//                queryDone.set(true);
+//            }
+//        });
+//
+//        try {
+//            Tasks.await(emailTakenQuery, 5000, TimeUnit.MILLISECONDS);
+//        }
+//        catch (TimeoutException t) {
+//            Log.e(TAG, t.getMessage());
+//        }
+//        catch (Exception e) {
+//            Log.e(TAG, e.getMessage());
+//        }
+//
+//        Log.d(TAG, "Exit while loop");
+//
+//        return emailTaken.get();
+
         return false;
     }
 
     @Override
-    public void addUserToDatabase(UserID id, UserData userData) {
-        Log.d(TAG, String.format("About to add user %s to firestore", id.toString()));
+    public void addUserToDatabase(UserID userID, UserData userData) {
+        Log.d(TAG, String.format("About to add user %s to firestore", userID.toString()));
 
         Map<String, Object> newUserData = userData.toFirebaseDoc();
 
@@ -45,14 +90,16 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
             return;
         }
 
-        DocumentReference userDocument = collection_users.document(id.toString());
+        DocumentReference userDocument = collection_users.document(userID.toString());
         userDocument.set(newUserData)
-                .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + id.toString()))
+                .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + userID.toString()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));;
     }
 
     @Override
     public boolean getIsUserInAnyTeam(UserID userID) {
+
+
         return false;
     }
 

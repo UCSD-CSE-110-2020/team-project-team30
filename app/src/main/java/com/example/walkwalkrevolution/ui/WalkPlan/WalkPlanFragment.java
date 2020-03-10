@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,9 @@ public class WalkPlanFragment extends Fragment {
         TextView planMember = root.findViewById(R.id.tv_plan_member);
         Button schedule = root.findViewById(R.id.btn_schedule);
         Button withdraw = root.findViewById(R.id.btn_withdraw);
+        Button accept = root.findViewById(R.id.btn_in_acc);
+        Button badTime = root.findViewById(R.id.btn_bad_time);
+        Button badRoute = root.findViewById(R.id.btn_bad_route);
 
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("propose", Context.MODE_PRIVATE);
@@ -59,7 +63,21 @@ public class WalkPlanFragment extends Fragment {
             planTime.setVisibility(View.GONE);
             schedule.setVisibility(View.GONE);
             withdraw.setVisibility(View.GONE);
+            accept.setVisibility(View.GONE);
+            badTime.setVisibility(View.GONE);
+            badRoute.setVisibility(View.GONE);
         }
+
+        //Go to Google Maps
+        planName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + planName.getText().toString());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
 
         //MOCKING, Eventually Replace by firebase interaction
         planName.setText("Canyon Loop");
@@ -72,10 +90,9 @@ public class WalkPlanFragment extends Fragment {
             public void onClick(View v) {
                 //Send the notification to the member
                 //Make this route appear in other member's page
-                //Disabled the button after clicking
+                planName.setTextColor(Color.RED);
             }
         });
-
 
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +109,44 @@ public class WalkPlanFragment extends Fragment {
         });
 
         //If the route is proposed by a teammember
+        boolean groupMember = true;
+        if(groupMember){
+            schedule.setVisibility(View.GONE);
+            withdraw.setVisibility(View.GONE);
+        }
+
+        accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Send notification to the proposer
+                //Respond is saved to the walk plan
+                accept.setTextColor(Color.RED);
+                badTime.setTextColor(Color.BLACK);
+                badRoute.setTextColor(Color.BLACK);
+            }
+        });
+
+        badTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Send notification to the proposer
+                //Respond is saved to the walk plan
+                badTime.setTextColor(Color.RED);
+                badRoute.setTextColor(Color.BLACK);
+                accept.setTextColor(Color.BLACK);
+            }
+        });
+
+        badRoute.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Send notification to the proposer
+                //Respond is saved to the walk plan
+                badRoute.setTextColor(Color.RED);
+                badTime.setTextColor(Color.BLACK);
+                accept.setTextColor(Color.BLACK);
+            }
+        });
 
         return root;
     }

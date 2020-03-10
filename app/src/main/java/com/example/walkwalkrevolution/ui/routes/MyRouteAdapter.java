@@ -2,6 +2,7 @@ package com.example.walkwalkrevolution.ui.routes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ public class MyRouteAdapter extends ArrayAdapter {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
+
         if(listItem == null)
             listItem = LayoutInflater.from(mContext).inflate(R.layout.fragment_my_routes,parent,false);
 
@@ -56,7 +58,17 @@ public class MyRouteAdapter extends ArrayAdapter {
         final Button addNewRouteButton = (Button) listItem.findViewById(R.id.button_add_new_route);
         addNewRouteButton.setVisibility(View.GONE);
 
-
+        //Favorite
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(name.getCurrentTextColor() == Color.WHITE) {
+                    name.setTextColor(Color.RED);
+                }else{
+                    name.setTextColor(Color.WHITE);
+                }
+            }
+        });
 
         listItem.setOnClickListener(new View.OnClickListener(){
             @Override

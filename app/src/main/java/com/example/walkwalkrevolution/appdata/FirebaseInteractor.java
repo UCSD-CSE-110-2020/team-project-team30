@@ -1,39 +1,40 @@
 package com.example.walkwalkrevolution.appdata;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FirebaseInteractor implements ApplicationStateInteractor {
 
     private static final String TAG = "FirebaseInteractor";
 
+    private Context context;
+
     private FirebaseFirestore firestore;
     private CollectionReference collection_users;
 
-    public FirebaseInteractor() {
+    public FirebaseInteractor(Context context) {
         firestore = FirebaseFirestore.getInstance();
         collection_users = firestore.collection("users");
+
+        this.context = context;
     }
 
     @Override
-    public String getMyEmail() {
-        return null;
+    public String getLocalUserEmail() {
+        SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+
+        return prefs.getString("current_user_id", null);
     }
 
     @Override

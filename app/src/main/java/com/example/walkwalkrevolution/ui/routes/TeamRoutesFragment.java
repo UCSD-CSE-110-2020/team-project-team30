@@ -6,9 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +18,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.RouteStorage;
 import com.example.walkwalkrevolution.Teammate;
 import com.example.walkwalkrevolution.WalkInProgress;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
@@ -75,7 +72,7 @@ public class TeamRoutesFragment extends Fragment {
 */
 
         ApplicationStateInteractor firebase = new MockInteractor();
-        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getMyEmail()));
+        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getLocalUserEmail()));
         //Log.d("000", String.valueOf(teammatesList.size()));
         for(Teammate teammate : teammatesList) {
             List<Route> routes = firebase.getUserRoutes(new UserID(teammate.getEmail()));

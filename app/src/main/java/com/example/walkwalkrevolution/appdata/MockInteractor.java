@@ -23,7 +23,7 @@ public class MockInteractor implements  ApplicationStateInteractor{
 
     public static void dummySetEmail(String __email) {email = __email;}
     @Override
-    public String getMyEmail() {
+    public String getLocalUserEmail() {
         return email;
     }
 

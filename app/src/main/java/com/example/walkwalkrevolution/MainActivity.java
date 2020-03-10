@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
+import com.example.walkwalkrevolution.appdata.UserID;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 
@@ -75,7 +76,20 @@ public class MainActivity extends AppCompatActivity{
             addDefaultRoutesToRouteStorage();
 
             FirebaseApp.initializeApp(this);
-            appdata = new FirebaseInteractor();
+            appdata = new FirebaseInteractor(this.getApplicationContext());
+
+            // TODO When the user logs in, that's what should dictate the current_user_id field
+            UserID currentUserID;
+            String userID = prefs.getString("current_user_id", null);
+            if (userID != null)
+                currentUserID = new UserID(userID);
+            else {
+                currentUserID = new UserID("amartinez@gmail.com");
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("current_user_id", currentUserID.toString());
+                editor.commit();
+            }
         }
     }
 

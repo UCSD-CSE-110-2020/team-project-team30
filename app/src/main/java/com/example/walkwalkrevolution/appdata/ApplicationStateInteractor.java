@@ -6,7 +6,7 @@ import com.example.walkwalkrevolution.Teammate;
 import java.util.List;
 
 public interface ApplicationStateInteractor {
-    String getMyEmail();
+    String getLocalUserEmail();
 
     boolean isUserEmailTaken(String email);
     void addUserToDatabase(UserID id, UserData userData);

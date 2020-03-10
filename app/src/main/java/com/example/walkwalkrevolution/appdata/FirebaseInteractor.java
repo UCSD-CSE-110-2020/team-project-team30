@@ -4,11 +4,18 @@ import android.app.DownloadManager;
 
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
-class FirebaseInteractor implements ApplicationStateInteractor {
+public class FirebaseInteractor implements ApplicationStateInteractor {
 
+    private FirebaseFirestore firestore;
+
+    public FirebaseInteractor() {
+        firestore = FirebaseFirestore.getInstance();
+    }
 
     @Override
     public String getMyEmail() {

@@ -8,7 +8,10 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.FirebaseApp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -21,9 +24,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
+    private ApplicationStateInteractor appdata;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
@@ -67,6 +73,9 @@ public class MainActivity extends AppCompatActivity{
 
             // This method is for testing only during development. Remove in production
             addDefaultRoutesToRouteStorage();
+
+            FirebaseApp.initializeApp(this);
+            appdata = new FirebaseInteractor();
         }
     }
 

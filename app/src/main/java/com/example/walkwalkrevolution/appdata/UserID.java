@@ -6,7 +6,7 @@ package com.example.walkwalkrevolution.appdata;
  * Currently it is a wrapper for user emails because all user emails must be unique.
  */
 public class UserID {
-    private String email;
+    private final String email;
 
     public UserID(String email) {
         this.email = email;

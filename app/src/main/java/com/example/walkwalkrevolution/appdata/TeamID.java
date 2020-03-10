@@ -1,7 +1,7 @@
 package com.example.walkwalkrevolution.appdata;
 
 public class TeamID {
-    private String email;
+    private final String email;
 
     public TeamID(String email) {
         this.email = email;

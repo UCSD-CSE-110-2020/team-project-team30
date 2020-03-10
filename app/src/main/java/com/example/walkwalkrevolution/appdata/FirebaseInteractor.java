@@ -1,32 +1,27 @@
 package com.example.walkwalkrevolution.appdata;
 
-import android.app.DownloadManager;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
 
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class FirebaseInteractor implements ApplicationStateInteractor {
 
     private static final String TAG = "FirebaseInteractor";
+
     private FirebaseFirestore firestore;
+    private CollectionReference collection_users;
 
     public FirebaseInteractor() {
         firestore = FirebaseFirestore.getInstance();
+        collection_users = firestore.collection("users");
     }
 
     @Override
@@ -41,22 +36,17 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public void addUserToDatabase(UserID id, UserData userData) {
-        // TODO TESTING STUFF
-        firestore = FirebaseFirestore.getInstance();
-
-        CollectionReference c_users = firestore.collection("users");
-
-        Log.d(TAG, "About to add data to firebase");
+        Log.d(TAG, String.format("About to add user %s to firestore", id.toString()));
 
         Map<String, Object> newUserData = userData.toFirebaseDoc();
 
         if (newUserData == null) {
-            Log.e(TAG, "Oops, newUserData is null");
+            Log.e(TAG, "newUserData is null, not putting data to firestore");
             return;
         }
 
-        c_users.document(id.toString())
-                .set(newUserData)
+        DocumentReference userDocument = collection_users.document(id.toString());
+        userDocument.set(newUserData)
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + id.toString()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));;
     }
@@ -115,6 +105,10 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     @Override
     public void addUserRoute(UserID userID, Route route) {
 
+        DocumentReference userDocument = collection_users.document(userID.toString());
+        userDocument.update(UserData.KEY_ROUTES, FieldValue.arrayUnion(route))
+                .addOnSuccessListener(documentReference -> Log.d(TAG, "Added route " + route.getName()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding route", e));
     }
 
     @Override

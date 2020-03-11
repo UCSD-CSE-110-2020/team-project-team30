@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ApplicationStateInteractor {
     String getLocalUserEmail();
+    void setLocalUserEmail(String email);
 
     boolean isUserEmailTaken(String email);
     void addUserToDatabase(UserID id, UserData userData);

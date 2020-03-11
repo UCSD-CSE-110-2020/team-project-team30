@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
             Log.d("MainActivity", "Entered mainActivity from Done button");
         }
-            else{
-            Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
+        else {
+            Log.d("MainActivity", "First time in MainActivity, initializing AppData");
 
             RouteStorage.init(this.getApplicationContext());
 
@@ -79,18 +79,10 @@ public class MainActivity extends AppCompatActivity{
             appdata = new FirebaseInteractor(this.getApplicationContext());
 
             // TODO When the user logs in, that's what should dictate the current_user_id field
-            UserID currentUserID;
-            String userID = prefs.getString("current_user_id", null);
-            if (userID != null)
-                currentUserID = new UserID(userID);
-            else {
-                currentUserID = new UserID("amartinez@gmail.com");
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("current_user_id", currentUserID.toString());
-                editor.commit();
-            }
+            if (appdata.getLocalUserEmail() == null)
+                appdata.setLocalUserEmail("amartinez@gmail.com");
         }
+
     }
 
     private void showEnterHeight(){

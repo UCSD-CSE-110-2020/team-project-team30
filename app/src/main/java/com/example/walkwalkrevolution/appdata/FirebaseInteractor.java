@@ -43,6 +43,15 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     }
 
     @Override
+    public void setLocalUserEmail(String email) {
+        SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("current_user_id", email);
+        editor.commit();
+    }
+
+    @Override
     public boolean isUserEmailTaken(String email) {
 //
 //        AtomicBoolean emailTaken = new AtomicBoolean(false);
@@ -182,7 +191,8 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public void addWalkPlan(WalkPlan walkPlan) {
-        collection_walkPlans.add(walkPlan.toFirebaseDoc());
+        TeamID teamID = walkPlan.getTeamID();
+        collection_walkPlans.document(teamID.toString()).set(walkPlan.toFirebaseDoc());
     }
 
     @Override

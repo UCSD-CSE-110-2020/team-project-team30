@@ -58,6 +58,8 @@ public class WalkPlan {
         return time;
     }
 
+    public TeamID getTeamID() { return teamID; }
+
     public UserID getOrganizer() {
         return organizer;
     }

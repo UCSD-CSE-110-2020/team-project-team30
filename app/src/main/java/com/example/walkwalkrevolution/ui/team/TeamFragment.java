@@ -16,16 +16,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.MockInteractor;
+import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
+import com.example.walkwalkrevolution.appdata.WalkPlan;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeamFragment extends Fragment {
+    private static final String TAG = "TeamFragment";
     private String[] myStringArray;
     private TeamViewModel teamViewModel;
     private View root;
@@ -56,7 +62,7 @@ public class TeamFragment extends Fragment {
 
 
         ApplicationStateInteractor firebase = new MockInteractor();
-        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getMyEmail()));
+        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getLocalUserEmail()));
 
         /*
         for (Route r : routeList)
@@ -80,6 +86,10 @@ public class TeamFragment extends Fragment {
             public void onClick(View v){
                 addNewTeammateButton.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
                 launchPromptActivity();
+
+
+                // TODO George's Testing Code, DONT PUSH
+                //performFirebaseTests();
             }
         });
     }
@@ -87,5 +97,69 @@ public class TeamFragment extends Fragment {
     public void launchPromptActivity(){
         Intent intent = new Intent(getActivity(), AddTeammatePromptActivity.class);
         startActivity(intent);
+    }
+
+    private void performFirebaseTests() {
+
+        // TODO George's Testing Code, DONT PUSH or call in production
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+
+        UserData georgeUser = new UserData("amartinez@ucsd.edu", "notAdmin", "George", "Troulis");
+        UserData userEllen   = new UserData("eanderson@gmail.com", "notAdmin", "Ellen", "Anderson");
+        UserData userDeondre = new UserData("dwilliams@gmail.com", "notAdmin", "Deondre", "Williams");
+
+        UserID georgeID = georgeUser.getUserID();
+        UserID ellenID  = userEllen.getUserID();
+        UserID deonID   =  userDeondre.getUserID();
+
+        TeamID teamID = new TeamID(georgeID.toString());
+        appdata.addUserToDatabase(georgeID, georgeUser);
+        appdata.addUserToDatabase(ellenID, userEllen);
+        appdata.addUserToDatabase(deonID, userDeondre);
+
+        appdata.addUserToTeam(georgeID, teamID);
+        appdata.addUserToTeam(ellenID, teamID);
+        appdata.addUserToTeam(deonID, teamID);
+
+//        if (appdata.isUserEmailTaken(userID.toString())) {
+//            Log.d(TAG, String.format("User %s exists!", userID));
+//        }
+//        else {
+//            Log.d(TAG,String.format("User %s does not exist yet", userID));
+//        }
+
+        Route r1 = new Route("Pepper Canyon", "01/22/2020", "PCYNH");
+        Route r2 = new Route("Gilman Drive", "01/25/2020", "Starbucks PC");
+        Route r3 = new Route("Warren Dorms", "01/22/2020", "PCYNH");
+
+        r3.setFeatureStreetTrail(2);
+        r3.setFeatureFlatHilly(1);
+        r3.setFeatureEven(2);
+        r3.setFeatureDifficulty(3);
+        r3.setFeatureLoop(1);
+        r3.setNotes("Very scenic, great canyon view, dorms look nice");
+        r3.setFavorite(true);
+
+        appdata.addUserRoute(georgeID, r1);
+        appdata.addUserRoute(deonID, r2);
+        appdata.addUserRoute(georgeID, r3);
+
+
+
+        List<UserID> teamMembers = new ArrayList<>();
+        teamMembers.add(deonID);
+        teamMembers.add(ellenID);
+
+        WalkPlan walkPlan = new WalkPlan(r3, "04/01/2020", "16:20", georgeID, teamID, teamMembers);
+        //appdata.addWalkPlan(walkPlan);
+
+        appdata.withdrawWalk(teamID);
+
+//        if (appdata.isUserEmailTaken(userID.toString())) {
+//            Log.d(TAG, String.format("User %s exists!", userID));
+//        }
+//        else {
+//            Log.d(TAG,String.format("User %s does not exist yet", userID));
+//        }
     }
 }

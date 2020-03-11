@@ -27,6 +27,11 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     @Override
+    public void setLocalUserEmail(String email) {
+
+    }
+
+    @Override
     public boolean isUserEmailTaken(String email) {
         return false;
     }

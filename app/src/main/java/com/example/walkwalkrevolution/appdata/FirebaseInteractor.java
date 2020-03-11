@@ -14,8 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class FirebaseInteractor implements ApplicationStateInteractor {
 
@@ -27,12 +30,33 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     private CollectionReference collection_users;
     private CollectionReference collection_walkPlans;
 
+    // Local copies of data on Firebase to be returned by getters
+    // Updated asynchronously via listeners to Firestore data
+    private Set<UserID> localExistingUsersSet;
+
     public FirebaseInteractor(Context context) {
         firestore = FirebaseFirestore.getInstance();
         collection_users = firestore.collection("users");
         collection_walkPlans = firestore.collection("walk_plans");
 
+        initLocalAppDataStructures();
+
+        initFirestoreListeners();
+
         this.context = context;
+    }
+
+    private void initFirestoreListeners() {
+        collection_users.addSnapshotListener((queryDocumentSnapshots, e) -> {
+            for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                localExistingUsersSet.add(new UserID(doc.getId()));
+                Log.d(TAG+"_AddUserListenerCallback", "Adding user " + doc.getId());
+            }
+        });
+    }
+
+    private void initLocalAppDataStructures() {
+        localExistingUsersSet = Collections.synchronizedSet(new TreeSet<>());
     }
 
     @Override
@@ -53,45 +77,9 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public boolean isUserEmailTaken(String email) {
-//
-//        AtomicBoolean emailTaken = new AtomicBoolean(false);
-//        AtomicBoolean queryDone = new AtomicBoolean(false);
-//
-//        Log.d(TAG, "Query about to execute");
-//
-//        Task<QuerySnapshot> emailTakenQuery =
-//        collection_users.whereEqualTo(UserData.KEY_USERID, email)
-//        .get();
-//
-//        emailTakenQuery.addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                for (QueryDocumentSnapshot document : task.getResult()) {
-//                    Log.d(TAG, "User found!");
-//                    emailTaken.set(true);
-//                    queryDone.set(true);
-//                }
-//            } else {
-//                Log.d(TAG, "User not found");
-//                emailTaken.set(false);
-//                queryDone.set(true);
-//            }
-//        });
-//
-//        try {
-//            Tasks.await(emailTakenQuery, 5000, TimeUnit.MILLISECONDS);
-//        }
-//        catch (TimeoutException t) {
-//            Log.e(TAG, t.getMessage());
-//        }
-//        catch (Exception e) {
-//            Log.e(TAG, e.getMessage());
-//        }
-//
-//        Log.d(TAG, "Exit while loop");
-//
-//        return emailTaken.get();
+        UserID userID = new UserID(email);
 
-        return false;
+        return localExistingUsersSet.contains(userID);
     }
 
     @Override
@@ -208,9 +196,8 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
         walkPlanExistsQuery.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.d(TAG, String.format("WalkPlan for team %s found:", teamID));
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Log.d(TAG, "WalkPlan " + document.getId() + " => " + document.getData());
+                    Log.v(TAG, "WalkPlan " + document.getId() + " => " + document.getData());
 
                     DocumentReference walkPlanDoc = collection_walkPlans.document(document.getId());
                     walkPlanDoc.delete()
@@ -233,7 +220,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
             if (task.isSuccessful()) {
                 Log.d(TAG, String.format("WalkPlan for team %s found:", teamID));
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Log.d(TAG, "WalkPlan " + document.getId() + " => " + document.getData());
+                    Log.v(TAG, "WalkPlan " + document.getId() + " => " + document.getData());
 
                     DocumentReference walkPlanDoc = collection_walkPlans.document(document.getId());
                     walkPlanDoc.update(WalkPlan.KEY_IS_SCHEDULED, true)

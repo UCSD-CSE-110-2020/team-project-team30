@@ -85,13 +85,17 @@ public class TeamFragment extends Fragment {
             @Override
             public void onClick(View v){
                 addNewTeammateButton.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
-                launchPromptActivity();
+                //launchPromptActivity();
 
 
                 // TODO George's Testing Code, DONT PUSH
-                //performFirebaseTests();
+//                initFirebaseData(v);
+//                performFirebaseTests(v);
             }
         });
+
+        root.findViewById(R.id.btn_initFirebase).setOnClickListener(v -> initFirebaseData(v));
+        root.findViewById(R.id.btn_runTests).setOnClickListener(v -> performFirebaseTests(v));
     }
 
     public void launchPromptActivity(){
@@ -99,34 +103,26 @@ public class TeamFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void performFirebaseTests() {
-
+    private void initFirebaseData(View v) {
         // TODO George's Testing Code, DONT PUSH or call in production
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
 
-        UserData georgeUser = new UserData("amartinez@ucsd.edu", "notAdmin", "George", "Troulis");
+        UserData ariannaUser = new UserData("amartinez@gmail.com", "notAdmin", "Arianna", "Martinez");
         UserData userEllen   = new UserData("eanderson@gmail.com", "notAdmin", "Ellen", "Anderson");
         UserData userDeondre = new UserData("dwilliams@gmail.com", "notAdmin", "Deondre", "Williams");
 
-        UserID georgeID = georgeUser.getUserID();
+        UserID ariannaID = ariannaUser.getUserID();
         UserID ellenID  = userEllen.getUserID();
         UserID deonID   =  userDeondre.getUserID();
 
-        TeamID teamID = new TeamID(georgeID.toString());
-        appdata.addUserToDatabase(georgeID, georgeUser);
+        TeamID teamID = new TeamID(ariannaID.toString());
+        appdata.addUserToDatabase(ariannaID, ariannaUser);
         appdata.addUserToDatabase(ellenID, userEllen);
         appdata.addUserToDatabase(deonID, userDeondre);
 
-        appdata.addUserToTeam(georgeID, teamID);
+        appdata.addUserToTeam(ariannaID, teamID);
         appdata.addUserToTeam(ellenID, teamID);
         appdata.addUserToTeam(deonID, teamID);
-
-//        if (appdata.isUserEmailTaken(userID.toString())) {
-//            Log.d(TAG, String.format("User %s exists!", userID));
-//        }
-//        else {
-//            Log.d(TAG,String.format("User %s does not exist yet", userID));
-//        }
 
         Route r1 = new Route("Pepper Canyon", "01/22/2020", "PCYNH");
         Route r2 = new Route("Gilman Drive", "01/25/2020", "Starbucks PC");
@@ -140,26 +136,45 @@ public class TeamFragment extends Fragment {
         r3.setNotes("Very scenic, great canyon view, dorms look nice");
         r3.setFavorite(true);
 
-        appdata.addUserRoute(georgeID, r1);
+        appdata.addUserRoute(ariannaID, r1);
         appdata.addUserRoute(deonID, r2);
-        appdata.addUserRoute(georgeID, r3);
-
-
+        appdata.addUserRoute(ariannaID, r3);
 
         List<UserID> teamMembers = new ArrayList<>();
         teamMembers.add(deonID);
         teamMembers.add(ellenID);
 
-        WalkPlan walkPlan = new WalkPlan(r3, "04/01/2020", "16:20", georgeID, teamID, teamMembers);
-        //appdata.addWalkPlan(walkPlan);
+        WalkPlan walkPlan = new WalkPlan(r3, "04/01/2020", "16:20", ariannaID, teamID, teamMembers);
+        appdata.addWalkPlan(walkPlan);
+    }
+
+    private void performFirebaseTests(View v) {
+
+        // TODO George's Testing Code, DONT PUSH or call in production
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+
+        UserID ariannaID = new UserID("amartinez@gmail.com");
+        UserID ellenID   = new UserID("eanderson@gmail.com");
+        UserID deonID    =  new UserID("dwilliams@gmail.com");
+
+        UserID georgeID = new UserID("gtroulis@ucsd.edu");
+
+        TeamID teamID = new TeamID(ariannaID.toString());
 
         appdata.withdrawWalk(teamID);
 
-//        if (appdata.isUserEmailTaken(userID.toString())) {
-//            Log.d(TAG, String.format("User %s exists!", userID));
-//        }
-//        else {
-//            Log.d(TAG,String.format("User %s does not exist yet", userID));
-//        }
+        if (appdata.isUserEmailTaken(ariannaID.toString())) {
+            Log.d(TAG, String.format("User %s exists!", ariannaID));
+        }
+        else {
+            Log.d(TAG,String.format("User %s does not exist yet", ariannaID));
+        }
+
+        if (appdata.isUserEmailTaken(georgeID.toString())) {
+            Log.d(TAG, String.format("User %s exists!", georgeID));
+        }
+        else {
+            Log.d(TAG,String.format("User %s does not exist yet", georgeID));
+        }
     }
 }

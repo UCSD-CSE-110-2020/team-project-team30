@@ -28,6 +28,7 @@ public class InviteMemberBDDTest2 {
     @Before
     public void setUp() throws Exception {
         intent = new Intent(ApplicationProvider.getApplicationContext(), AddTeammatePromptActivity.class);
+        System.out.println(GIVEN);
     }
 
     @Test
@@ -39,7 +40,9 @@ public class InviteMemberBDDTest2 {
             TextView gm = activity.findViewById(R.id.editText_gmail);
             ImageView b = activity.findViewById(R.id.imageView_send);
             b.performClick();
+            System.out.println(WHEN);
             assertThat(activity.checkAllRequiredInfo()).isFalse();
+            System.out.println(THEN);
         });
     }
 }

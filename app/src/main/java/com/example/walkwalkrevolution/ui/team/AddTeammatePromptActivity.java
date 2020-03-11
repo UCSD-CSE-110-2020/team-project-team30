@@ -47,7 +47,6 @@ public class AddTeammatePromptActivity extends AppCompatActivity {
         String firstNameInputText = firstNameEditText.getText().toString();
         String gmailInputText = gmailEditText.getText().toString();
         if(firstNameInputText.trim().isEmpty() || gmailInputText.trim().isEmpty()){
-            System.out.println("Not allowed to continue!");
             return false;
         }
         return true;

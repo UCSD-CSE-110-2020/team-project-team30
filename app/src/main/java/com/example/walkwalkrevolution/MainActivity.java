@@ -8,9 +8,11 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
+import com.example.walkwalkrevolution.appdata.UserID;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -23,9 +25,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
+    private static ApplicationStateInteractor appdata;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
@@ -62,14 +67,22 @@ public class MainActivity extends AppCompatActivity{
             Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
             Log.d("MainActivity", "Entered mainActivity from Done button");
         }
-            else{
-            Log.d("MainActivity", "First time in MainActivity, initializing RouteStorage");
+        else {
+            Log.d("MainActivity", "First time in MainActivity, initializing AppData");
 
             RouteStorage.init(this.getApplicationContext());
 
             // This method is for testing only during development. Remove in production
             addDefaultRoutesToRouteStorage();
+
+            FirebaseApp.initializeApp(this);
+            appdata = new FirebaseInteractor(this.getApplicationContext());
+
+            // TODO When the user logs in, that's what should dictate the current_user_id field
+            if (appdata.getLocalUserEmail() == null)
+                appdata.setLocalUserEmail("amartinez@gmail.com");
         }
+
     }
 
     private void showEnterHeight(){
@@ -118,5 +131,9 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    public static ApplicationStateInteractor getAppDataInteractor() {
+        return appdata;
     }
 }

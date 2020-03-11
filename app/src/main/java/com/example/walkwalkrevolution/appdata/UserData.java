@@ -3,12 +3,24 @@ package com.example.walkwalkrevolution.appdata;
 import com.example.walkwalkrevolution.Route;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Stores all information about a specific user, including personal routes and team ID.
  */
 public class UserData {
+
+    // Keys for firestore data storage
+    public static String KEY_FIRST_NAME = "first_name";
+    public static String KEY_LAST_NAME  = "last_name";
+    public static String KEY_EMAIL      = "email";
+    public static String KEY_USERID     = "user_id";
+    public static String KEY_TEAMID     = "team_id";
+    public static String KEY_TEAM_INV   = "team_invite";
+    public static String KEY_ROUTES     = "routes";
+
     private String firstName;
     private String lastName;
     private String email;
@@ -57,6 +69,10 @@ public class UserData {
         return routes;
     }
 
+    public void addRoute(Route route) {
+        routes.add(route);
+    }
+
     public TeamID getTeamID() {
         return teamID;
     }
@@ -64,5 +80,22 @@ public class UserData {
     @Override
     public String toString() {
         return String.format("{%s %s}", this.firstName, this.lastName);
+    }
+
+    /*
+     * Return key-value format for putting data to firebase
+     */
+    public Map<String, Object> toFirebaseDoc() {
+        Map<String, Object> firebaseDocData = new HashMap<>();
+
+        firebaseDocData.put(KEY_FIRST_NAME, this.firstName);
+        firebaseDocData.put(KEY_LAST_NAME, this.lastName);
+        firebaseDocData.put(KEY_EMAIL, this.email);
+        firebaseDocData.put(KEY_USERID, this.userID == null ? null : this.userID.toString());
+        firebaseDocData.put(KEY_TEAMID, this.teamID == null ? null : this.teamID.toString());
+        firebaseDocData.put(KEY_TEAM_INV, this.pendingTeamInvite);
+        firebaseDocData.put(KEY_ROUTES, this.routes);
+
+        return firebaseDocData;
     }
 }

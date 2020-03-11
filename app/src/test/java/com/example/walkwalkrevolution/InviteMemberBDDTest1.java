@@ -56,6 +56,7 @@ public class InviteMemberBDDTest1{
     @Before
     public void setUp() throws Exception {
         intent = new Intent(ApplicationProvider.getApplicationContext(), AddTeammatePromptActivity.class);
+        System.out.println(GIVEN);
     }
 
     @Test
@@ -70,7 +71,9 @@ public class InviteMemberBDDTest1{
             gm.setText("G mail");
             ImageView b = activity.findViewById(R.id.imageView_send);
             b.performClick();
+            System.out.println(WHEN);
             assertThat(activity.checkAllRequiredInfo()).isTrue();
+            System.out.println(THEN);
         });
     }
 

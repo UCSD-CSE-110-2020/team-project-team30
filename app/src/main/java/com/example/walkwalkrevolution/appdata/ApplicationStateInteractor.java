@@ -6,7 +6,8 @@ import com.example.walkwalkrevolution.Teammate;
 import java.util.List;
 
 public interface ApplicationStateInteractor {
-    String getMyEmail();
+    String getLocalUserEmail();
+    void setLocalUserEmail(String email);
 
     boolean isUserEmailTaken(String email);
     void addUserToDatabase(UserID id, UserData userData);
@@ -26,8 +27,8 @@ public interface ApplicationStateInteractor {
 
     boolean getWalkPlanExists();
     void addWalkPlan(WalkPlan walkPlan);
-    WalkPlan getWalkPlanData();
-    void withdrawWalk();
-    void scheduleWalk();
+    WalkPlan getWalkPlanData(TeamID teamID);
+    void withdrawWalk(TeamID teamID);
+    void scheduleWalk(TeamID teamID);
     void setWalkRSVP(UserID userID, String status);
 }

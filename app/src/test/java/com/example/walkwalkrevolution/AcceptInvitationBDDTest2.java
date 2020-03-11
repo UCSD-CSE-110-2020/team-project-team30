@@ -34,6 +34,7 @@ public class AcceptInvitationBDDTest2 {
     @Before
     public void setUp() {
         intent = new Intent(ApplicationProvider.getApplicationContext(), JoinTeamPromptActivity.class);
+        System.out.println(GIVEN);
     }
 
     @Test
@@ -55,7 +56,9 @@ public class AcceptInvitationBDDTest2 {
         scenario.onActivity(activity -> {
             Button decInvite = activity.findViewById(R.id.btn_dec_invite);
             decInvite.performClick();
+            System.out.println(WHEN);
             assertThat(activity.result).isEqualTo("Invitation Decline");
+            System.out.println(THEN);
         });
     }
 }

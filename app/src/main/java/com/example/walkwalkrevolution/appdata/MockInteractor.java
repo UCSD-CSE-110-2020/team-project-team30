@@ -4,6 +4,7 @@ import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,19 +12,23 @@ import java.util.Map;
 public class MockInteractor implements  ApplicationStateInteractor{
 
     private int scenarioVersion;
-    private static List<Teammate> teammates = new ArrayList<Teammate>();
-    private static String email;
 
+    private static String email;
 
     public MockInteractor() {
 
     }
 
 
-    public static void dummyAddEmail(String __email) {email = __email;}
+    public static void dummySetEmail(String __email) {email = __email;}
     @Override
-    public String getMyEmail() {
+    public String getLocalUserEmail() {
         return email;
+    }
+
+    @Override
+    public void setLocalUserEmail(String email) {
+
     }
 
     @Override
@@ -71,23 +76,30 @@ public class MockInteractor implements  ApplicationStateInteractor{
         return null;
     }
 
+    private static List<Teammate> teammates = new ArrayList<Teammate>();
 
-    public static void dummyAddTeammates(Teammate teammate) {
+    public static void dummyAddTeammates(Teammate teammate, String t_email) {
+        teammate.setEmail(t_email);
         teammates.add(teammate);
     }
+
     public List<Teammate> getTeammates(UserID userID) {
         return teammates;
     }
-
 
     @Override
     public TeamID getUsersTeamID(UserID userID) {
         return null;
     }
 
+    private static Map<String, List<Route>> userRoutes = new HashMap<String, List<Route>>();
+    public static void dummyAddUserRoute(UserID usr, Route route) {
+        if(!userRoutes.containsKey(usr.toString())) userRoutes.put(usr.toString(), new ArrayList<Route>() );
+        (userRoutes.get(usr.toString())).add(route);
+    }
     @Override
     public List<Route> getUserRoutes(UserID userID) {
-        return null;
+        return userRoutes.get( userID.toString() );
     }
 
     @Override
@@ -106,22 +118,29 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     @Override
-    public WalkPlan getWalkPlanData() {
+    public WalkPlan getWalkPlanData(TeamID teamID) {
         return null;
     }
 
     @Override
-    public void withdrawWalk() {
+    public void withdrawWalk(TeamID teamID) {
 
     }
 
     @Override
-    public void scheduleWalk() {
+    public void scheduleWalk(TeamID teamID) {
 
     }
 
     @Override
     public void setWalkRSVP(UserID userID, String status) {
 
+    }
+
+    public static String dummyGetTeammateEmail(String email){
+        for(Teammate teammate: teammates){
+            return teammate.getEmail();
+        }
+        return "";
     }
 }

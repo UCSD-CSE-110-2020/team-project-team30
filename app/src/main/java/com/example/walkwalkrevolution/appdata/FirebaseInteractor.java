@@ -111,17 +111,29 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public void inviteUserToTeam(UserID userID, TeamID teamID) {
+        DocumentReference userDocument = collection_users.document(userID.toString());
 
+        userDocument.update(UserData.KEY_TEAM_INV, teamID.toString())
+                .addOnSuccessListener(documentReference -> Log.d(TAG, String.format("Invited user %s to team %s ", userID, teamID)))
+                .addOnFailureListener(e -> Log.w(TAG, "Error inviting user to team, ", e));
     }
 
     @Override
     public void resetUserTeamInvite(UserID userID) {
+        DocumentReference userDocument = collection_users.document(userID.toString());
 
+        userDocument.update(UserData.KEY_TEAM_INV, null)
+                .addOnSuccessListener(documentReference -> Log.d(TAG, String.format("Successfully reset invite for user %s", userID)))
+                .addOnFailureListener(e -> Log.w(TAG, "Error in clearing invite for user", e));
     }
 
     @Override
     public void addUserToTeam(UserID userID, TeamID teamID) {
+        DocumentReference userDocument = collection_users.document(userID.toString());
 
+        userDocument.update(UserData.KEY_TEAMID, teamID.toString())
+                .addOnSuccessListener(documentReference -> Log.d(TAG, String.format("Added user %s to team %s ", userID, teamID)))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding user to team, ", e));
     }
 
     @Override
@@ -152,7 +164,6 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public void addUserRoute(UserID userID, Route route) {
-
         DocumentReference userDocument = collection_users.document(userID.toString());
         userDocument.update(UserData.KEY_ROUTES, FieldValue.arrayUnion(route))
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "Added route " + route.getName()))

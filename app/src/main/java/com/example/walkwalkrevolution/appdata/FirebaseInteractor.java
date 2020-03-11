@@ -6,10 +6,13 @@ import android.util.Log;
 
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.Map;
@@ -189,12 +192,48 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public void withdrawWalk(TeamID teamID) {
+        Task<QuerySnapshot> walkPlanExistsQuery =
+                collection_walkPlans.whereEqualTo(WalkPlan.KEY_TEAM_ID, teamID.toString())
+                        .get();
 
+        walkPlanExistsQuery.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, String.format("WalkPlan for team %s found:", teamID));
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d(TAG, "WalkPlan " + document.getId() + " => " + document.getData());
+
+                    DocumentReference walkPlanDoc = collection_walkPlans.document(document.getId());
+                    walkPlanDoc.delete()
+                            .addOnSuccessListener(documentReference -> Log.d(TAG, String.format("Successfully withdrew WalkPlan")))
+                            .addOnFailureListener(e -> Log.w(TAG, "Error in withdrawing WalkPlan", e));
+                }
+            } else {
+                Log.w(TAG, String.format("WalkPlan for team %s not found, can't schedule. Ignoring", teamID));
+            }
+        });
     }
 
     @Override
     public void scheduleWalk(TeamID teamID) {
+        Task<QuerySnapshot> walkPlanExistsQuery =
+        collection_walkPlans.whereEqualTo(WalkPlan.KEY_TEAM_ID, teamID.toString())
+        .get();
 
+        walkPlanExistsQuery.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, String.format("WalkPlan for team %s found:", teamID));
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Log.d(TAG, "WalkPlan " + document.getId() + " => " + document.getData());
+
+                    DocumentReference walkPlanDoc = collection_walkPlans.document(document.getId());
+                    walkPlanDoc.update(WalkPlan.KEY_IS_SCHEDULED, true)
+                            .addOnSuccessListener(documentReference -> Log.d(TAG, String.format("Successfully scheduled WalkPlan")))
+                            .addOnFailureListener(e -> Log.w(TAG, "Error in scheduling WalkPlan", e));
+                }
+            } else {
+                Log.w(TAG, String.format("WalkPlan for team %s not found, can't schedule. Ignoring", teamID));
+            }
+        });
     }
 
     @Override

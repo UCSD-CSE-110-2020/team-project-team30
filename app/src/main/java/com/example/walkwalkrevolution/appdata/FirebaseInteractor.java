@@ -22,10 +22,12 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     private FirebaseFirestore firestore;
     private CollectionReference collection_users;
+    private CollectionReference collection_walkPlans;
 
     public FirebaseInteractor(Context context) {
         firestore = FirebaseFirestore.getInstance();
         collection_users = firestore.collection("users");
+        collection_walkPlans = firestore.collection("walk_plans");
 
         this.context = context;
     }
@@ -177,21 +179,21 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public void addWalkPlan(WalkPlan walkPlan) {
-
+        collection_walkPlans.add(walkPlan.toFirebaseDoc());
     }
 
     @Override
-    public WalkPlan getWalkPlanData() {
+    public WalkPlan getWalkPlanData(TeamID teamID) {
         return null;
     }
 
     @Override
-    public void withdrawWalk() {
+    public void withdrawWalk(TeamID teamID) {
 
     }
 
     @Override
-    public void scheduleWalk() {
+    public void scheduleWalk(TeamID teamID) {
 
     }
 

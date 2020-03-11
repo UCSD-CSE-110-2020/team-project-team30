@@ -26,8 +26,8 @@ public interface ApplicationStateInteractor {
 
     boolean getWalkPlanExists();
     void addWalkPlan(WalkPlan walkPlan);
-    WalkPlan getWalkPlanData();
-    void withdrawWalk();
-    void scheduleWalk();
+    WalkPlan getWalkPlanData(TeamID teamID);
+    void withdrawWalk(TeamID teamID);
+    void scheduleWalk(TeamID teamID);
     void setWalkRSVP(UserID userID, String status);
 }

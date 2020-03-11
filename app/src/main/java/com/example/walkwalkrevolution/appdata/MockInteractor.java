@@ -2,7 +2,6 @@ package com.example.walkwalkrevolution.appdata;
 
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
-import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,17 +113,17 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     @Override
-    public WalkPlan getWalkPlanData() {
+    public WalkPlan getWalkPlanData(TeamID teamID) {
         return null;
     }
 
     @Override
-    public void withdrawWalk() {
+    public void withdrawWalk(TeamID teamID) {
 
     }
 
     @Override
-    public void scheduleWalk() {
+    public void scheduleWalk(TeamID teamID) {
 
     }
 

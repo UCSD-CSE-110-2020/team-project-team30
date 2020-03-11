@@ -5,7 +5,7 @@ package com.example.walkwalkrevolution.appdata;
  *
  * Currently it is a wrapper for user emails because all user emails must be unique.
  */
-public class UserID {
+public class UserID implements Comparable {
     private final String email;
 
     public UserID(String email) {
@@ -25,5 +25,10 @@ public class UserID {
     @Override
     public String toString() {
         return this.email;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.toString().compareTo(((UserID) o).toString());
     }
 }

@@ -10,7 +10,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserID;
 
 public class AddTeammatePromptActivity extends AppCompatActivity {
 
@@ -20,33 +24,42 @@ public class AddTeammatePromptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_teammate_prompt);
         findViewById(R.id.prompt).setVisibility(View.VISIBLE);
         ImageView sendInvite = (ImageView) findViewById(R.id.imageView_send);
+        EditText gmailEditText = findViewById(R.id.editText_gmail);
+        EditText lastName = findViewById(R.id.editText_last_name);
+        EditText firstName = findViewById(R.id.editText_first_name);
+        lastName.setVisibility(View.GONE);
+        firstName.setVisibility(View.GONE);
         sendInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean allRequiredInfo = checkAllRequiredInfo();
                 if(allRequiredInfo) {
-                    //ADD CODE HERE FOR OBTAINING INFO INPUTTED AND STORING IN FIREBASE!!!
-                    setAnimation(sendInvite);
-                    EditText firstNameEditText = (EditText) findViewById(R.id.editText_first_name);
-                    String firstName = firstNameEditText.getText().toString();
-                    Log.d("Invitation sent to", firstName);
-                    findViewById(R.id.prompt).setVisibility(View.GONE);
-                    displayMessage("Invited " + firstName + "!", v);
-                    finish();
+                    ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+                    if(!appdata.isUserEmailTaken(gmailEditText.getText().toString())){
+                        displayMessage("The User does not exist!", v);
+                    }
+                    else{
+                        String email = gmailEditText.getText().toString();
+                        UserID myID = new UserID(appdata.getLocalUserEmail());
+                        TeamID myTeam = appdata.getUsersTeamID(myID);
+                        appdata.inviteUserToTeam(new UserID(email), myTeam);
+                        setAnimation(sendInvite);
+                        findViewById(R.id.prompt).setVisibility(View.GONE);
+                        displayMessage("Invited " + email + "!", v);
+                        finish();
+                    }
                 }
                 else{
-                    displayMessage("First name and email are required", v);
+                    displayMessage("Email are required", v);
                 }
             }
         });
     }
 
     public boolean checkAllRequiredInfo(){
-        EditText firstNameEditText = findViewById(R.id.editText_first_name);
         EditText gmailEditText = findViewById(R.id.editText_gmail);
-        String firstNameInputText = firstNameEditText.getText().toString();
         String gmailInputText = gmailEditText.getText().toString();
-        if(firstNameInputText.trim().isEmpty() || gmailInputText.trim().isEmpty()){
+        if(gmailInputText.trim().isEmpty()){
             return false;
         }
         return true;

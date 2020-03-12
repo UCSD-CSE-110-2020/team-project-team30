@@ -65,8 +65,7 @@ public class ProposeWalkPromptActivity extends AppCompatActivity {
             public void onClick(View v) {
                 time = timeText.getText().toString();
                 Route selectedRoute = new Route(routeName, date,routeName);
-                //TODO: Change the last parameter into teammates after the methods is implemented
-                WalkPlan newPlan = new WalkPlan(selectedRoute, date, time, proposer, teamID, new ArrayList<>(0));
+                WalkPlan newPlan = new WalkPlan(selectedRoute, date, time, proposer, teamID, appdata.getTeamMemberIDs(proposer));
                 MainActivity.getAppDataInteractor().addWalkPlan(newPlan);
                 goToHome();
             }

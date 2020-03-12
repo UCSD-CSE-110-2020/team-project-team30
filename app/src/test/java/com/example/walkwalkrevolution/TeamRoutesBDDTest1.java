@@ -48,6 +48,7 @@ public class TeamRoutesBDDTest1 {
                 InstrumentationRegistry.getInstrumentation().getContext().getSharedPreferences("prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("height", "65");
+        editor.putString("current_user_id", "jiz546@ucsd.edu");
         editor.apply();
         MockInteractor.dummySetEmail("myemail@gmail.com");
         MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu"), "Zhu@gmail.com");

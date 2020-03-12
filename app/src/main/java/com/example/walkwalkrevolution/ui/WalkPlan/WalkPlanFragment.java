@@ -67,6 +67,91 @@ public class WalkPlanFragment extends Fragment {
         boolean createdWalk = appdata.getWalkPlanExists(teamID);
         if(createdWalk){
             message.setVisibility(View.GONE);
+            if(walkPlan.getScheduled()){
+                planName.setTextColor(Color.RED);
+            }
+            //Indicate if the user is proposer of the walkplan
+            boolean isProposer = appdata.getLocalUserEmail().equals(walkPlan.getOrganizer());
+            if(!isProposer){
+                schedule.setVisibility(View.GONE);
+                withdraw.setVisibility(View.GONE);
+            }else{
+                accept.setVisibility(View.GONE);
+                badTime.setVisibility(View.GONE);
+                badRoute.setVisibility(View.GONE);
+            }
+
+            planName.setText(walkPlan.getRouteData().getName().toString());
+            planTime.setText(walkPlan.getDate() + " " + walkPlan.getTime());
+            int num = getNum(appdata, teamID);
+            planMember.setText(num + "/5");
+
+            //Go to Google Maps
+            planName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + planName.getText().toString());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    startActivity(mapIntent);
+                }
+            });
+
+            schedule.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Send the notification to the member
+                    MainActivity.getAppDataInteractor().scheduleWalk(teamID);
+                }
+            });
+
+            withdraw.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Send the notification to the member
+                    MainActivity.getAppDataInteractor().withdrawWalk(teamID);
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.GOING){
+                accept.setTextColor(Color.RED);
+            }
+            if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.BAD_TIME){
+                badTime.setTextColor(Color.RED);
+            }
+            if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.BAD_ROUTE){
+                badRoute.setTextColor(Color.RED);
+            }
+
+            accept.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Send notification to the proposer
+                    appdata.setWalkRSVP(thisUser, WalkRSVPStatus.GOING);
+                    Toast.makeText(getContext(), "You accept the walk!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            badTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Send notification to the proposer
+                    appdata.setWalkRSVP(thisUser, WalkRSVPStatus.BAD_TIME);
+                    Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            badRoute.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //Send notification to the proposer
+                    appdata.setWalkRSVP(thisUser, WalkRSVPStatus.BAD_ROUTE);
+                    Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }else{
             planName.setVisibility(View.GONE);
             planMember.setVisibility(View.GONE);
@@ -77,88 +162,6 @@ public class WalkPlanFragment extends Fragment {
             badTime.setVisibility(View.GONE);
             badRoute.setVisibility(View.GONE);
         }
-
-        //Indicate if the user is proposer of the walkplan
-        boolean isProposer = appdata.getLocalUserEmail().equals(walkPlan.getOrganizer());
-        if(!isProposer){
-            schedule.setVisibility(View.GONE);
-            withdraw.setVisibility(View.GONE);
-        }else{
-            accept.setVisibility(View.GONE);
-            badTime.setVisibility(View.GONE);
-            badRoute.setVisibility(View.GONE);
-        }
-
-        planName.setText(walkPlan.getRouteData().getName().toString());
-        planTime.setText(walkPlan.getDate() + " " + walkPlan.getTime());
-        int num = getNum(appdata, teamID);
-        planMember.setText(num + "/5");
-
-        //Go to Google Maps
-        planName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + planName.getText().toString());
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                startActivity(mapIntent);
-            }
-        });
-
-        schedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Send the notification to the member
-                MainActivity.getAppDataInteractor().scheduleWalk(teamID);
-            }
-        });
-
-        withdraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Send the notification to the member
-                MainActivity.getAppDataInteractor().withdrawWalk(teamID);
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.GOING){
-            accept.setTextColor(Color.RED);
-        }
-        if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.BAD_TIME){
-            badTime.setTextColor(Color.RED);
-        }
-        if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.BAD_ROUTE){
-            badRoute.setTextColor(Color.RED);
-        }
-
-        accept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Send notification to the proposer
-                appdata.setWalkRSVP(thisUser, WalkRSVPStatus.GOING);
-                Toast.makeText(getContext(), "You accept the walk!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        badTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Send notification to the proposer
-                appdata.setWalkRSVP(thisUser, WalkRSVPStatus.BAD_TIME);
-                Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        badRoute.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Send notification to the proposer
-                appdata.setWalkRSVP(thisUser, WalkRSVPStatus.BAD_ROUTE);
-                Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         return root;
     }

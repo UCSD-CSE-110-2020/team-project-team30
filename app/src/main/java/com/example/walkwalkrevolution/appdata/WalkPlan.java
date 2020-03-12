@@ -69,6 +69,7 @@ public class WalkPlan {
 
         WalkPlan plan = new WalkPlan(routeData, date, time, organizer, teamID, membersList);
         plan.setAllMemberRSVPStatus(allMemberRsvpStatus);
+        plan.isScheduled = (boolean) data.get(KEY_IS_SCHEDULED);
 
         return plan;
     }
@@ -96,6 +97,8 @@ public class WalkPlan {
     public UserID getOrganizer() {
         return organizer;
     }
+
+    public boolean getScheduled(){ return isScheduled; }
 
     public Map<UserID, WalkRSVPStatus> getAllMemberRSVPStatus() {
         return memberRSVPStatus;

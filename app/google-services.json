@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "959088385305-kboa5uura85iuvk6c81maase00sv174g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.walkwalkrevolution",
+            "certificate_hash": "f7bad89777ac08497412a4e8949d5a1250ed9a5a"
+          }
+        },
+        {
           "client_id": "959088385305-e17t21vl1ut0acc05b88v0uuhineh0vl.apps.googleusercontent.com",
           "client_type": 3
         }

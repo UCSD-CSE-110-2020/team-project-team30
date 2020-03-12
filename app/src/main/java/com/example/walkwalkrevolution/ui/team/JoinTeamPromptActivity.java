@@ -4,16 +4,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserData;
+import com.example.walkwalkrevolution.appdata.UserID;
 
 import java.time.Duration;
 
-//Activity only appear for the invited person(link to addteammatepromptactivity
 public class JoinTeamPromptActivity extends AppCompatActivity {
 
     public String result;
@@ -23,13 +27,18 @@ public class JoinTeamPromptActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_team_prompt);
 
+        TextView message = findViewById(R.id.tv_invite_message);
         Button accInvite = findViewById(R.id.btn_acc_invite);
         Button decInvite = findViewById(R.id.btn_dec_invite);
+
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        UserID thisID = new UserID(appdata.getLocalUserEmail());
+        TeamID teamfromInvite = appdata.getUserTeamInviteStatus(thisID);
 
         accInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Send it to firebase so it will show up in the team
+                appdata.addUserToTeam(thisID, teamfromInvite);
                 displayMessage("Successfully Join Team!");
                 goToHome();
             }
@@ -38,10 +47,9 @@ public class JoinTeamPromptActivity extends AppCompatActivity {
         decInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Send it to firebase so it won't show up in the team
+                appdata.resetUserTeamInvite(thisID);
                 displayMessage("Invitation Decline");
                 goToHome();
-
             }
         });
 

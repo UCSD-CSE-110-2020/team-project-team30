@@ -76,6 +76,7 @@ public class TeamFragment extends Fragment {
         Teammate example = new Teammate("First", "Last");
         teammatesList.add(me);
         teammatesList.add(Celine);
+
 */
 
         ArrayAdapter myAdapter = new TeammateAdapter(root.getContext(), teammatesList);
@@ -95,12 +96,24 @@ public class TeamFragment extends Fragment {
             }
         });
 
+        //If user get invited and it's not already in a team, prompt
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        UserID thisID = new UserID(appdata.getLocalUserEmail());
+        if(appdata.getUserTeamInviteStatus(thisID) != null && !appdata.getIsUserInAnyTeam(thisID)){
+            launchJoinTeamActivity();
+        }
+
         root.findViewById(R.id.btn_initFirebase).setOnClickListener(v -> initFirebaseData(v));
         root.findViewById(R.id.btn_runTests).setOnClickListener(v -> performFirebaseTests(v));
     }
 
     public void launchPromptActivity(){
         Intent intent = new Intent(getActivity(), AddTeammatePromptActivity.class);
+        startActivity(intent);
+    }
+
+    private void launchJoinTeamActivity(){
+        Intent intent = new Intent(getActivity(), JoinTeamPromptActivity.class);
         startActivity(intent);
     }
 

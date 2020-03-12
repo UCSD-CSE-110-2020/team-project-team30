@@ -1,7 +1,9 @@
 package com.example.walkwalkrevolution;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +12,10 @@ import android.widget.Toast;
 
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
+import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
+import com.example.walkwalkrevolution.ui.team.JoinTeamPromptActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 
@@ -26,6 +31,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity{
 
     private static ApplicationStateInteractor appdata;
+    private static UserData thisUser;
+    private static UserID thisID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +86,13 @@ public class MainActivity extends AppCompatActivity{
             appdata = new FirebaseInteractor(this.getApplicationContext());
 
             // TODO When the user logs in, that's what should dictate the current_user_id field
-            if (appdata.getLocalUserEmail() == null)
-                appdata.setLocalUserEmail("amartinez@gmail.com");
+            if (appdata.getLocalUserEmail() == null) {
+                appdata.setLocalUserEmail("jiz546@ucsd.edu");
+                thisUser = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
+                thisID = thisUser.getUserID();
+                appdata.addUserToDatabase(thisID, thisUser);
+            }
         }
-
     }
 
     private void showEnterHeight(){
@@ -127,6 +137,7 @@ public class MainActivity extends AppCompatActivity{
             RouteStorage.addRoute(route3);
         }
     }
+
 
     @Override
     protected void onDestroy() {

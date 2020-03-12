@@ -18,7 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.TeamID;
 import com.example.walkwalkrevolution.appdata.UserID;
 import com.example.walkwalkrevolution.appdata.WalkPlan;
 import com.example.walkwalkrevolution.ui.WalkPlan.WalkPlanFragment;
@@ -26,6 +28,7 @@ import com.example.walkwalkrevolution.ui.information.NotesFragment;
 import com.example.walkwalkrevolution.ui.information.NotesViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -56,26 +59,22 @@ public class ProposeWalkPromptActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Set up a new WalkPlan
                 time = timeText.getText().toString();
-                //How to get the currentRoute?
-                //WalkPlan newPlan = new WalkPlan(route, date, time, new UserID("jiz546@ucsd.edu"));
-                //Put it into firebase
-                //ApplicationStateInteractor appdata = null;
+                Route selectedRoute = new Route(routeName, date,routeName);
+                //TODO: Change it after the methods is implemented
+                WalkPlan newPlan = new WalkPlan(selectedRoute, date, time, new UserID("jiz546@ucsd.edu"), new TeamID("jiz546@ucsd.edu"), new ArrayList<>(0));
+                MainActivity.getAppDataInteractor().addWalkPlan(newPlan);
+                //TODO: Delete after finding a way to recognize the WalkPlan and organizer
                 SharedPreferences sharedPreferences = getSharedPreferences("propose", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("proposewalk", true);
                 editor.apply();
-                //Switch to WalkPlan Screen (Not Implemented yet)
-                launchWalkPlan();
+                goToHome();
             }
         });
     }
 
-    public void launchWalkPlan(){
-        //WalkPlanFragment fragment = WalkPlanFragment.newInstance();
-        //WalkPlanFragment fragment = new WalkPlanFragment();
-        //getSupportFragmentManager().beginTransaction().add(R.id.activity_propose_walk_prompt, fragment, WalkPlanFragment.TAG).commit();
+    public void goToHome(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

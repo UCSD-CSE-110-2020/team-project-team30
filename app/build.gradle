@@ -40,7 +40,7 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-    lintOptions{
+    lintOptions {
         warningsAsErrors false
         abortOnError false
 
@@ -58,6 +58,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.firebase:firebase-database:16.0.4'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
@@ -77,4 +78,3 @@ apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
 }
-

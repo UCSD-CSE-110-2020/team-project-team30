@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,7 +19,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserID;
 import com.example.walkwalkrevolution.appdata.WalkPlan;
+import com.example.walkwalkrevolution.appdata.WalkRSVPStatus;
 import com.example.walkwalkrevolution.ui.WalkPlan.WalkPlanViewModel;
 
 public class WalkPlanFragment extends Fragment {
@@ -51,10 +55,10 @@ public class WalkPlanFragment extends Fragment {
         Button badTime = root.findViewById(R.id.btn_bad_time);
         Button badRoute = root.findViewById(R.id.btn_bad_route);
 
-
+        //TODO: Delete after done the next TODO
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("propose", Context.MODE_PRIVATE);
         boolean createdWalk = sharedPreferences.getBoolean("proposewalk", false);
-        //Created walk as proposer, or get an invitation of walk as member.
+        //TODO: Change into checking if there's available walkplan
         if(createdWalk){
             message.setVisibility(View.GONE);
         }else{
@@ -68,6 +72,25 @@ public class WalkPlanFragment extends Fragment {
             badRoute.setVisibility(View.GONE);
         }
 
+        //TODO: If this user is not proposer
+        boolean groupMember = true;
+        if(groupMember){
+            schedule.setVisibility(View.GONE);
+            withdraw.setVisibility(View.GONE);
+        }else{
+            accept.setVisibility(View.GONE);
+            badTime.setVisibility(View.GONE);
+            badRoute.setVisibility(View.GONE);
+        }
+
+        //TODO:Replace by the things from firebase
+        //planName.setText(walkplan.getRouteData().getName().toString());
+        //planTime.setText(walkplan.getDate() + walkplan.getTime());
+        //planMember.setText(walkplan.memberRSVPStatus);
+        planName.setText("Canyon Loop");
+        planTime.setText("03/04/2020 4PM");
+        planMember.setText("0/5");
+
         //Go to Google Maps
         planName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,18 +102,14 @@ public class WalkPlanFragment extends Fragment {
             }
         });
 
-        //MOCKING, Eventually Replace by firebase interaction
-        planName.setText("Canyon Loop");
-        planTime.setText("03/04/2020 4PM");
-        planMember.setText("0/5");
-
-        //If the route is proposed by this UserID
+        //TODO: If this user is the proposer
         schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Send the notification to the member
-                //Make this route appear in other member's page
-                planName.setTextColor(Color.RED);
+                //Schedule the Walk TODO:replace by real TeamID here
+                MainActivity.getAppDataInteractor().scheduleWalk(new TeamID("jiz546@ucsd.edu"));
+
             }
         });
 
@@ -98,7 +117,9 @@ public class WalkPlanFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Send the notification to the member
-                //Delete this object/walk from all the members
+                //TODO:replace by real TeamID here
+                MainActivity.getAppDataInteractor().withdrawWalk(new TeamID("jiz546@ucsd.edu"));
+                //TODO:delete this rest when walkplan getter is done
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("propose", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("proposewalk", false);
@@ -108,21 +129,23 @@ public class WalkPlanFragment extends Fragment {
             }
         });
 
-        //If the route is proposed by a teammember
-        boolean groupMember = true;
-        if(groupMember){
-            schedule.setVisibility(View.GONE);
-            withdraw.setVisibility(View.GONE);
+        //TODO:Set a indicator which option is selected
+        /*if(MainActivity.getAppDataInteractor().getUserTeamInviteStatus(thisId) == WalkRSVPStatus.GOING){
+            accept.setTextColor(Color.RED);
         }
+        if(MainActivity.getAppDataInteractor().getUserTeamInviteStatus(thisId) == WalkRSVPStatus.BAD_TIME){
+            badTime.setTextColor(Color.RED);
+        }
+        if(MainActivity.getAppDataInteractor().getUserTeamInviteStatus(thisId) == WalkRSVPStatus.BAD_ROUTE){
+            badRoute.setTextColor(Color.RED);
+        }*/
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Send notification to the proposer
-                //Respond is saved to the walk plan
-                accept.setTextColor(Color.RED);
-                badTime.setTextColor(Color.BLACK);
-                badRoute.setTextColor(Color.BLACK);
+                //walkplan.setRSVPStatus(userID, WalkRSVPStatus.GOING);
+                Toast.makeText(getContext(), "You accept the walk!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -130,10 +153,8 @@ public class WalkPlanFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Send notification to the proposer
-                //Respond is saved to the walk plan
-                badTime.setTextColor(Color.RED);
-                badRoute.setTextColor(Color.BLACK);
-                accept.setTextColor(Color.BLACK);
+                //walkplan.setRSVPStatus(userID, WalkRSVPStatus.BAD_TIME);
+                Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -141,10 +162,8 @@ public class WalkPlanFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Send notification to the proposer
-                //Respond is saved to the walk plan
-                badRoute.setTextColor(Color.RED);
-                badTime.setTextColor(Color.BLACK);
-                accept.setTextColor(Color.BLACK);
+                //walkplan.setRSVPStatus(userID, WalkRSVPStatus.BAD_ROUTE);
+                Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
             }
         });
 

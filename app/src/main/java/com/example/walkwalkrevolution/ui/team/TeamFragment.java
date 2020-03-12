@@ -26,6 +26,7 @@ import com.example.walkwalkrevolution.appdata.TeamID;
 import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
 import com.example.walkwalkrevolution.appdata.WalkPlan;
+import com.example.walkwalkrevolution.appdata.WalkRSVPStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,7 +162,7 @@ public class TeamFragment extends Fragment {
 
         TeamID teamID = new TeamID(ariannaID.toString());
 
-        appdata.withdrawWalk(teamID);
+        //appdata.withdrawWalk(teamID);
 
         if (appdata.isUserEmailTaken(ariannaID.toString())) {
             Log.d(TAG, String.format("User %s exists!", ariannaID));
@@ -170,19 +171,9 @@ public class TeamFragment extends Fragment {
             for (Route r : appdata.getUserRoutes(ariannaID)) {
                 Log.d(TAG, r.toString());
             }
-        }
-        else {
-            Log.d(TAG,String.format("User %s does not exist yet", ariannaID));
-        }
 
-        if (appdata.isUserEmailTaken(georgeID.toString())) {
-            Log.d(TAG, String.format("User %s exists!", georgeID));
+            appdata.setWalkRSVP(ellenID, WalkRSVPStatus.BAD_ROUTE);
+            appdata.setWalkRSVP(deonID, WalkRSVPStatus.BAD_TIME);
         }
-        else {
-            Log.d(TAG,String.format("User %s does not exist yet", georgeID));
-        }
-
-        //appdata.resetUserTeamInvite(ariannaID);
-        appdata.inviteUserToTeam(ariannaID, teamID);
     }
 }

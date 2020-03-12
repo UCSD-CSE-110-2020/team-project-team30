@@ -149,4 +149,8 @@ public class UserData {
 
         return firebaseDocData;
     }
+
+    public TeamID getTeamInvite() {
+        return pendingTeamInvite;
+    }
 }

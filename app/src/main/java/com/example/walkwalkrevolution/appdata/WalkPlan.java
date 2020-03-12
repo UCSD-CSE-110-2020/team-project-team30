@@ -59,11 +59,12 @@ public class WalkPlan {
 
         Map<String, Object> rawRsvpStatuses = (Map<String, Object>) data.get(KEY_RSVP_STATUS);
 
-        for (String teammate : rawRsvpStatuses.keySet()) {
+        for (String teammateEncoded : rawRsvpStatuses.keySet()) {
+            String teammate = FirebaseInteractor.decodeKey(teammateEncoded);
             UserID teammateID = new UserID(teammate);
 
             membersList.add(teammateID);
-            allMemberRsvpStatus.put(teammateID, WalkRSVPStatus.toStatus((String) rawRsvpStatuses.get(teammate)));
+            allMemberRsvpStatus.put(teammateID, WalkRSVPStatus.toStatus((String) rawRsvpStatuses.get(teammateEncoded)));
         }
 
         WalkPlan plan = new WalkPlan(routeData, date, time, organizer, teamID, membersList);
@@ -116,7 +117,8 @@ public class WalkPlan {
 
         Map<String, Object> rsvpStats = new TreeMap<>();
         for (UserID member : memberRSVPStatus.keySet()) {
-            rsvpStats.put(member.toString(), memberRSVPStatus.get(member));
+            String memberKey = FirebaseInteractor.encodeKey(member.toString());
+            rsvpStats.put(memberKey, memberRSVPStatus.get(member));
         }
         documentData.put(KEY_RSVP_STATUS, rsvpStats);
 

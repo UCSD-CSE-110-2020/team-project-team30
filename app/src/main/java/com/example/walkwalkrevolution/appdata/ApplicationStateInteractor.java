@@ -25,10 +25,10 @@ public interface ApplicationStateInteractor {
     List<Route> getUserRoutes(UserID userID);
     void addUserRoute(UserID userID, Route route);
 
-    boolean getWalkPlanExists();
+    boolean getWalkPlanExists(TeamID teamID);
     void addWalkPlan(WalkPlan walkPlan);
     WalkPlan getWalkPlanData(TeamID teamID);
     void withdrawWalk(TeamID teamID);
     void scheduleWalk(TeamID teamID);
-    void setWalkRSVP(UserID userID, String status);
+    void setWalkRSVP(UserID userID, WalkRSVPStatus status);
 }

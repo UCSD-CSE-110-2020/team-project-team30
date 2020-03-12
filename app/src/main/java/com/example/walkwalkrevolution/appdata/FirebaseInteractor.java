@@ -14,12 +14,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 public class FirebaseInteractor implements ApplicationStateInteractor {
 
@@ -118,14 +117,12 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public boolean getIsUserInAnyTeam(UserID userID) {
-
-
-        return false;
+        return localExistingUserMap.get(userID).getTeamID() != null;
     }
 
     @Override
     public TeamID getUserTeamInviteStatus(UserID userID) {
-        return null;
+        return localExistingUserMap.get(userID).getTeamInvite();
     }
 
     @Override
@@ -157,7 +154,20 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public List<UserID> getTeamMemberIDs(UserID userID) {
-        return null;
+        List<UserID> teammates = new ArrayList<>();
+
+        TeamID teamID = localExistingUserMap.get(userID).getTeamID();
+
+        for (UserID teammateUserID : localExistingUserMap.keySet()) {
+            if (teammateUserID.equals(userID))
+                continue;
+
+            UserData userData = localExistingUserMap.get(teammateUserID);
+            if (userData.getTeamID().equals(teamID))
+                teammates.add(teammateUserID);
+        }
+
+        return teammates;
     }
 
     @Override
@@ -173,7 +183,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public TeamID getUsersTeamID(UserID userID) {
-        return null;
+        return localExistingUserMap.get(userID).getTeamID();
     }
 
     @Override
@@ -190,8 +200,8 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     }
 
     @Override
-    public boolean getWalkPlanExists() {
-        return false;
+    public boolean getWalkPlanExists(TeamID teamID) {
+        return localWalkPlanMap.containsKey(teamID);
     }
 
     @Override
@@ -202,7 +212,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public WalkPlan getWalkPlanData(TeamID teamID) {
-        return null;
+        return localWalkPlanMap.get(teamID);
     }
 
     @Override
@@ -251,7 +261,35 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     }
 
     @Override
-    public void setWalkRSVP(UserID userID, String status) {
+    public void setWalkRSVP(UserID userID, WalkRSVPStatus status) {
 
+        TeamID teamID = this.getUsersTeamID(userID);
+
+        Task<QuerySnapshot> walkPlanExistsQuery =
+                collection_walkPlans.whereEqualTo(WalkPlan.KEY_TEAM_ID, teamID.toString())
+                        .get();
+
+        walkPlanExistsQuery.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    DocumentReference walkPlanDoc = collection_walkPlans.document(document.getId());
+
+                    String userStatusKey = String.format("%s.%s", WalkPlan.KEY_RSVP_STATUS, encodeKey(userID.toString()));
+                    walkPlanDoc.update(userStatusKey, status)
+                            .addOnSuccessListener(documentReference -> Log.d(TAG, String.format("Changed RSVP status of %s to %s", userID, status)))
+                            .addOnFailureListener(e -> Log.w(TAG, String.format("Failed to change RSVP status of %s to %s", userID, status), e));
+                }
+            } else {
+                Log.w(TAG, String.format("WalkPlan for team %s not found, can't schedule. Ignoring", teamID));
+            }
+        });
+    }
+
+    public static String encodeKey(String key) {
+        return key.replace(".", "_");
+    }
+
+    public static String decodeKey(String key) {
+        return key.replace("_", ".");
     }
 }

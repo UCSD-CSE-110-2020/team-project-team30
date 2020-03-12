@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class FirebaseInteractor implements ApplicationStateInteractor {
@@ -32,7 +33,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     // Local copies of data on Firebase to be returned by getters
     // Updated asynchronously via listeners to Firestore data
-    private Set<UserID> localExistingUsersSet;
+    private Map<UserID, UserData> localExistingUserMap;
 
     public FirebaseInteractor(Context context) {
         firestore = FirebaseFirestore.getInstance();
@@ -49,14 +50,16 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     private void initFirestoreListeners() {
         collection_users.addSnapshotListener((queryDocumentSnapshots, e) -> {
             for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                localExistingUsersSet.add(new UserID(doc.getId()));
+
+                UserData data = UserData.deserializeFromFirestore(doc.getData());
+                localExistingUserMap.put(data.getUserID(), data);
                 Log.d(TAG+"_AddUserListenerCallback", "Adding user " + doc.getId());
             }
         });
     }
 
     private void initLocalAppDataStructures() {
-        localExistingUsersSet = Collections.synchronizedSet(new TreeSet<>());
+        localExistingUserMap = Collections.synchronizedMap(new TreeMap<>());
     }
 
     @Override
@@ -79,7 +82,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     public boolean isUserEmailTaken(String email) {
         UserID userID = new UserID(email);
 
-        return localExistingUsersSet.contains(userID);
+        return localExistingUserMap.containsKey(userID);
     }
 
     @Override
@@ -161,7 +164,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     @Override
     public List<Route> getUserRoutes(UserID userID) {
-        return null;
+        return (localExistingUserMap.get(userID)).getRoutes();
     }
 
     @Override

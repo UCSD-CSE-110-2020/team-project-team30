@@ -1,6 +1,24 @@
 package com.example.walkwalkrevolution;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class Route {
+
+    public static final String KEY_NAME = "name";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_START = "start";
+    public static final String KEY_FAV = "isFavorite";
+
+    public static final String KEY_FEAT_LOOP = "featureLoop";
+    public static final String KEY_FEAT_FLAT = "featureFlatHilly";
+    public static final String KEY_FEAT_STREET = "featureStreetTrail";
+    public static final String KEY_FEAT_EVEN = "featureEven";
+    public static final String KEY_FEAT_DIFF = "featureDifficulty";
+
+    public static final String KEY_NOTES = "notes";
+
     private String name;
     private String date;
     private String start;
@@ -28,6 +46,37 @@ public class Route {
         this.featureEven        = -1;
         this.featureDifficulty  = -1;
         this.notes = "";
+    }
+
+    public Route() {
+        this(null, null, null);
+    }
+
+    public static List<Route> deserializeFromFirestore(List<Map<String, Object>> rawList) {
+        List<Route> routes = new ArrayList<>();
+
+        for (Map<String, Object> rawRouteData : rawList) {
+            String name  = (String) rawRouteData.get(KEY_NAME);
+            String date  = (String) rawRouteData.get(KEY_DATE);
+            String start = (String) rawRouteData.get(KEY_START);
+
+            String notes = (String) rawRouteData.get(KEY_NOTES);
+            boolean fav = (boolean) rawRouteData.get(KEY_FAV);
+
+            Route r = new Route(name, date, start);
+            r.setNotes(notes);
+            r.setFavorite(fav);
+
+            r.setFeatureDifficulty(((Long) rawRouteData.get(KEY_FEAT_DIFF)).intValue());
+            r.setFeatureEven(((Long) rawRouteData.get(KEY_FEAT_EVEN)).intValue());
+            r.setFeatureLoop(((Long) rawRouteData.get(KEY_FEAT_LOOP)).intValue());
+            r.setFeatureFlatHilly(((Long) rawRouteData.get(KEY_FEAT_FLAT)).intValue());
+            r.setFeatureStreetTrail(((Long) rawRouteData.get(KEY_FEAT_STREET)).intValue());
+
+            routes.add(r);
+        }
+
+        return routes;
     }
 
     public String getName() {
@@ -94,6 +143,18 @@ public class Route {
 
     public String getNotes() {
         return this.notes;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
     }
 
     public String toString(){

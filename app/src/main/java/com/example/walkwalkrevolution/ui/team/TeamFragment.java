@@ -165,6 +165,11 @@ public class TeamFragment extends Fragment {
 
         if (appdata.isUserEmailTaken(ariannaID.toString())) {
             Log.d(TAG, String.format("User %s exists!", ariannaID));
+
+            Log.d(TAG, "Routes of Arianna:");
+            for (Route r : appdata.getUserRoutes(ariannaID)) {
+                Log.d(TAG, r.toString());
+            }
         }
         else {
             Log.d(TAG,String.format("User %s does not exist yet", ariannaID));

@@ -8,6 +8,26 @@
     android:background="@color/colorPrimary"
     >
 
+    <Button
+        android:id="@+id/btn_initFirebase"
+        android:layout_width="130dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Init Firebase"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_runTests"
+        android:layout_width="128dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="10dp"
+        android:text="Run Tests"
+        app:layout_constraintBottom_toTopOf="@+id/btn_initFirebase"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ListView
         android:id="@+id/teamListView"
         android:layout_width="fill_parent"
@@ -17,12 +37,14 @@
         android:dividerHeight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         tools:layout_height="match_parent">
 
     </ListView>
+
     <TextView
         android:id="@+id/textView_no_teammates"
         android:layout_width="wrap_content"

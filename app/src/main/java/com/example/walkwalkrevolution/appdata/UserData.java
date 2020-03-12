@@ -49,6 +49,29 @@ public class UserData {
         this.pendingTeamInvite = null;
     }
 
+    public UserData() {
+        this(null, null, null, null);
+    }
+
+    public static UserData deserializeFromFirestore(Map<String, Object> data) {
+
+        String email = (String) data.get(KEY_EMAIL);
+        String password = "null";
+        String firstName = (String) data.get(KEY_FIRST_NAME);
+        String lastName = (String) data.get(KEY_LAST_NAME);
+
+        UserData userData = new UserData(email, password, firstName, lastName);
+        userData.setRoutes(Route.deserializeListFromFirestore((List<Map<String, Object>>) data.get(KEY_ROUTES)));
+
+        String teamID = (String) data.get(KEY_TEAMID);
+        userData.setTeamID(teamID == null ? null : new TeamID(teamID));
+
+        String pendInv = (String) data.get(KEY_TEAM_INV);
+        userData.setPendingTeamInvite(pendInv == null ? null : new TeamID(pendInv));
+
+        return userData;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -77,6 +100,34 @@ public class UserData {
         return teamID;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUserID(UserID userID) {
+        this.userID = userID;
+    }
+
+    public void setTeamID(TeamID teamID) {
+        this.teamID = teamID;
+    }
+
+    public void setPendingTeamInvite(TeamID pendingTeamInvite) {
+        this.pendingTeamInvite = pendingTeamInvite;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
+    }
+
     @Override
     public String toString() {
         return String.format("{%s %s}", this.firstName, this.lastName);
@@ -97,5 +148,9 @@ public class UserData {
         firebaseDocData.put(KEY_ROUTES, this.routes);
 
         return firebaseDocData;
+    }
+
+    public TeamID getTeamInvite() {
+        return pendingTeamInvite;
     }
 }

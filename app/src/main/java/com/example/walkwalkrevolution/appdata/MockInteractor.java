@@ -108,7 +108,7 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     @Override
-    public boolean getWalkPlanExists() {
+    public boolean getWalkPlanExists(TeamID teamID) {
         return false;
     }
 
@@ -133,7 +133,7 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     @Override
-    public void setWalkRSVP(UserID userID, String status) {
+    public void setWalkRSVP(UserID userID, WalkRSVPStatus status) {
 
     }
 

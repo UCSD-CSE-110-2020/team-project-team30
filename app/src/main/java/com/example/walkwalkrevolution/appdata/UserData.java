@@ -1,7 +1,6 @@
 package com.example.walkwalkrevolution.appdata;
 
 import com.example.walkwalkrevolution.Route;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,10 +61,13 @@ public class UserData {
         String lastName = (String) data.get(KEY_LAST_NAME);
 
         UserData userData = new UserData(email, password, firstName, lastName);
-        //userData.setRoutes((List<Route>) data.get(KEY_ROUTES));
-        userData.setRoutes(Route.deserializeFromFirestore((List<Map<String, Object>>) data.get(KEY_ROUTES)));
-        userData.setTeamID(new TeamID((String) data.get(KEY_TEAMID)));
-        userData.setPendingTeamInvite((TeamID) data.get(KEY_TEAM_INV));
+        userData.setRoutes(Route.deserializeListFromFirestore((List<Map<String, Object>>) data.get(KEY_ROUTES)));
+
+        String teamID = (String) data.get(KEY_TEAMID);
+        userData.setTeamID(teamID == null ? null : new TeamID(teamID));
+
+        String pendInv = (String) data.get(KEY_TEAM_INV);
+        userData.setPendingTeamInvite(pendInv == null ? null : new TeamID(pendInv));
 
         return userData;
     }

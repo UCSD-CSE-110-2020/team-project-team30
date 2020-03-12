@@ -35,6 +35,8 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     // Updated asynchronously via listeners to Firestore data
     private Map<UserID, UserData> localExistingUserMap;
 
+    private Map<TeamID, WalkPlan> localWalkPlanMap;
+
     public FirebaseInteractor(Context context) {
         firestore = FirebaseFirestore.getInstance();
         collection_users = firestore.collection("users");
@@ -49,17 +51,29 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     private void initFirestoreListeners() {
         collection_users.addSnapshotListener((queryDocumentSnapshots, e) -> {
+            localExistingUserMap.clear();
             for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
 
                 UserData data = UserData.deserializeFromFirestore(doc.getData());
                 localExistingUserMap.put(data.getUserID(), data);
-                Log.d(TAG+"_AddUserListenerCallback", "Adding user " + doc.getId());
+                Log.d(TAG+"_UserUpdateListenerCallback", "Updating user " + doc.getId() + " in local cache");
+            }
+        });
+
+        collection_walkPlans.addSnapshotListener((queryDocumentSnapshots, e) -> {
+            localWalkPlanMap.clear();
+            for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+
+                WalkPlan data = WalkPlan.deserializeFromFirestore(doc.getData());
+                localWalkPlanMap.put(data.getTeamID(), data);
+                Log.d(TAG+"_WalkPlanUpdateListenerCallback", "Updating WalkPlan " + doc.getId() + " in local cache");
             }
         });
     }
 
     private void initLocalAppDataStructures() {
         localExistingUserMap = Collections.synchronizedMap(new TreeMap<>());
+        localWalkPlanMap = Collections.synchronizedMap(new TreeMap<TeamID, WalkPlan>());
     }
 
     @Override

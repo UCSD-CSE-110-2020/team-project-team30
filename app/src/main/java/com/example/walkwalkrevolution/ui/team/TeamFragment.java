@@ -181,5 +181,8 @@ public class TeamFragment extends Fragment {
         else {
             Log.d(TAG,String.format("User %s does not exist yet", georgeID));
         }
+
+        //appdata.resetUserTeamInvite(ariannaID);
+        appdata.inviteUserToTeam(ariannaID, teamID);
     }
 }

@@ -19,11 +19,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
 import com.example.walkwalkrevolution.appdata.WalkPlan;
 import com.example.walkwalkrevolution.appdata.WalkRSVPStatus;
 import com.example.walkwalkrevolution.ui.WalkPlan.WalkPlanViewModel;
+
+import java.util.Map;
 
 public class WalkPlanFragment extends Fragment {
 
@@ -55,10 +59,12 @@ public class WalkPlanFragment extends Fragment {
         Button badTime = root.findViewById(R.id.btn_bad_time);
         Button badRoute = root.findViewById(R.id.btn_bad_route);
 
-        //TODO: Delete after done the next TODO
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("propose", Context.MODE_PRIVATE);
-        boolean createdWalk = sharedPreferences.getBoolean("proposewalk", false);
-        //TODO: Change into checking if there's available walkplan
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+
+        UserID thisUser = new UserID(appdata.getLocalUserEmail());
+        TeamID teamID = new TeamID(appdata.getUsersTeamID(thisUser).toString());
+        WalkPlan walkPlan = appdata.getWalkPlanData(teamID);
+        boolean createdWalk = appdata.getWalkPlanExists(teamID);
         if(createdWalk){
             message.setVisibility(View.GONE);
         }else{
@@ -72,9 +78,9 @@ public class WalkPlanFragment extends Fragment {
             badRoute.setVisibility(View.GONE);
         }
 
-        //TODO: If this user is not proposer
-        boolean groupMember = true;
-        if(groupMember){
+        //Indicate if the user is proposer of the walkplan
+        boolean isProposer = appdata.getLocalUserEmail().equals(walkPlan.getOrganizer());
+        if(!isProposer){
             schedule.setVisibility(View.GONE);
             withdraw.setVisibility(View.GONE);
         }else{
@@ -83,13 +89,10 @@ public class WalkPlanFragment extends Fragment {
             badRoute.setVisibility(View.GONE);
         }
 
-        //TODO:Replace by the things from firebase
-        //planName.setText(walkplan.getRouteData().getName().toString());
-        //planTime.setText(walkplan.getDate() + walkplan.getTime());
-        //planMember.setText(walkplan.memberRSVPStatus);
-        planName.setText("Canyon Loop");
-        planTime.setText("03/04/2020 4PM");
-        planMember.setText("0/5");
+        planName.setText(walkPlan.getRouteData().getName().toString());
+        planTime.setText(walkPlan.getDate() + " " + walkPlan.getTime());
+        int num = getNum(appdata, teamID);
+        planMember.setText(num + "/5");
 
         //Go to Google Maps
         planName.setOnClickListener(new View.OnClickListener() {
@@ -102,14 +105,11 @@ public class WalkPlanFragment extends Fragment {
             }
         });
 
-        //TODO: If this user is the proposer
         schedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Send the notification to the member
-                //Schedule the Walk TODO:replace by real TeamID here
-                MainActivity.getAppDataInteractor().scheduleWalk(new TeamID("jiz546@ucsd.edu"));
-
+                MainActivity.getAppDataInteractor().scheduleWalk(teamID);
             }
         });
 
@@ -117,34 +117,27 @@ public class WalkPlanFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Send the notification to the member
-                //TODO:replace by real TeamID here
-                MainActivity.getAppDataInteractor().withdrawWalk(new TeamID("jiz546@ucsd.edu"));
-                //TODO:delete this rest when walkplan getter is done
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("propose", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("proposewalk", false);
-                editor.apply();
+                MainActivity.getAppDataInteractor().withdrawWalk(teamID);
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
         });
 
-        //TODO:Set a indicator which option is selected
-        /*if(MainActivity.getAppDataInteractor().getUserTeamInviteStatus(thisId) == WalkRSVPStatus.GOING){
+        if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.GOING){
             accept.setTextColor(Color.RED);
         }
-        if(MainActivity.getAppDataInteractor().getUserTeamInviteStatus(thisId) == WalkRSVPStatus.BAD_TIME){
+        if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.BAD_TIME){
             badTime.setTextColor(Color.RED);
         }
-        if(MainActivity.getAppDataInteractor().getUserTeamInviteStatus(thisId) == WalkRSVPStatus.BAD_ROUTE){
+        if(walkPlan.getAllMemberRSVPStatus().get(thisUser) == WalkRSVPStatus.BAD_ROUTE){
             badRoute.setTextColor(Color.RED);
-        }*/
+        }
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Send notification to the proposer
-                //walkplan.setRSVPStatus(userID, WalkRSVPStatus.GOING);
+                appdata.setWalkRSVP(thisUser, WalkRSVPStatus.GOING);
                 Toast.makeText(getContext(), "You accept the walk!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -153,7 +146,7 @@ public class WalkPlanFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Send notification to the proposer
-                //walkplan.setRSVPStatus(userID, WalkRSVPStatus.BAD_TIME);
+                appdata.setWalkRSVP(thisUser, WalkRSVPStatus.BAD_TIME);
                 Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -162,11 +155,21 @@ public class WalkPlanFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Send notification to the proposer
-                //walkplan.setRSVPStatus(userID, WalkRSVPStatus.BAD_ROUTE);
+                appdata.setWalkRSVP(thisUser, WalkRSVPStatus.BAD_ROUTE);
                 Toast.makeText(getContext(), "You decline the walk!", Toast.LENGTH_SHORT).show();
             }
         });
 
         return root;
+    }
+
+    private int getNum(ApplicationStateInteractor appdata, TeamID teamID) {
+        int num = 0;
+        for(Map.Entry<UserID, WalkRSVPStatus> entry: appdata.getWalkPlanData(teamID).getAllMemberRSVPStatus().entrySet()){
+            if(entry.getValue() == WalkRSVPStatus.GOING){
+                num++;
+            }
+        }
+        return num;
     }
 }

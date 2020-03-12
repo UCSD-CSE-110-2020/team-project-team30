@@ -124,10 +124,12 @@ public class TeamFragment extends Fragment {
         UserData ariannaUser = new UserData("amartinez@gmail.com", "notAdmin", "Arianna", "Martinez");
         UserData userEllen   = new UserData("eanderson@gmail.com", "notAdmin", "Ellen", "Anderson");
         UserData userDeondre = new UserData("dwilliams@gmail.com", "notAdmin", "Deondre", "Williams");
+        UserData userJiayi = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
 
         UserID ariannaID = ariannaUser.getUserID();
         UserID ellenID  = userEllen.getUserID();
         UserID deonID   =  userDeondre.getUserID();
+        UserID jiayiID = userJiayi.getUserID();
 
         TeamID teamID = new TeamID(ariannaID.toString());
         appdata.addUserToDatabase(ariannaID, ariannaUser);
@@ -137,6 +139,7 @@ public class TeamFragment extends Fragment {
         appdata.addUserToTeam(ariannaID, teamID);
         appdata.addUserToTeam(ellenID, teamID);
         appdata.addUserToTeam(deonID, teamID);
+        appdata.addUserToTeam(jiayiID, teamID);
 
         Route r1 = new Route("Pepper Canyon", "01/22/2020", "PCYNH");
         Route r2 = new Route("Gilman Drive", "01/25/2020", "Starbucks PC");
@@ -157,6 +160,7 @@ public class TeamFragment extends Fragment {
         List<UserID> teamMembers = new ArrayList<>();
         teamMembers.add(deonID);
         teamMembers.add(ellenID);
+        teamMembers.add(jiayiID);
 
         WalkPlan walkPlan = new WalkPlan(r3, "04/01/2020", "16:20", ariannaID, teamID, teamMembers);
         appdata.addWalkPlan(walkPlan);

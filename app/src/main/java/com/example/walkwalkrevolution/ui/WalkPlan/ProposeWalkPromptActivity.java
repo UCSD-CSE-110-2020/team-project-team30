@@ -55,20 +55,19 @@ public class ProposeWalkPromptActivity extends AppCompatActivity {
             }
         });
 
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        UserID proposer = new UserID(appdata.getLocalUserEmail());
+        TeamID teamID = new TeamID(appdata.getUsersTeamID(proposer).toString());
+
         Button send = findViewById(R.id.btn_send_propose);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 time = timeText.getText().toString();
                 Route selectedRoute = new Route(routeName, date,routeName);
-                //TODO: Change it after the methods is implemented
-                WalkPlan newPlan = new WalkPlan(selectedRoute, date, time, new UserID("jiz546@ucsd.edu"), new TeamID("jiz546@ucsd.edu"), new ArrayList<>(0));
+                //TODO: Change the last parameter into teammates after the methods is implemented
+                WalkPlan newPlan = new WalkPlan(selectedRoute, date, time, proposer, teamID, new ArrayList<>(0));
                 MainActivity.getAppDataInteractor().addWalkPlan(newPlan);
-                //TODO: Delete after finding a way to recognize the WalkPlan and organizer
-                SharedPreferences sharedPreferences = getSharedPreferences("propose", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("proposewalk", true);
-                editor.apply();
                 goToHome();
             }
         });

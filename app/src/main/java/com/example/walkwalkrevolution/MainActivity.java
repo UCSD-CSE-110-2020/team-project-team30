@@ -16,9 +16,14 @@ import com.example.walkwalkrevolution.appdata.TeamID;
 import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
 import com.example.walkwalkrevolution.ui.team.JoinTeamPromptActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -87,8 +92,8 @@ public class MainActivity extends AppCompatActivity{
 
             // TODO When the user logs in, that's what should dictate the current_user_id field
             if (appdata.getLocalUserEmail() == null) {
-                appdata.setLocalUserEmail("jiz546@ucsd.edu");
-                thisUser = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
+                appdata.setLocalUserEmail("amartinze@gmail.com");
+                thisUser = new UserData("amartineze@gmail.com", "notAdmin", "Arianna", "Martinez");
                 thisID = thisUser.getUserID();
                 appdata.addUserToDatabase(thisID, thisUser);
             }

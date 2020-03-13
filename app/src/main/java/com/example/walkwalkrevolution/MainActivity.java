@@ -85,13 +85,27 @@ public class MainActivity extends AppCompatActivity{
             FirebaseApp.initializeApp(this);
             appdata = new FirebaseInteractor(this.getApplicationContext());
 
-            // TODO When the user logs in, that's what should dictate the current_user_id field
-            if (appdata.getLocalUserEmail() == null) {
-                appdata.setLocalUserEmail("jiz546@ucsd.edu");
-                thisUser = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
-                thisID = thisUser.getUserID();
-                appdata.addUserToDatabase(thisID, thisUser);
+//            SharedPreferences localSP = getApplicationContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+//            SharedPreferences.Editor editor = localSP.edit();
+//            editor.clear();
+//            editor.commit();
+
+            // To check if user already login in this device
+            String email = appdata.getLocalUserEmail();
+            if(email == null){
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
+            else{
+                Log.d("Login User: ", email);
+            }
+
+            // TODO When the user logs in, that's what should dictate the current_user_id field
+//            if (appdata.getLocalUserEmail() == null) {
+//                appdata.setLocalUserEmail("jiz546@ucsd.edu");
+//                thisUser = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
+//                thisID = thisUser.getUserID();
+//                appdata.addUserToDatabase(thisID, thisUser);
+//            }
         }
     }
 

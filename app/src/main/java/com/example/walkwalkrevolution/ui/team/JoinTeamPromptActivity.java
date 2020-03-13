@@ -35,6 +35,7 @@ public class JoinTeamPromptActivity extends AppCompatActivity {
         accInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                appdata.resetUserTeamInvite(thisID);
                 appdata.addUserToTeam(thisID, teamfromInvite);
                 displayMessage("Successfully Join Team!");
                 goToHome();

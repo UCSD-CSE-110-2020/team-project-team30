@@ -55,10 +55,10 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        SharedPreferences prefs = getSharedPreferences("prefs",  MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
         boolean firstStart = prefs.getBoolean("firstStart", true);
 
-        if(firstStart) {
+        if (firstStart) {
             showEnterHeight();
         }
 
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity{
         String stringFromPrevActivity;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
-            if(extras == null) {
+            if (extras == null) {
                 stringFromPrevActivity = null;
             } else {
                 stringFromPrevActivity = extras.getString("routeSaved");
@@ -75,11 +75,10 @@ public class MainActivity extends AppCompatActivity{
             stringFromPrevActivity = (String) savedInstanceState.getSerializable("routeSaved");
         }
 
-        if(stringFromPrevActivity != null) {
+        if (stringFromPrevActivity != null) {
             Toast.makeText(this, stringFromPrevActivity, Toast.LENGTH_SHORT).show();
             Log.d("MainActivity", "Entered mainActivity from Done button");
-        }
-        else {
+        } else {
             Log.d("MainActivity", "First time in MainActivity, initializing AppData");
 
             RouteStorage.init(this.getApplicationContext());
@@ -92,10 +91,9 @@ public class MainActivity extends AppCompatActivity{
 
             // TODO When the user logs in, that's what should dictate the current_user_id field
             if (appdata.getLocalUserEmail() == null) {
-                appdata.setLocalUserEmail("amartinze@gmail.com");
-                thisUser = new UserData("amartineze@gmail.com", "notAdmin", "Arianna", "Martinez");
-                thisID = thisUser.getUserID();
-                appdata.addUserToDatabase(thisID, thisUser);
+                startActivity(new Intent(getApplicationContext(), Login.class));
+            } else {
+                Log.d("Login User: ", appdata.getLocalUserEmail());
             }
         }
     }

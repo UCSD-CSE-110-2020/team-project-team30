@@ -88,11 +88,6 @@ public class TeamFragment extends Fragment {
             public void onClick(View v){
                 addNewTeammateButton.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.nav_default_enter_anim));
                 launchPromptActivity();
-
-
-                // TODO George's Testing Code, DONT PUSH
-//                initFirebaseData(v);
-//                performFirebaseTests(v);
             }
         });
 

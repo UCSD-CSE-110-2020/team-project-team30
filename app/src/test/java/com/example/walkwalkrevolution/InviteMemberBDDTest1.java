@@ -26,6 +26,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
 import com.example.walkwalkrevolution.ui.team.AddTeammatePromptActivity;
 
@@ -55,6 +56,7 @@ public class InviteMemberBDDTest1{
 
     @Before
     public void setUp() throws Exception {
+
         intent = new Intent(ApplicationProvider.getApplicationContext(), AddTeammatePromptActivity.class);
         System.out.println(GIVEN);
     }

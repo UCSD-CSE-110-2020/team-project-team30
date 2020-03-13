@@ -119,26 +119,31 @@ public class TeamFragment extends Fragment {
         UserData ariannaUser = new UserData("amartinez@gmail.com", "notAdmin", "Arianna", "Martinez");
         UserData userEllen   = new UserData("eanderson@gmail.com", "notAdmin", "Ellen", "Anderson");
         UserData userDeondre = new UserData("dwilliams@gmail.com", "notAdmin", "Deondre", "Williams");
+        UserData userSara = new UserData("ssmith@gmail.com", "notAdmin", "Sara", "Smith");
         UserData userJiayi = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
 
         UserID ariannaID = ariannaUser.getUserID();
         UserID ellenID  = userEllen.getUserID();
         UserID deonID   =  userDeondre.getUserID();
+        UserID saraID   =  userSara.getUserID();
         UserID jiayiID = userJiayi.getUserID();
 
         TeamID teamID = new TeamID(ariannaID.toString());
         appdata.addUserToDatabase(ariannaID, ariannaUser);
         appdata.addUserToDatabase(ellenID, userEllen);
         appdata.addUserToDatabase(deonID, userDeondre);
+        appdata.addUserToDatabase(saraID, userSara);
 
         appdata.addUserToTeam(ariannaID, teamID);
         appdata.addUserToTeam(ellenID, teamID);
         appdata.addUserToTeam(deonID, teamID);
+        appdata.addUserToTeam(saraID, teamID);
         appdata.addUserToTeam(jiayiID, teamID);
 
         Route r1 = new Route("Pepper Canyon", "01/22/2020", "PCYNH");
         Route r2 = new Route("Gilman Drive", "01/25/2020", "Starbucks PC");
         Route r3 = new Route("Warren Dorms", "01/22/2020", "PCYNH");
+        Route r4 = new Route("Tecolote Canyon", "04/22/2020", "Appfolio");
 
         r3.setFeatureStreetTrail(2);
         r3.setFeatureFlatHilly(1);
@@ -150,11 +155,13 @@ public class TeamFragment extends Fragment {
 
         appdata.addUserRoute(ariannaID, r1);
         appdata.addUserRoute(deonID, r2);
-        appdata.addUserRoute(ariannaID, r3);
+        appdata.addUserRoute(ellenID, r3);
+        appdata.addUserRoute(saraID, r4);
 
         List<UserID> teamMembers = new ArrayList<>();
         teamMembers.add(deonID);
         teamMembers.add(ellenID);
+        teamMembers.add(saraID);
         teamMembers.add(jiayiID);
 
         WalkPlan walkPlan = new WalkPlan(r3, "04/01/2020", "16:20", ariannaID, teamID, teamMembers);
@@ -169,6 +176,7 @@ public class TeamFragment extends Fragment {
         UserID ariannaID = new UserID("amartinez@gmail.com");
         UserID ellenID   = new UserID("eanderson@gmail.com");
         UserID deonID    =  new UserID("dwilliams@gmail.com");
+        UserID saraID    =  new UserID("ssmith@gmail.com");
 
         UserID georgeID = new UserID("gtroulis@ucsd.edu");
 

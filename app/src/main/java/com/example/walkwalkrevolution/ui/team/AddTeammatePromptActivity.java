@@ -44,15 +44,28 @@ public class AddTeammatePromptActivity extends AppCompatActivity {
                         UserID myID = appdata.getLocalUserID();
                         TeamID myTeam = appdata.getUsersTeamID(myID);
                         TeamID otherTeam = appdata.getUsersTeamID(otherID);
-                        if(myTeam == null && otherTeam != null){
-                            displayMessage("User Already have Team!", v);
+                        if(myID.equals(otherID)){
+                            displayMessage("Don't invite yourself!", v);
                         }
-                        if((myTeam != null) && (otherTeam != null) && !(myTeam.toString().equals(otherTeam.toString()))){
-                            displayMessage("User Already have Team!", v);
+                        if(myTeam == null && otherTeam != null){
+                            displayMessage("User already have team!", v);
+                        }
+                        if((myTeam != null) && (otherTeam != null)){
+                            if(!(myTeam.toString().equals(otherTeam.toString()))) {
+                                displayMessage("User already have team!", v);
+                            }else{
+                                displayMessage("User already in your team!", v);
+                            }
                         }
                         //If I don't have team and other don't have team, set id to my team and add
-                        if(myTeam == null && otherTeam == null){
+                        if(myTeam == null && otherTeam == null && !myID.equals(otherID)){
                             myTeam = new TeamID(appdata.getLocalUserID().toString());
+                            appdata.getUserData(myID).setTeamID(myTeam);
+                            appdata.inviteUserToTeam(otherID, myTeam);
+                            setAnimation(sendInvite);
+                            findViewById(R.id.prompt).setVisibility(View.GONE);
+                            displayMessage("Invited " + email + "!", v);
+                            finish();
                         }
                         if(myTeam != null && otherTeam == null) {
                             appdata.inviteUserToTeam(new UserID(email), myTeam);

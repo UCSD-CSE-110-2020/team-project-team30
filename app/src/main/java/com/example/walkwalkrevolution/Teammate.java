@@ -6,11 +6,15 @@ public class Teammate {
     private String iconInitials;
     private String email;
 
+    private int color;
+
     //only firstName required, can pass in empty string for lastName
-    public Teammate(String firstName, String lastName){
+    public Teammate(String firstName, String lastName, int color){
         this.firstName = firstName;
         this.lastName = lastName;
         createIconInitials();
+
+        this.color = color;
     }
 
     public String getFirstName() {
@@ -39,5 +43,9 @@ public class Teammate {
 
     public String getFullName(){
         return firstName + " " + lastName;
+    }
+
+    public int getColor() {
+        return color;
     }
 }

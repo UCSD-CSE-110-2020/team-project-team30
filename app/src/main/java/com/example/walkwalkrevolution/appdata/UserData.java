@@ -1,5 +1,7 @@
 package com.example.walkwalkrevolution.appdata;
 
+import android.graphics.Color;
+
 import com.example.walkwalkrevolution.Route;
 
 import java.util.ArrayList;
@@ -20,11 +22,13 @@ public class UserData {
     public static String KEY_TEAMID     = "team_id";
     public static String KEY_TEAM_INV   = "team_invite";
     public static String KEY_ROUTES     = "routes";
+    public static String KEY_COLOR      = "color";
 
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private int color;
 
     private UserID userID;
 
@@ -47,6 +51,8 @@ public class UserData {
 
         this.teamID = null;
         this.pendingTeamInvite = null;
+
+        this.color = Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
     }
 
     public UserData() {
@@ -67,7 +73,9 @@ public class UserData {
         userData.setTeamID(teamID == null ? null : new TeamID(teamID));
 
         String pendInv = (String) data.get(KEY_TEAM_INV);
-        userData.setPendingTeamInvite(pendInv == null ? null : new TeamID(pendInv));
+        userData.pendingTeamInvite = (pendInv == null ? null : new TeamID(pendInv));
+
+        userData.color = ((Long) data.get(KEY_COLOR)).intValue();
 
         return userData;
     }
@@ -120,10 +128,6 @@ public class UserData {
         this.teamID = teamID;
     }
 
-    public void setPendingTeamInvite(TeamID pendingTeamInvite) {
-        this.pendingTeamInvite = pendingTeamInvite;
-    }
-
     public void setRoutes(List<Route> routes) {
         this.routes = routes;
     }
@@ -146,11 +150,16 @@ public class UserData {
         firebaseDocData.put(KEY_TEAMID, this.teamID == null ? null : this.teamID.toString());
         firebaseDocData.put(KEY_TEAM_INV, this.pendingTeamInvite);
         firebaseDocData.put(KEY_ROUTES, this.routes);
+        firebaseDocData.put(KEY_COLOR, this.color);
 
         return firebaseDocData;
     }
 
     public TeamID getTeamInvite() {
         return pendingTeamInvite;
+    }
+
+    public int getColor() {
+        return color;
     }
 }

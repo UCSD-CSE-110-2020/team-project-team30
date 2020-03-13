@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,7 +60,7 @@ public class TeammatesExistBDDTest1 {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("height", "65");
         editor.apply();
-        MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu"), "Zhu@gmail.com");
+        MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu", Color.LTGRAY), "Zhu@gmail.com");
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {

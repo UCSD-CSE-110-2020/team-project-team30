@@ -13,6 +13,7 @@ import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
 import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
+import com.example.walkwalkrevolution.ui.team.TeamFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 

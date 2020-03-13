@@ -60,6 +60,10 @@ public class TeammateAdapter extends ArrayAdapter {
         final Button addNewTeammateButton = (Button) listItem.findViewById(R.id.button_add_new_teammate);
         addNewTeammateButton.setVisibility(View.GONE);
 
+        listItem.findViewById(R.id.btn_login).setVisibility(View.GONE);
+        listItem.findViewById(R.id.btn_initFirebase).setVisibility(View.GONE);
+        listItem.findViewById(R.id.btn_runTests).setVisibility(View.GONE);
+
         listItem.setPadding(20, 20, 20, 20);
         listItem.setOnClickListener(new View.OnClickListener(){
             @Override

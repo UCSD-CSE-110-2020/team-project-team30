@@ -72,8 +72,6 @@ public class TeammateAdapter extends ArrayAdapter {
                 //launchActivity(currentRoute.getName());
             }
         });
-
-
         return listItem;
     }
 }

@@ -1,8 +1,6 @@
 package com.example.walkwalkrevolution.ui.WalkPlan;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,11 +19,9 @@ import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.TeamID;
-import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
 import com.example.walkwalkrevolution.appdata.WalkPlan;
 import com.example.walkwalkrevolution.appdata.WalkRSVPStatus;
-import com.example.walkwalkrevolution.ui.WalkPlan.WalkPlanViewModel;
 
 import java.util.Map;
 
@@ -64,7 +60,7 @@ public class WalkPlanFragment extends Fragment {
 
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
 
-        UserID thisUser = new UserID(appdata.getLocalUserEmail());
+        UserID thisUser = appdata.getLocalUserID();
         if(appdata.getUsersTeamID(thisUser) != null) {
             teamID = new TeamID(appdata.getUsersTeamID(thisUser).toString());
             walkPlan = appdata.getWalkPlanData(teamID);
@@ -78,7 +74,7 @@ public class WalkPlanFragment extends Fragment {
                 planName.setTextColor(Color.RED);
             }
             //Indicate if the user is proposer of the walkplan
-            boolean isProposer = appdata.getLocalUserEmail().equals(walkPlan.getOrganizer().toString());
+            boolean isProposer = appdata.getLocalUserID().equals(walkPlan.getOrganizer());
             if(!isProposer){
                 schedule.setVisibility(View.GONE);
                 withdraw.setVisibility(View.GONE);

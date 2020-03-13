@@ -16,11 +16,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.walkwalkrevolution.Login;
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
 import com.example.walkwalkrevolution.appdata.MockInteractor;
 import com.example.walkwalkrevolution.appdata.TeamID;
 import com.example.walkwalkrevolution.appdata.UserData;
@@ -62,8 +64,15 @@ public class TeamFragment extends Fragment {
   */
 
 
-        ApplicationStateInteractor firebase = new MockInteractor();
-        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getLocalUserEmail()));
+        ApplicationStateInteractor firebase = MainActivity.getAppDataInteractor();
+        List<UserID> teammateIDList = firebase.getTeamMemberIDs(firebase.getLocalUserID());
+        List<Teammate> teammatesList = new ArrayList<Teammate>();
+        for(UserID userID : teammateIDList ) {
+            UserData userData = firebase.getUserData(userID);
+            Teammate teammate = new Teammate(userData.getFirstName(), userData.getLastName());
+            teammatesList.add(teammate);
+        }
+
 
         /*
         for (Route r : routeList)
@@ -93,13 +102,14 @@ public class TeamFragment extends Fragment {
 
         //If user get invited and it's not already in a team, prompt
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
-        UserID thisID = new UserID(appdata.getLocalUserEmail());
+        UserID thisID = appdata.getLocalUserID();
         if(appdata.getUserTeamInviteStatus(thisID) != null && !appdata.getIsUserInAnyTeam(thisID)){
             launchJoinTeamActivity();
         }
 
         root.findViewById(R.id.btn_initFirebase).setOnClickListener(v -> initFirebaseData(v));
         root.findViewById(R.id.btn_runTests).setOnClickListener(v -> performFirebaseTests(v));
+        root.findViewById(R.id.btn_login).setOnClickListener(v -> startActivity(new Intent(getActivity(), Login.class)));
     }
 
     public void launchPromptActivity(){
@@ -119,26 +129,31 @@ public class TeamFragment extends Fragment {
         UserData ariannaUser = new UserData("amartinez@gmail.com", "notAdmin", "Arianna", "Martinez");
         UserData userEllen   = new UserData("eanderson@gmail.com", "notAdmin", "Ellen", "Anderson");
         UserData userDeondre = new UserData("dwilliams@gmail.com", "notAdmin", "Deondre", "Williams");
+        UserData userSara = new UserData("ssmith@gmail.com", "notAdmin", "Sara", "Smith");
         UserData userJiayi = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
 
         UserID ariannaID = ariannaUser.getUserID();
         UserID ellenID  = userEllen.getUserID();
         UserID deonID   =  userDeondre.getUserID();
+        UserID saraID   =  userSara.getUserID();
         UserID jiayiID = userJiayi.getUserID();
 
         TeamID teamID = new TeamID(ariannaID.toString());
         appdata.addUserToDatabase(ariannaID, ariannaUser);
         appdata.addUserToDatabase(ellenID, userEllen);
         appdata.addUserToDatabase(deonID, userDeondre);
+        appdata.addUserToDatabase(saraID, userSara);
 
         appdata.addUserToTeam(ariannaID, teamID);
         appdata.addUserToTeam(ellenID, teamID);
         appdata.addUserToTeam(deonID, teamID);
+        appdata.addUserToTeam(saraID, teamID);
         appdata.addUserToTeam(jiayiID, teamID);
 
         Route r1 = new Route("Pepper Canyon", "01/22/2020", "PCYNH");
         Route r2 = new Route("Gilman Drive", "01/25/2020", "Starbucks PC");
         Route r3 = new Route("Warren Dorms", "01/22/2020", "PCYNH");
+        Route r4 = new Route("Tecolote Canyon", "04/22/2020", "Appfolio");
 
         r3.setFeatureStreetTrail(2);
         r3.setFeatureFlatHilly(1);
@@ -150,11 +165,13 @@ public class TeamFragment extends Fragment {
 
         appdata.addUserRoute(ariannaID, r1);
         appdata.addUserRoute(deonID, r2);
-        appdata.addUserRoute(ariannaID, r3);
+        appdata.addUserRoute(ellenID, r3);
+        appdata.addUserRoute(saraID, r4);
 
         List<UserID> teamMembers = new ArrayList<>();
         teamMembers.add(deonID);
         teamMembers.add(ellenID);
+        teamMembers.add(saraID);
         teamMembers.add(jiayiID);
 
         WalkPlan walkPlan = new WalkPlan(r3, "04/01/2020", "16:20", ariannaID, teamID, teamMembers);
@@ -169,6 +186,7 @@ public class TeamFragment extends Fragment {
         UserID ariannaID = new UserID("amartinez@gmail.com");
         UserID ellenID   = new UserID("eanderson@gmail.com");
         UserID deonID    =  new UserID("dwilliams@gmail.com");
+        UserID saraID    =  new UserID("ssmith@gmail.com");
 
         UserID georgeID = new UserID("gtroulis@ucsd.edu");
 

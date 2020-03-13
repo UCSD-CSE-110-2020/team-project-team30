@@ -76,10 +76,10 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     }
 
     @Override
-    public String getLocalUserEmail() {
+    public UserID getLocalUserID() {
         SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
-
-        return prefs.getString("current_user_id", null);
+        String userIDStr = prefs.getString("current_user_id", null);
+        return userIDStr == null ? null : new UserID(userIDStr);
     }
 
     @Override
@@ -112,6 +112,11 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
         userDocument.set(newUserData)
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + userID.toString()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));;
+    }
+
+    @Override
+    public UserData getUserData(UserID userID) {
+        return localExistingUserMap.get(userID);
     }
 
     @Override
@@ -157,12 +162,17 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
         TeamID teamID = localExistingUserMap.get(userID).getTeamID();
 
+        // No teammates if user does not belong in a team
+        if (teamID == null) {
+            return teammates;
+        }
+
         for (UserID teammateUserID : localExistingUserMap.keySet()) {
             if (teammateUserID.equals(userID))
                 continue;
 
             UserData userData = localExistingUserMap.get(teammateUserID);
-            if (userData.getTeamID().equals(teamID))
+            if (teamID.equals(userData.getTeamID()))
                 teammates.add(teammateUserID);
         }
 

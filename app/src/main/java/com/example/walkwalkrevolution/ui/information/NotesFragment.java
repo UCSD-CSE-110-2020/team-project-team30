@@ -1,6 +1,8 @@
 package com.example.walkwalkrevolution.ui.information;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,6 +70,11 @@ public class NotesFragment extends Fragment {
         route.setFeatureDifficulty(featureDifficulty);
         route.setFavorite(favorite);
         route.setNotes(notes);
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(route.getName(), route.getIsFavorite());
+        editor.apply();
 
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
         appdata.addUserRoute(appdata.getLocalUserID(), route);

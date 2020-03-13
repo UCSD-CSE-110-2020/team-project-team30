@@ -2,6 +2,7 @@ package com.example.walkwalkrevolution.ui.routes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,8 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.walkwalkrevolution.DescriptionActivity;
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,14 +61,26 @@ public class MyRouteAdapter extends ArrayAdapter {
         final Button addNewRouteButton = (Button) listItem.findViewById(R.id.button_add_new_route);
         addNewRouteButton.setVisibility(View.GONE);
 
-        //Favorite
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if(sharedPreferences.getBoolean(currentRoute.getName(), false)){
+            name.setTextColor(Color.RED);
+        }else{
+            name.setTextColor(Color.WHITE);
+        }
+
         name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(name.getCurrentTextColor() == Color.WHITE) {
+                    editor.putBoolean(currentRoute.getName(), true);
+                    editor.apply();
                     name.setTextColor(Color.RED);
                 }else{
+                    editor.putBoolean(currentRoute.getName(), false);
                     name.setTextColor(Color.WHITE);
+                    editor.apply();
                 }
             }
         });

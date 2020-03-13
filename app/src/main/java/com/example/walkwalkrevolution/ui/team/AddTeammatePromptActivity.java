@@ -61,6 +61,7 @@ public class AddTeammatePromptActivity extends AppCompatActivity {
                         if(myTeam == null && otherTeam == null && !myID.equals(otherID)){
                             myTeam = new TeamID(appdata.getLocalUserID().toString());
                             appdata.getUserData(myID).setTeamID(myTeam);
+                            appdata.addUserToTeam(myID, myTeam);
                             appdata.inviteUserToTeam(otherID, myTeam);
                             setAnimation(sendInvite);
                             findViewById(R.id.prompt).setVisibility(View.GONE);

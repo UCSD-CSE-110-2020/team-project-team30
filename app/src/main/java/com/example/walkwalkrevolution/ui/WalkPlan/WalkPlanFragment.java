@@ -52,6 +52,7 @@ public class WalkPlanFragment extends Fragment {
         TextView planName = root.findViewById(R.id.tv_plan_name);
         TextView planTime = root.findViewById(R.id.tv_plan_time);
         TextView planMember = root.findViewById(R.id.tv_plan_member);
+        TextView planResponse = root.findViewById(R.id.tv_respond_info);
         Button schedule = root.findViewById(R.id.btn_schedule);
         Button withdraw = root.findViewById(R.id.btn_withdraw);
         Button accept = root.findViewById(R.id.btn_in_acc);
@@ -89,6 +90,8 @@ public class WalkPlanFragment extends Fragment {
             int num = getNum(appdata, teamID);
             int totalnum = getTotalNum(appdata, teamID);
             planMember.setText(num + "/" +totalnum);
+            String response = getResponses(appdata, teamID);
+            planResponse.setText(response);
 
             //Go to Google Maps
             planName.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +163,7 @@ public class WalkPlanFragment extends Fragment {
             planName.setVisibility(View.GONE);
             planMember.setVisibility(View.GONE);
             planTime.setVisibility(View.GONE);
+            planResponse.setVisibility(View.GONE);
             schedule.setVisibility(View.GONE);
             withdraw.setVisibility(View.GONE);
             accept.setVisibility(View.GONE);
@@ -186,6 +190,28 @@ public class WalkPlanFragment extends Fragment {
             num++;
         }
         return num;
+    }
+
+    private String getResponses(ApplicationStateInteractor appdata, TeamID teamID){
+        String pending = "";
+        String decline = "";
+        String going = "";
+        for(Map.Entry<UserID, WalkRSVPStatus> entry: appdata.getWalkPlanData(teamID).getAllMemberRSVPStatus().entrySet()){
+            String firstName = appdata.getUserData(entry.getKey()).getFirstName();
+            if(entry.getValue() == WalkRSVPStatus.PENDING){
+                pending += firstName + " ";
+            }
+            if(entry.getValue() == WalkRSVPStatus.GOING){
+                going += firstName + " ";
+            }
+            if(entry.getValue() == WalkRSVPStatus.BAD_ROUTE || entry.getValue() == WalkRSVPStatus.BAD_TIME){
+                decline += firstName + " ";
+            }
+        }
+
+        return pending + "is pending" + "\n"
+                + decline + "declined" + "\n"
+                + going + "is going" + "\n";
     }
 
 }

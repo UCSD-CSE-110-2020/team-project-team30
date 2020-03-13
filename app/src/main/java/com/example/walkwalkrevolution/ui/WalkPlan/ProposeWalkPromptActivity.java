@@ -40,7 +40,7 @@ public class ProposeWalkPromptActivity extends AppCompatActivity {
         calender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                date = "Date is : " + dayOfMonth +" / " + month + " / " + year;
+                date = dayOfMonth +" / " + month + " / " + year;
             }
         });
 

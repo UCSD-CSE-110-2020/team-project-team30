@@ -55,14 +55,6 @@ public class TeamFragment extends Fragment {
         Log.d("TeamFragment", "onActivityCreated called");
 
         ListView listView = (ListView) root.findViewById(R.id.teamListView);
-        //ROUTE STORAGE/FIREBASE IMPLEMENTATION HERE FOR LEADING TEAMMATES
-
-/*
-        MockInteractor.dummySetEmail("dummy@stupid.ude");
-        MockInteractor.dummyAddTeammates(new Teammate("Amy", "zhu"), "Amy@Zhu.com");
-        MockInteractor.dummyAddTeammates(new Teammate("Linda", "zhu"), "Linda@Zhu.com");
-  */
-
 
         ApplicationStateInteractor firebase = MainActivity.getAppDataInteractor();
         List<UserID> teammateIDList = firebase.getTeamMemberIDs(firebase.getLocalUserID());
@@ -72,21 +64,6 @@ public class TeamFragment extends Fragment {
             Teammate teammate = new Teammate(userData.getFirstName(), userData.getLastName(), userData.getColor());
             teammatesList.add(teammate);
         }
-
-
-        /*
-        for (Route r : routeList)
-            Log.d("MyRoutesFragment", String.format("Route in list: %s", r.toString()));
-        */
-/*
-        List<Teammate> teammatesList = new ArrayList<Teammate>();
-        Teammate me = new Teammate("Julian", "Alberto");
-        Teammate Celine = new Teammate("Celine", "Hernandez");
-        Teammate example = new Teammate("First", "Last");
-        teammatesList.add(me);
-        teammatesList.add(Celine);
-
-*/
 
         if (!teammatesList.isEmpty()) {
             root.findViewById(R.id.textView_no_teammates).setVisibility(View.INVISIBLE);

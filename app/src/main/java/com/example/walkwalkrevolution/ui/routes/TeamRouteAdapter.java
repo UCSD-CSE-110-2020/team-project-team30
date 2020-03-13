@@ -2,6 +2,7 @@ package com.example.walkwalkrevolution.ui.routes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -79,6 +80,33 @@ public class TeamRouteAdapter extends ArrayAdapter {
                 launchActivity(currentRoute.getName());
             }
         });
+
+        /* Favorite
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(currentRoute.getName(), false);
+        editor.apply();
+
+        if(sharedPreferences.getBoolean(currentRoute.getName(), false)){
+            name.setTextColor(Color.RED);
+        }else{
+            name.setTextColor(Color.WHITE);
+        }
+
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(name.getCurrentTextColor() == Color.WHITE) {
+                    editor.putBoolean(currentRoute.getName(), true);
+                    editor.apply();
+                    name.setTextColor(Color.RED);
+                }else{
+                    editor.putBoolean(currentRoute.getName(), false);
+                    name.setTextColor(Color.WHITE);
+                    editor.apply();
+                }
+            }
+        });*/
 
         return listItem;
     }

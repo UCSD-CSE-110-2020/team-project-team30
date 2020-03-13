@@ -15,7 +15,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.RouteStorage;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+//import com.example.walkwalkrevolution.RouteStorage;
 
 public class NotesFragment extends Fragment {
     private NotesViewModel notesViewModel;
@@ -67,7 +68,9 @@ public class NotesFragment extends Fragment {
         route.setFeatureDifficulty(featureDifficulty);
         route.setFavorite(favorite);
         route.setNotes(notes);
-        RouteStorage.addRoute(route);
+
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        appdata.addUserRoute(appdata.getLocalUserID(), route);
 
         Intent intent = new Intent(getActivity(), MainActivity.class);
         intent.putExtra("STRING_I_NEED", "PRESSED DONE");

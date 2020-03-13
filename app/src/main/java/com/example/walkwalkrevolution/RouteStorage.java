@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+/*
 public class RouteStorage {
     private static List<Route> routes;
     private static Context context;
@@ -70,7 +70,7 @@ public class RouteStorage {
         Collections.sort(routes, new RouteComparator());
         saveRoutesToPersistentStorage();
     }
-
+*/
     /**
      * Saves all the routes to SharedPreferences. Currently unused
      *
@@ -81,6 +81,8 @@ public class RouteStorage {
      *                      `routes' List.
      *  - Route_XX: The XXth route, where XX is the index of the route in the `routes' List.
      */
+
+/*
     public static void saveRoutesToPersistentStorage() {
         SharedPreferences routePrefs = context.getSharedPreferences("routeStorageInfo", Context.MODE_PRIVATE);
         SharedPreferences.Editor routePrefsEditor = routePrefs.edit();
@@ -102,3 +104,4 @@ public class RouteStorage {
         routePrefsEditor.apply();
     }
 }
+*/

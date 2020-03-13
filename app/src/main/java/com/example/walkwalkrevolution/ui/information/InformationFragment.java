@@ -22,7 +22,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.RouteStorage;
+//import com.example.walkwalkrevolution.RouteStorage;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.ui.home.HomeFragment;
 
 import java.text.DateFormat;
@@ -145,7 +146,8 @@ public class InformationFragment extends Fragment {
         else{
             // Create a basic route with no additional information
             Route route = new Route(routeName, dateStarted, startLoc);
-            RouteStorage.addRoute(route);
+            ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+            appdata.addUserRoute(appdata.getLocalUserID(), route);
             EditText newRouteNameEditText = root.findViewById(R.id.editText_route_name);
             String routeSavedMessage = newRouteNameEditText.getText().toString() + " saved";
             intent.putExtra("routeSaved", routeSavedMessage);

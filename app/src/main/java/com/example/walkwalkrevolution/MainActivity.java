@@ -74,10 +74,10 @@ public class MainActivity extends AppCompatActivity{
         } else {
             Log.d("MainActivity", "First time in MainActivity, initializing AppData");
 
-            RouteStorage.init(this.getApplicationContext());
+            ///RouteStorage.init(this.getApplicationContext());
 
             // This method is for testing only during development. Remove in production
-            addDefaultRoutesToRouteStorage();
+            ///addDefaultRoutesToRouteStorage();
 
             FirebaseApp.initializeApp(this);
             appdata = new FirebaseInteractor(this.getApplicationContext());
@@ -116,11 +116,13 @@ public class MainActivity extends AppCompatActivity{
      * This is called as a testing method to give some initial routes for testing purposes.
      * Remove manually when pushing to production
      */
+    /*
     private void addDefaultRoutesToRouteStorage() {
         Log.d("MainActivity", "Populating RouteStorage with default routes inside MainActivity onCreate");
         List<Route> routeList = RouteStorage.getRoutes();
 
         // Only initialize these if the list of routes is empty
+
         if (routeList.size() == 0) {
             Log.d("MainActivity", "Populating RouteStorage with default routes inside MainActivity onCreate");
 
@@ -132,7 +134,7 @@ public class MainActivity extends AppCompatActivity{
             RouteStorage.addRoute(route2);
             RouteStorage.addRoute(route3);
         }
-    }
+    }*/
 
 
     @Override

@@ -22,6 +22,7 @@ import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
 import com.example.walkwalkrevolution.appdata.MockInteractor;
 import com.example.walkwalkrevolution.appdata.TeamID;
 import com.example.walkwalkrevolution.appdata.UserData;
@@ -63,8 +64,15 @@ public class TeamFragment extends Fragment {
   */
 
 
-        ApplicationStateInteractor firebase = new MockInteractor();
-        List<Teammate> teammatesList = firebase.getTeammates(firebase.getLocalUserID());
+        ApplicationStateInteractor firebase = MainActivity.getAppDataInteractor();
+        List<UserID> teammateIDList = firebase.getTeamMemberIDs(firebase.getLocalUserID());
+        List<Teammate> teammatesList = new ArrayList<Teammate>();
+        for(UserID userID : teammateIDList ) {
+            UserData userData = firebase.getUserData(userID);
+            Teammate teammate = new Teammate(userData.getFirstName(), userData.getLastName());
+            teammatesList.add(teammate);
+        }
+
 
         /*
         for (Route r : routeList)

@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.walkwalkrevolution.Login;
 import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
@@ -100,6 +101,7 @@ public class TeamFragment extends Fragment {
 
         root.findViewById(R.id.btn_initFirebase).setOnClickListener(v -> initFirebaseData(v));
         root.findViewById(R.id.btn_runTests).setOnClickListener(v -> performFirebaseTests(v));
+        root.findViewById(R.id.btn_login).setOnClickListener(v -> startActivity(new Intent(getActivity(), Login.class)));
     }
 
     public void launchPromptActivity(){

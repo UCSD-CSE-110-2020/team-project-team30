@@ -69,7 +69,7 @@ public class TeamRouteAdapter extends ArrayAdapter {
         initialsTextView.setText(currentTeammate.getIconInitials());
         initialsTextView.setVisibility(View.VISIBLE);
         GradientDrawable tvBackground = (GradientDrawable) initialsTextView.getBackground();
-        tvBackground.setColor(Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
+        tvBackground.setColor(currentTeammate.getColor());
 
         listItem.setPadding(10, 0, 0, 0);
         listItem.setOnClickListener(new View.OnClickListener(){

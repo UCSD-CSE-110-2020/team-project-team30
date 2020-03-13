@@ -55,7 +55,7 @@ public class TeammateAdapter extends ArrayAdapter {
         initialsTextView.setText(currentTeammate.getIconInitials());
         initialsTextView.setVisibility(View.VISIBLE);
         GradientDrawable tvBackground = (GradientDrawable) initialsTextView.getBackground();
-        tvBackground.setColor(Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
+        tvBackground.setColor(currentTeammate.getColor());
 
         final Button addNewTeammateButton = (Button) listItem.findViewById(R.id.button_add_new_teammate);
         addNewTeammateButton.setVisibility(View.GONE);

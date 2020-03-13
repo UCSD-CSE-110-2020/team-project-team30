@@ -86,7 +86,7 @@ public class TeamRoutesFragment extends Fragment {
 
             String firstName = teammateData.getFirstName();
             String lastName = teammateData.getLastName();
-            Teammate teammateIcon = new Teammate(firstName, lastName);
+            Teammate teammateIcon = new Teammate(firstName, lastName, teammateData.getColor());
 
             List<Route> routes = appdata.getUserRoutes(teammateID);
 

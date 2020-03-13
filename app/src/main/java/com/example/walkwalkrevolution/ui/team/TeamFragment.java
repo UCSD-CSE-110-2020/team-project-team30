@@ -69,7 +69,7 @@ public class TeamFragment extends Fragment {
         List<Teammate> teammatesList = new ArrayList<Teammate>();
         for(UserID userID : teammateIDList ) {
             UserData userData = firebase.getUserData(userID);
-            Teammate teammate = new Teammate(userData.getFirstName(), userData.getLastName());
+            Teammate teammate = new Teammate(userData.getFirstName(), userData.getLastName(), userData.getColor());
             teammatesList.add(teammate);
         }
 
@@ -126,7 +126,7 @@ public class TeamFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void initFirebaseData(View v) {
+    public static void initFirebaseData(View v) {
         // TODO George's Testing Code, DONT PUSH or call in production
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
 

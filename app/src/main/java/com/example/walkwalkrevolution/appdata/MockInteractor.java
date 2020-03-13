@@ -22,8 +22,8 @@ public class MockInteractor implements  ApplicationStateInteractor{
 
     public static void dummySetEmail(String __email) {email = __email;}
     @Override
-    public String getLocalUserEmail() {
-        return email;
+    public UserID getLocalUserID() {
+        return new UserID(email);
     }
 
     @Override
@@ -39,6 +39,11 @@ public class MockInteractor implements  ApplicationStateInteractor{
     @Override
     public void addUserToDatabase(UserID id, UserData userData) {
 
+    }
+
+    @Override
+    public UserData getUserData(UserID userID) {
+        return null;
     }
 
     @Override

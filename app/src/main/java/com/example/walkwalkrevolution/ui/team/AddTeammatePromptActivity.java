@@ -3,7 +3,6 @@ package com.example.walkwalkrevolution.ui.team;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -40,7 +39,7 @@ public class AddTeammatePromptActivity extends AppCompatActivity {
                     }
                     else{
                         String email = gmailEditText.getText().toString();
-                        UserID myID = new UserID(appdata.getLocalUserEmail());
+                        UserID myID = appdata.getLocalUserID();
                         TeamID myTeam = appdata.getUsersTeamID(myID);
                         appdata.inviteUserToTeam(new UserID(email), myTeam);
                         setAnimation(sendInvite);

@@ -76,10 +76,10 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     }
 
     @Override
-    public String getLocalUserEmail() {
+    public UserID getLocalUserID() {
         SharedPreferences prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE);
-
-        return prefs.getString("current_user_id", null);
+        String userIDStr = prefs.getString("current_user_id", null);
+        return userIDStr == null ? null : new UserID(userIDStr);
     }
 
     @Override
@@ -113,6 +113,11 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
         userDocument.set(newUserData)
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + userID.toString()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));;
+    }
+
+    @Override
+    public UserData getUserData(UserID userID) {
+        return localExistingUserMap.get(userID);
     }
 
     @Override

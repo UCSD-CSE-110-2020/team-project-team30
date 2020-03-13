@@ -13,10 +13,7 @@ import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.TeamID;
-import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
-
-import java.time.Duration;
 
 public class JoinTeamPromptActivity extends AppCompatActivity {
 
@@ -32,7 +29,7 @@ public class JoinTeamPromptActivity extends AppCompatActivity {
         Button decInvite = findViewById(R.id.btn_dec_invite);
 
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
-        UserID thisID = new UserID(appdata.getLocalUserEmail());
+        UserID thisID = appdata.getLocalUserID();
         TeamID teamfromInvite = appdata.getUserTeamInviteStatus(thisID);
 
         accInvite.setOnClickListener(new View.OnClickListener() {

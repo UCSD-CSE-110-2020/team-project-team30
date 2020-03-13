@@ -63,7 +63,7 @@ public class TeamFragment extends Fragment {
 
 
         ApplicationStateInteractor firebase = new MockInteractor();
-        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getLocalUserEmail()));
+        List<Teammate> teammatesList = firebase.getTeammates(firebase.getLocalUserID());
 
         /*
         for (Route r : routeList)
@@ -93,7 +93,7 @@ public class TeamFragment extends Fragment {
 
         //If user get invited and it's not already in a team, prompt
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
-        UserID thisID = new UserID(appdata.getLocalUserEmail());
+        UserID thisID = appdata.getLocalUserID();
         if(appdata.getUserTeamInviteStatus(thisID) != null && !appdata.getIsUserInAnyTeam(thisID)){
             launchJoinTeamActivity();
         }

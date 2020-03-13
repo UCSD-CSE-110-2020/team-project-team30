@@ -14,6 +14,8 @@ import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
 import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
 
+import java.util.MissingFormatArgumentException;
+
 public class Register extends AppCompatActivity {
     EditText EMAIL, FIRST_NAME, LAST_NAME;
     Button register;
@@ -23,7 +25,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        loginFirebase = new FirebaseInteractor(getApplicationContext());
+        loginFirebase = MainActivity.getAppDataInteractor();
         EMAIL = findViewById(R.id.register_email);
         FIRST_NAME = findViewById(R.id.register_first_name);
         LAST_NAME = findViewById(R.id.register_last_name);

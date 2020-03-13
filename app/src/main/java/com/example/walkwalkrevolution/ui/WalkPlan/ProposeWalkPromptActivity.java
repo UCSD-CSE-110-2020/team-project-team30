@@ -10,6 +10,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,10 +64,14 @@ public class ProposeWalkPromptActivity extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                time = timeText.getText().toString();
-                Route selectedRoute = new Route(routeName, date,routeName);
-                WalkPlan newPlan = new WalkPlan(selectedRoute, date, time, proposer, teamID, appdata.getTeamMemberIDs(proposer));
-                MainActivity.getAppDataInteractor().addWalkPlan(newPlan);
+                if(!appdata.getWalkPlanExists(teamID)) {
+                    time = timeText.getText().toString();
+                    Route selectedRoute = new Route(routeName, date, routeName);
+                    WalkPlan newPlan = new WalkPlan(selectedRoute, date, time, proposer, teamID, appdata.getTeamMemberIDs(proposer));
+                    MainActivity.getAppDataInteractor().addWalkPlan(newPlan);
+                }else{
+                    Toast.makeText(getApplicationContext(), "There's already a planned Walk!", Toast.LENGTH_SHORT).show();
+                }
                 goToHome();
             }
         });

@@ -42,6 +42,9 @@ public class WalkPlanFragment extends Fragment {
 
     private WalkPlanViewModel walkPlanViewModel;
     private View root;
+    private TeamID teamID;
+    private boolean createdWalk;
+    private WalkPlan walkPlan;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState){
@@ -62,16 +65,20 @@ public class WalkPlanFragment extends Fragment {
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
 
         UserID thisUser = new UserID(appdata.getLocalUserEmail());
-        TeamID teamID = new TeamID(appdata.getUsersTeamID(thisUser).toString());
-        WalkPlan walkPlan = appdata.getWalkPlanData(teamID);
-        boolean createdWalk = appdata.getWalkPlanExists(teamID);
+        if(appdata.getUsersTeamID(thisUser) != null) {
+            teamID = new TeamID(appdata.getUsersTeamID(thisUser).toString());
+            walkPlan = appdata.getWalkPlanData(teamID);
+            createdWalk = appdata.getWalkPlanExists(teamID);
+        }else{
+            createdWalk = false;
+        }
         if(createdWalk){
             message.setVisibility(View.GONE);
             if(walkPlan.getScheduled()){
                 planName.setTextColor(Color.RED);
             }
             //Indicate if the user is proposer of the walkplan
-            boolean isProposer = appdata.getLocalUserEmail().equals(walkPlan.getOrganizer());
+            boolean isProposer = appdata.getLocalUserEmail().equals(walkPlan.getOrganizer().toString());
             if(!isProposer){
                 schedule.setVisibility(View.GONE);
                 withdraw.setVisibility(View.GONE);
@@ -84,7 +91,8 @@ public class WalkPlanFragment extends Fragment {
             planName.setText(walkPlan.getRouteData().getName().toString());
             planTime.setText(walkPlan.getDate() + " " + walkPlan.getTime());
             int num = getNum(appdata, teamID);
-            planMember.setText(num + "/5");
+            int totalnum = getTotalNum(appdata, teamID);
+            planMember.setText(num + "/" +totalnum);
 
             //Go to Google Maps
             planName.setOnClickListener(new View.OnClickListener() {
@@ -175,4 +183,13 @@ public class WalkPlanFragment extends Fragment {
         }
         return num;
     }
+
+    private int getTotalNum(ApplicationStateInteractor appdata, TeamID teamID) {
+        int num = 0;
+        for(Map.Entry<UserID, WalkRSVPStatus> entry: appdata.getWalkPlanData(teamID).getAllMemberRSVPStatus().entrySet()){
+            num++;
+        }
+        return num;
+    }
+
 }

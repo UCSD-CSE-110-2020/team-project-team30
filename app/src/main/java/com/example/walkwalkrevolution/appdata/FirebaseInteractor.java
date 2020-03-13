@@ -94,7 +94,6 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     @Override
     public boolean isUserEmailTaken(String email) {
         UserID userID = new UserID(email);
-
         return localExistingUserMap.containsKey(userID);
     }
 

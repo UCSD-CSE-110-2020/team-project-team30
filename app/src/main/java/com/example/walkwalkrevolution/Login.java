@@ -27,14 +27,11 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-
         loginEmail = findViewById(R.id.login_email);
         loginLogin = findViewById(R.id.login_login);
         loginCreate = findViewById(R.id.login_create);
 
-        FirebaseApp.initializeApp(this);
-        loginFirebase = new FirebaseInteractor(this.getApplicationContext());
+        loginFirebase = MainActivity.getAppDataInteractor();
 
         loginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +43,7 @@ public class Login extends AppCompatActivity {
                 }
                 else{
                     if(loginFirebase.isUserEmailTaken(email)){
-                        message = "Email is not correct.";
+                        message = "Logged in!";
                         loginFirebase.setLocalUserEmail(email);
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }

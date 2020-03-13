@@ -15,6 +15,7 @@ import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.TeamID;
 import com.example.walkwalkrevolution.appdata.UserID;
+import com.google.firebase.firestore.auth.User;
 
 public class AddTeammatePromptActivity extends AppCompatActivity {
 
@@ -40,13 +41,27 @@ public class AddTeammatePromptActivity extends AppCompatActivity {
                     }
                     else{
                         String email = gmailEditText.getText().toString();
+                        UserID otherID = new UserID(email);
                         UserID myID = new UserID(appdata.getLocalUserEmail());
                         TeamID myTeam = appdata.getUsersTeamID(myID);
-                        appdata.inviteUserToTeam(new UserID(email), myTeam);
-                        setAnimation(sendInvite);
-                        findViewById(R.id.prompt).setVisibility(View.GONE);
-                        displayMessage("Invited " + email + "!", v);
-                        finish();
+                        TeamID otherTeam = appdata.getUsersTeamID(otherID);
+                        if(myTeam == null && otherTeam != null){
+                            displayMessage("User Already have Team!", v);
+                        }
+                        if((myTeam != null) && (otherTeam != null) && !(myTeam.toString().equals(otherTeam.toString()))){
+                            displayMessage("User Already have Team!", v);
+                        }
+                        //If I don't have team and other don't have team, set id to my team and add
+                        if(myTeam == null && otherTeam == null){
+                            myTeam = new TeamID(appdata.getLocalUserEmail());
+                        }
+                        if(myTeam != null && otherTeam == null) {
+                            appdata.inviteUserToTeam(new UserID(email), myTeam);
+                            setAnimation(sendInvite);
+                            findViewById(R.id.prompt).setVisibility(View.GONE);
+                            displayMessage("Invited " + email + "!", v);
+                            finish();
+                        }
                     }
                 }
                 else{

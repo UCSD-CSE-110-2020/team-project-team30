@@ -88,6 +88,10 @@ public class TeamFragment extends Fragment {
 
 */
 
+        if (!teammatesList.isEmpty()) {
+            root.findViewById(R.id.textView_no_teammates).setVisibility(View.INVISIBLE);
+        }
+
         ArrayAdapter myAdapter = new TeammateAdapter(root.getContext(), teammatesList);
         listView.setAdapter(myAdapter);
 

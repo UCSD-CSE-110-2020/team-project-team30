@@ -163,12 +163,17 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
         TeamID teamID = localExistingUserMap.get(userID).getTeamID();
 
+        // No teammates if user does not belong in a team
+        if (teamID == null) {
+            return teammates;
+        }
+
         for (UserID teammateUserID : localExistingUserMap.keySet()) {
             if (teammateUserID.equals(userID))
                 continue;
 
             UserData userData = localExistingUserMap.get(teammateUserID);
-            if (userData.getTeamID().equals(teamID))
+            if (teamID.equals(userData.getTeamID()))
                 teammates.add(teammateUserID);
         }
 

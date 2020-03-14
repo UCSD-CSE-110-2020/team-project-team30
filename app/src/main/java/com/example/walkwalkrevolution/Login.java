@@ -23,18 +23,16 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-
         loginEmail = findViewById(R.id.login_email);
         loginLogin = findViewById(R.id.login_login);
         loginCreate = findViewById(R.id.login_create);
 
-        FirebaseApp.initializeApp(this);
-        loginFirebase = new FirebaseInteractor(this.getApplicationContext());
+        // Check is it in the test mode
+        if(MainActivity.testMode != 1){
+            loginFirebase = new FirebaseInteractor(this);
+        }
 
         loginLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,5 +62,11 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+//        FirebaseApp.clearInstancesForTest();
     }
 }

@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity{
     private static UserData thisUser;
     private static UserID thisID;
 
+    // This is for the test purpose 1 means test mode; 0 means regular mode
+    public static int testMode = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,11 +156,22 @@ public class MainActivity extends AppCompatActivity{
     }
 
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        FirebaseApp.clearInstancesForTest();
     }
 
+    // For test purpose
+    public static void changeTheTestMode(){
+        if(testMode == 1){
+            testMode = 0;
+        }
+        else{
+            testMode = 1;
+        }
+    }
     public static ApplicationStateInteractor getAppDataInteractor() {
         return appdata;
     }

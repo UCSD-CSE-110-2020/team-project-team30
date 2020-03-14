@@ -1,6 +1,24 @@
 package com.example.walkwalkrevolution;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class Route {
+
+    public static final String KEY_NAME = "name";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_START = "start";
+    public static final String KEY_FAV = "isFavorite";
+
+    public static final String KEY_FEAT_LOOP = "featureLoop";
+    public static final String KEY_FEAT_FLAT = "featureFlatHilly";
+    public static final String KEY_FEAT_STREET = "featureStreetTrail";
+    public static final String KEY_FEAT_EVEN = "featureEven";
+    public static final String KEY_FEAT_DIFF = "featureDifficulty";
+
+    public static final String KEY_NOTES = "notes";
+
     private String name;
     private String date;
     private String start;
@@ -28,6 +46,79 @@ public class Route {
         this.featureEven        = -1;
         this.featureDifficulty  = -1;
         this.notes = "";
+    }
+
+    public Route() {
+        this(null, null, null);
+    }
+
+    public static List<Route> deserializeListFromFirestore(List<Map<String, Object>> rawList) {
+        List<Route> routes = new ArrayList<>();
+
+        for (Map<String, Object> rawRouteData : rawList) {
+            Route r = deserializeFromFirestore(rawRouteData);
+
+            routes.add(r);
+        }
+
+        return routes;
+    }
+
+    public static List<Route> deserializeListFromFirestore2(List<Map<String, Object>> rawList) {
+        List<Route> routes = new ArrayList<>();
+
+        for (Map<String, Object> rawRouteData : rawList) {
+            Route r = deserializeFromFirestore2(rawRouteData);
+
+            routes.add(r);
+        }
+
+        return routes;
+    }
+
+
+    public static Route deserializeFromFirestore(Map<String, Object> rawRouteData) {
+
+        String name  = (String) rawRouteData.get(KEY_NAME);
+        String date  = (String) rawRouteData.get(KEY_DATE);
+        String start = (String) rawRouteData.get(KEY_START);
+
+        String notes = (String) rawRouteData.get(KEY_NOTES);
+        boolean fav = (boolean) rawRouteData.get(KEY_FAV);
+
+        Route route = new Route(name, date, start);
+        route.setNotes(notes);
+        route.setFavorite(fav);
+
+        route.setFeatureDifficulty(((Long) rawRouteData.get(KEY_FEAT_DIFF)).intValue());
+        route.setFeatureEven(((Long) rawRouteData.get(KEY_FEAT_EVEN)).intValue());
+        route.setFeatureLoop(((Long) rawRouteData.get(KEY_FEAT_LOOP)).intValue());
+        route.setFeatureFlatHilly(((Long) rawRouteData.get(KEY_FEAT_FLAT)).intValue());
+        route.setFeatureStreetTrail(((Long) rawRouteData.get(KEY_FEAT_STREET)).intValue());
+
+        return route;
+    }
+
+    public static Route deserializeFromFirestore2(Map<String, Object> rawRouteData) {
+
+        String name  = (String) rawRouteData.get(KEY_NAME);
+        String date  = (String) rawRouteData.get(KEY_DATE);
+        String start = (String) rawRouteData.get(KEY_START);
+
+        String notes = (String) rawRouteData.get(KEY_NOTES);
+        boolean fav = (boolean) rawRouteData.get(KEY_FAV);
+
+        Route route = new Route(name, date, start);
+        route.setNotes(notes);
+        route.setFavorite(fav);
+
+        route.setFeatureDifficulty(((Long) rawRouteData.get(KEY_FEAT_DIFF)).intValue());
+        route.setFeatureEven(((Long) rawRouteData.get(KEY_FEAT_EVEN)).intValue());
+        route.setFeatureLoop(((Long) rawRouteData.get(KEY_FEAT_LOOP)).intValue());
+        route.setFeatureFlatHilly(((Long) rawRouteData.get(KEY_FEAT_FLAT)).intValue());
+        route.setFeatureStreetTrail(((Long) rawRouteData.get(KEY_FEAT_STREET)).intValue());
+
+        return route;
     }
 
     public String getName() {
@@ -94,6 +185,18 @@ public class Route {
 
     public String getNotes() {
         return this.notes;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
     }
 
     public String toString(){

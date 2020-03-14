@@ -16,10 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
-import com.example.walkwalkrevolution.RouteStorage;
 import com.example.walkwalkrevolution.WalkInProgress;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.UserID;
 
 import java.util.List;
 
@@ -44,7 +46,9 @@ public class MyRoutesFragment extends Fragment {
         Log.d("MyRoutesFragment", "onActivityCreated called");
 
         ListView listView = (ListView) root.findViewById(R.id.routesListView);
-        List<Route> routeList = RouteStorage.getRoutes();
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        UserID localUserID = appdata.getLocalUserID();
+        List<Route> routeList = appdata.getUserRoutes(localUserID);
 
         for (Route r : routeList)
             Log.d("MyRoutesFragment", String.format("Route in list: %s", r.toString()));

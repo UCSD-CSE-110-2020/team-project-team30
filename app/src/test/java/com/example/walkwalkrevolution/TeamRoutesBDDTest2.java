@@ -3,6 +3,7 @@ package com.example.walkwalkrevolution;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,7 +47,7 @@ public class TeamRoutesBDDTest2 {
         editor.putString("height", "65");
         editor.apply();
         MockInteractor.dummySetEmail("myemail@gmail.com");
-        MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu"), "Zhu@gmail.com");
+        MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu", Color.LTGRAY), "Zhu@gmail.com");
         MockInteractor.dummyAddUserRoute(new UserID("Zhu@gmail.com"), new Route("Geisel", "01/01/2020", "gate"));
 
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);

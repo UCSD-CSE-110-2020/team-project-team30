@@ -2,6 +2,7 @@ package com.example.walkwalkrevolution.ui.routes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
@@ -20,9 +21,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
 
 import com.example.walkwalkrevolution.DescriptionActivity;
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +72,7 @@ public class TeamRouteAdapter extends ArrayAdapter {
         initialsTextView.setText(currentTeammate.getIconInitials());
         initialsTextView.setVisibility(View.VISIBLE);
         GradientDrawable tvBackground = (GradientDrawable) initialsTextView.getBackground();
-        tvBackground.setColor(Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
+        tvBackground.setColor(currentTeammate.getColor());
 
         listItem.setPadding(10, 0, 0, 0);
         listItem.setOnClickListener(new View.OnClickListener(){
@@ -79,6 +82,45 @@ public class TeamRouteAdapter extends ArrayAdapter {
                 launchActivity(currentRoute.getName());
             }
         });
+
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        List<Route> teamatesRoutesThatIFavor = appdata.getExtraFavRoutes(appdata.getLocalUserID());
+        for(Route route : teamatesRoutesThatIFavor) {
+            if(route.getName() == currentRoute.getName()) {
+                if (currentRoute.getIsFavorite()) {
+                    name.setTextColor(Color.RED);
+                } else {
+                    name.setTextColor(Color.WHITE);
+                }
+            }
+        }
+
+        /* Favorite
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(currentRoute.getName(), false);
+        editor.apply();
+
+        if(sharedPreferences.getBoolean(currentRoute.getName(), false)){
+            name.setTextColor(Color.RED);
+        }else{
+            name.setTextColor(Color.WHITE);
+        }
+
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(name.getCurrentTextColor() == Color.WHITE) {
+                    editor.putBoolean(currentRoute.getName(), true);
+                    editor.apply();
+                    name.setTextColor(Color.RED);
+                }else{
+                    editor.putBoolean(currentRoute.getName(), false);
+                    name.setTextColor(Color.WHITE);
+                    editor.apply();
+                }
+            }
+        });*/
 
         return listItem;
     }

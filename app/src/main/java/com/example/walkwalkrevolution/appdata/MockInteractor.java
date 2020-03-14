@@ -2,7 +2,6 @@ package com.example.walkwalkrevolution.appdata;
 
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
-import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,8 +22,13 @@ public class MockInteractor implements  ApplicationStateInteractor{
 
     public static void dummySetEmail(String __email) {email = __email;}
     @Override
-    public String getMyEmail() {
-        return email;
+    public UserID getLocalUserID() {
+        return new UserID(email);
+    }
+
+    @Override
+    public void setLocalUserEmail(String email) {
+
     }
 
     @Override
@@ -35,6 +39,11 @@ public class MockInteractor implements  ApplicationStateInteractor{
     @Override
     public void addUserToDatabase(UserID id, UserData userData) {
 
+    }
+
+    @Override
+    public UserData getUserData(UserID userID) {
+        return null;
     }
 
     @Override
@@ -67,7 +76,7 @@ public class MockInteractor implements  ApplicationStateInteractor{
         return null;
     }
 
-    @Override
+    //@Override
     public Teammate getTeammate(UserID userID) {
         return null;
     }
@@ -104,7 +113,7 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     @Override
-    public boolean getWalkPlanExists() {
+    public boolean getWalkPlanExists(TeamID teamID) {
         return false;
     }
 
@@ -114,24 +123,36 @@ public class MockInteractor implements  ApplicationStateInteractor{
     }
 
     @Override
-    public WalkPlan getWalkPlanData() {
+    public WalkPlan getWalkPlanData(TeamID teamID) {
         return null;
     }
 
     @Override
-    public void withdrawWalk() {
+    public void withdrawWalk(TeamID teamID) {
 
     }
 
     @Override
-    public void scheduleWalk() {
+    public void scheduleWalk(TeamID teamID) {
 
     }
 
     @Override
-    public void setWalkRSVP(UserID userID, String status) {
+    public void setWalkRSVP(UserID userID, WalkRSVPStatus status) {
 
     }
+
+
+    public void setRouteFavorite(UserID userID, Route route, Boolean favoriteStatus) {
+
+    }
+    public Boolean getRouteFavorite(UserID userID, Route route) {
+        return false;
+    }
+
+    public List<Route> getExtraFavRoutes(UserID userID) {return null;}
+    public void addExtraFavRoutes(UserID userID, Route route) {}
+
 
     public static String dummyGetTeammateEmail(String email){
         for(Teammate teammate: teammates){

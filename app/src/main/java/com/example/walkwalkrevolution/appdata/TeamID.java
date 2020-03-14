@@ -1,7 +1,7 @@
 package com.example.walkwalkrevolution.appdata;
 
-public class TeamID {
-    private String email;
+public class TeamID implements Comparable {
+    private final String email;
 
     public TeamID(String email) {
         this.email = email;
@@ -20,5 +20,10 @@ public class TeamID {
     @Override
     public String toString() {
         return this.email;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.toString().compareTo(((TeamID) o).toString());
     }
 }

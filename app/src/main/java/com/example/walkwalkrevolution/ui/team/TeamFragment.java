@@ -16,16 +16,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.walkwalkrevolution.Login;
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
+import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
+import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
 import com.example.walkwalkrevolution.appdata.MockInteractor;
+import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
+import com.example.walkwalkrevolution.appdata.WalkPlan;
+import com.example.walkwalkrevolution.appdata.WalkRSVPStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TeamFragment extends Fragment {
+    private static final String TAG = "TeamFragment";
     private String[] myStringArray;
     private TeamViewModel teamViewModel;
     private View root;
@@ -46,30 +55,19 @@ public class TeamFragment extends Fragment {
         Log.d("TeamFragment", "onActivityCreated called");
 
         ListView listView = (ListView) root.findViewById(R.id.teamListView);
-        //ROUTE STORAGE/FIREBASE IMPLEMENTATION HERE FOR LEADING TEAMMATES
 
-/*
-        MockInteractor.dummySetEmail("dummy@stupid.ude");
-        MockInteractor.dummyAddTeammates(new Teammate("Amy", "zhu"), "Amy@Zhu.com");
-        MockInteractor.dummyAddTeammates(new Teammate("Linda", "zhu"), "Linda@Zhu.com");
-  */
-
-
-        ApplicationStateInteractor firebase = new MockInteractor();
-        List<Teammate> teammatesList = firebase.getTeammates(new UserID(firebase.getMyEmail()));
-
-        /*
-        for (Route r : routeList)
-            Log.d("MyRoutesFragment", String.format("Route in list: %s", r.toString()));
-        */
-/*
+        ApplicationStateInteractor firebase = MainActivity.getAppDataInteractor();
+        List<UserID> teammateIDList = firebase.getTeamMemberIDs(firebase.getLocalUserID());
         List<Teammate> teammatesList = new ArrayList<Teammate>();
-        Teammate me = new Teammate("Julian", "Alberto");
-        Teammate Celine = new Teammate("Celine", "Hernandez");
-        Teammate example = new Teammate("First", "Last");
-        teammatesList.add(me);
-        teammatesList.add(Celine);
-*/
+        for(UserID userID : teammateIDList ) {
+            UserData userData = firebase.getUserData(userID);
+            Teammate teammate = new Teammate(userData.getFirstName(), userData.getLastName(), userData.getColor());
+            teammatesList.add(teammate);
+        }
+
+        if (!teammatesList.isEmpty()) {
+            root.findViewById(R.id.textView_no_teammates).setVisibility(View.INVISIBLE);
+        }
 
         ArrayAdapter myAdapter = new TeammateAdapter(root.getContext(), teammatesList);
         listView.setAdapter(myAdapter);
@@ -82,10 +80,113 @@ public class TeamFragment extends Fragment {
                 launchPromptActivity();
             }
         });
+
+        //If user get invited and it's not already in a team, prompt
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        UserID thisID = appdata.getLocalUserID();
+        if(appdata.getUserTeamInviteStatus(thisID) != null && !appdata.getIsUserInAnyTeam(thisID)){
+            launchJoinTeamActivity();
+        }
+
+        root.findViewById(R.id.btn_initFirebase).setOnClickListener(v -> initFirebaseData(v));
+        root.findViewById(R.id.btn_runTests).setOnClickListener(v -> performFirebaseTests(v));
+        root.findViewById(R.id.btn_login).setOnClickListener(v -> startActivity(new Intent(getActivity(), Login.class)));
     }
 
     public void launchPromptActivity(){
         Intent intent = new Intent(getActivity(), AddTeammatePromptActivity.class);
         startActivity(intent);
+    }
+
+    private void launchJoinTeamActivity(){
+        Intent intent = new Intent(getActivity(), JoinTeamPromptActivity.class);
+        startActivity(intent);
+    }
+
+    public static void initFirebaseData(View v) {
+        // TODO George's Testing Code, DONT PUSH or call in production
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+
+        UserData ariannaUser = new UserData("amartinez@gmail.com", "notAdmin", "Arianna", "Martinez");
+        UserData userEllen   = new UserData("eanderson@gmail.com", "notAdmin", "Ellen", "Anderson");
+        UserData userDeondre = new UserData("dwilliams@gmail.com", "notAdmin", "Deondre", "Williams");
+        UserData userSara = new UserData("ssmith@gmail.com", "notAdmin", "Sara", "Smith");
+        UserData userJiayi = new UserData("jiz546@ucsd.edu", "sandiego", "Jiayi", "Zhang");
+
+        UserID ariannaID = ariannaUser.getUserID();
+        UserID ellenID  = userEllen.getUserID();
+        UserID deonID   =  userDeondre.getUserID();
+        UserID saraID   =  userSara.getUserID();
+        UserID jiayiID = userJiayi.getUserID();
+
+        TeamID teamID = new TeamID(ariannaID.toString());
+        appdata.addUserToDatabase(ariannaID, ariannaUser);
+        appdata.addUserToDatabase(ellenID, userEllen);
+        appdata.addUserToDatabase(deonID, userDeondre);
+        appdata.addUserToDatabase(saraID, userSara);
+
+        appdata.addUserToTeam(ariannaID, teamID);
+        appdata.addUserToTeam(ellenID, teamID);
+        appdata.addUserToTeam(deonID, teamID);
+        appdata.addUserToTeam(saraID, teamID);
+        appdata.addUserToTeam(jiayiID, teamID);
+
+        Route r1 = new Route("Pepper Canyon", "01/22/2020", "PCYNH");
+        Route r2 = new Route("Gilman Drive", "01/25/2020", "Starbucks PC");
+        Route r3 = new Route("Warren Dorms", "01/22/2020", "PCYNH");
+        Route r4 = new Route("Tecolote Canyon", "04/22/2020", "Appfolio");
+
+        r3.setFeatureStreetTrail(2);
+        r3.setFeatureFlatHilly(1);
+        r3.setFeatureEven(2);
+        r3.setFeatureDifficulty(3);
+        r3.setFeatureLoop(1);
+        r3.setNotes("Very scenic, great canyon view, dorms look nice");
+        r3.setFavorite(true);
+
+        appdata.addUserRoute(ariannaID, r1);
+        appdata.addUserRoute(deonID, r2);
+        appdata.addUserRoute(ellenID, r3);
+        appdata.addUserRoute(saraID, r4);
+
+        appdata.addExtraFavRoutes(saraID, r1);
+
+        List<UserID> teamMembers = new ArrayList<>();
+        teamMembers.add(deonID);
+        teamMembers.add(ellenID);
+        teamMembers.add(saraID);
+        teamMembers.add(jiayiID);
+
+        WalkPlan walkPlan = new WalkPlan(r3, "04/01/2020", "16:20", ariannaID, teamID, teamMembers);
+        appdata.addWalkPlan(walkPlan);
+    }
+
+    private void performFirebaseTests(View v) {
+
+        // TODO George's Testing Code, DONT PUSH or call in production
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+
+        UserID ariannaID = new UserID("amartinez@gmail.com");
+        UserID ellenID   = new UserID("eanderson@gmail.com");
+        UserID deonID    =  new UserID("dwilliams@gmail.com");
+        UserID saraID    =  new UserID("ssmith@gmail.com");
+
+        UserID georgeID = new UserID("gtroulis@ucsd.edu");
+
+        TeamID teamID = new TeamID(ariannaID.toString());
+
+        //appdata.withdrawWalk(teamID);
+
+        if (appdata.isUserEmailTaken(ariannaID.toString())) {
+            Log.d(TAG, String.format("User %s exists!", ariannaID));
+
+            Log.d(TAG, "Routes of Arianna:");
+            for (Route r : appdata.getUserRoutes(ariannaID)) {
+                Log.d(TAG, r.toString());
+            }
+
+            appdata.setWalkRSVP(ellenID, WalkRSVPStatus.BAD_ROUTE);
+            appdata.setWalkRSVP(deonID, WalkRSVPStatus.BAD_TIME);
+        }
     }
 }

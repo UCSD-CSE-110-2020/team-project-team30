@@ -47,6 +47,8 @@ public class TeammatesExistBDDTest2 {
         editor.apply();
 
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
+
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
             mainActivity = activity;

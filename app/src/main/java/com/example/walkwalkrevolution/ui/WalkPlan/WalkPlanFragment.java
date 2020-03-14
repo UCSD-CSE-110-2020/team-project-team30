@@ -216,20 +216,6 @@ public class WalkPlanFragment extends Fragment {
             }
         }
 
-        /*
-        for(Map.Entry<UserID, WalkRSVPStatus> entry: appdata.getWalkPlanData(teamID).getAllMemberRSVPStatus().entrySet()){
-            String firstName = appdata.getUserData(entry.getKey()).getFirstName();
-            if(entry.getValue() == WalkRSVPStatus.PENDING){
-                pending += firstName + " ";
-            }
-            if(entry.getValue() == WalkRSVPStatus.GOING){
-                going += firstName + " ";
-            }
-            if(entry.getValue() == WalkRSVPStatus.BAD_ROUTE || entry.getValue() == WalkRSVPStatus.BAD_TIME){
-                decline += firstName + " ";
-            }
-        }
-        */
 
         return pending + "is pending" + "\n"
                 + decline + "declined" + "\n"

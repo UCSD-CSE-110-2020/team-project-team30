@@ -11,9 +11,9 @@ import android.widget.Toast;
 
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.FirebaseInteractor;
+import com.example.walkwalkrevolution.appdata.MockInteractor;
 import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
-import com.example.walkwalkrevolution.ui.team.TeamFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 
@@ -23,10 +23,14 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.util.List;
+import java.security.InvalidParameterException;
 
 
 public class MainActivity extends AppCompatActivity{
+
+    public static final String INTENT_KEY_FIREBASE_INTERACTOR = "INTERACTOR_TYPE";
+    public static final String INTENT_USE_FIREBASE_INTERACTOR = "USE_FIREBASE_INTERACTOR";
+    public static final String INTENT_USE_MOCK_INTERACTOR = "USE_MOCK_INTERACTOR";
 
     private static ApplicationStateInteractor appdata;
     private static UserData thisUser;
@@ -57,12 +61,15 @@ public class MainActivity extends AppCompatActivity{
 
         //checking if was switched to from pressing "done"
         String stringFromPrevActivity;
+        String useFirebaseInteractor = null;
+
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
                 stringFromPrevActivity = null;
             } else {
                 stringFromPrevActivity = extras.getString("routeSaved");
+                useFirebaseInteractor = extras.getString(INTENT_KEY_FIREBASE_INTERACTOR);
             }
         } else {
             stringFromPrevActivity = (String) savedInstanceState.getSerializable("routeSaved");
@@ -75,7 +82,16 @@ public class MainActivity extends AppCompatActivity{
             Log.d("MainActivity", "First time in MainActivity, initializing AppData");
 
             FirebaseApp.initializeApp(this);
-            appdata = new FirebaseInteractor(this.getApplicationContext());
+
+            if (useFirebaseInteractor == null || useFirebaseInteractor.equals(INTENT_USE_FIREBASE_INTERACTOR)) {
+                appdata = new FirebaseInteractor(this.getApplicationContext());
+
+            } else if (useFirebaseInteractor.equals(INTENT_USE_MOCK_INTERACTOR)) {
+                appdata = new MockInteractor();
+            }
+            else {
+                throw new InvalidParameterException("Invalid service key " + useFirebaseInteractor);
+            }
 
             // TODO When the user logs in, that's what should dictate the current_user_id field
             if (appdata.getLocalUserID() == null) {

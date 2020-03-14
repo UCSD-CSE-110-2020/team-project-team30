@@ -23,6 +23,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.walkwalkrevolution.Fitness.FitnessService;
 import com.example.walkwalkrevolution.Fitness.FitnessServiceFactory;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.MockInteractor;
 import com.example.walkwalkrevolution.ui.information.InformationFragment;
 import com.example.walkwalkrevolution.ui.team.TeamFragment;
@@ -52,6 +53,8 @@ public class TeammatesExistBDDTest1 {
     final String THEN = "Then I see the name Amy Zhu\n" +
                         "And a color coded icon is next to her name\n";
 
+    private ApplicationStateInteractor appdata;
+
     @Before
     public void setUp() {
         System.out.println(GIVEN);
@@ -60,9 +63,10 @@ public class TeammatesExistBDDTest1 {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("height", "65");
         editor.apply();
-        MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu", Color.LTGRAY), "Zhu@gmail.com");
+        //MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu", Color.LTGRAY), "Zhu@gmail.com");
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
         scenario.onActivity(activity -> {
             mainActivity = activity;
             mainActivity.findViewById(R.id.navigation_team).performClick(); //click "team" icon

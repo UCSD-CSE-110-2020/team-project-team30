@@ -1,5 +1,6 @@
 package com.example.walkwalkrevolution.appdata;
 
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.Route;
 
 import java.util.ArrayList;
@@ -75,8 +76,7 @@ public class WalkPlan {
     }
 
     public void setRSVPStatus(UserID userID, WalkRSVPStatus status) {
-        // TODO Grab reference to appdata from wherever it's instantiated
-        ApplicationStateInteractor appdata = null;
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
         this.memberRSVPStatus.put(userID, status);
     }
 
@@ -126,5 +126,9 @@ public class WalkPlan {
         documentData.put(KEY_RSVP_STATUS, rsvpStats);
 
         return documentData;
+    }
+
+    public void setScheduled() {
+        isScheduled = true;
     }
 }

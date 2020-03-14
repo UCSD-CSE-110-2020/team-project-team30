@@ -169,4 +169,12 @@ public class UserData {
     public int getColor() {
         return color;
     }
+
+    public void setTeamInvite(TeamID teamID) {
+        pendingTeamInvite = teamID;
+    }
+
+    public void addExtraFavoriteRoute(Route fav_route) {
+        extraFavoriteRoutes.add(fav_route);
+    }
 }

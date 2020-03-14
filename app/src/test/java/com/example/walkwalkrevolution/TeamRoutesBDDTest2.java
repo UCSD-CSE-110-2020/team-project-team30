@@ -46,9 +46,10 @@ public class TeamRoutesBDDTest2 {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("height", "65");
         editor.apply();
-        MockInteractor.dummySetEmail("myemail@gmail.com");
-        MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu", Color.LTGRAY), "Zhu@gmail.com");
-        MockInteractor.dummyAddUserRoute(new UserID("Zhu@gmail.com"), new Route("Geisel", "01/01/2020", "gate"));
+
+//        MockInteractor.dummySetEmail("myemail@gmail.com");
+//        MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu", Color.LTGRAY), "Zhu@gmail.com");
+//        MockInteractor.dummyAddUserRoute(new UserID("Zhu@gmail.com"), new Route("Geisel", "01/01/2020", "gate"));
 
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);

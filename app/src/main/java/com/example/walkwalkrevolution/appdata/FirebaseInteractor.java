@@ -200,7 +200,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
     public Boolean getRouteFavorite(UserID userID, Route route) {
         List<Route> routes = getUserRoutes(userID);
         for(Route __route : routes) {
-            if(__route.getName() == route.getName()) {
+            if(__route.getName().equals(route.getName())) {
                 return __route.getIsFavorite();
             }
         }

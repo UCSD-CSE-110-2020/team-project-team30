@@ -44,7 +44,9 @@ public class HomeFragmentTest {
     //Original State of the HomeFragment
     @Test
     public void testHome() {
-        try(ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+        intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
+        try(ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             scenario.moveToState(Lifecycle.State.CREATED);
             scenario.onActivity(activity -> {
                 TextView textSteps = activity.findViewById(R.id.text_Step);

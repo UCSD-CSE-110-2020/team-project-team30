@@ -39,7 +39,7 @@ public class TeamFragment extends Fragment {
     private TeamViewModel teamViewModel;
     private View root;
     boolean testing = true;
-    
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         teamViewModel =

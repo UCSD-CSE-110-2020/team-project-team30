@@ -58,22 +58,17 @@ public class InviteMemberBDDTest1{
     public void setUp() throws Exception {
 
         intent = new Intent(ApplicationProvider.getApplicationContext(), AddTeammatePromptActivity.class);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
         System.out.println(GIVEN);
     }
 
     @Test
-    public void success(){
+    public void testInviteMember(){
         ActivityScenario<AddTeammatePromptActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
-            TextView fn = activity.findViewById(R.id.editText_first_name);
-            TextView ln = activity.findViewById(R.id.editText_last_name);
             TextView gm = activity.findViewById(R.id.editText_gmail);
-            fn.setText("First Name");
-            ln.setText("Last Name");
             gm.setText("G mail");
             ImageView b = activity.findViewById(R.id.imageView_send);
-            b.performClick();
-            System.out.println(WHEN);
             assertThat(activity.checkAllRequiredInfo()).isTrue();
             System.out.println(THEN);
         });

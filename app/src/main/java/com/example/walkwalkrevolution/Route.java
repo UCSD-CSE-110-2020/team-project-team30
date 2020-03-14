@@ -86,28 +86,6 @@ public class Route {
         return route;
     }
 
-    public static Route deserializeFromFirestore2(Map<String, Object> rawRouteData) {
-
-        String name  = (String) rawRouteData.get(KEY_NAME);
-        String date  = (String) rawRouteData.get(KEY_DATE);
-        String start = (String) rawRouteData.get(KEY_START);
-
-        String notes = (String) rawRouteData.get(KEY_NOTES);
-        boolean fav = (boolean) rawRouteData.get(KEY_FAV);
-
-        Route route = new Route(name, date, start);
-        route.setNotes(notes);
-        route.setFavorite(fav);
-
-        route.setFeatureDifficulty(((Long) rawRouteData.get(KEY_FEAT_DIFF)).intValue());
-        route.setFeatureEven(((Long) rawRouteData.get(KEY_FEAT_EVEN)).intValue());
-        route.setFeatureLoop(((Long) rawRouteData.get(KEY_FEAT_LOOP)).intValue());
-        route.setFeatureFlatHilly(((Long) rawRouteData.get(KEY_FEAT_FLAT)).intValue());
-        route.setFeatureStreetTrail(((Long) rawRouteData.get(KEY_FEAT_STREET)).intValue());
-
-        return route;
-    }
-
     public String getName() {
         return name;
     }
@@ -191,5 +169,10 @@ public class Route {
                                name, date, start, (favorite ? "true" : "false")) +
                String.format("loop: %d, flatHilly: %d, streetTrail: %d, even: %d, difficulty: %d}",
                        featureLoop, featureFlatHilly, featureStreetTrail, featureEven, featureDifficulty);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o != null) && this.toString().equals(((Route) o).toString());
     }
 }

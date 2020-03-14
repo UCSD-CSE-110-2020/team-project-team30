@@ -76,7 +76,7 @@ public class MockInteractor implements  ApplicationStateInteractor{
         return null;
     }
 
-    @Override
+    //@Override
     public Teammate getTeammate(UserID userID) {
         return null;
     }
@@ -149,6 +149,9 @@ public class MockInteractor implements  ApplicationStateInteractor{
     public Boolean getRouteFavorite(UserID userID, Route route) {
         return false;
     }
+
+    public List<Route> getExtraFavRoutes(UserID userID) {return null;}
+    public void addExtraFavRoutes(UserID userID, Route route) {}
 
 
     public static String dummyGetTeammateEmail(String email){

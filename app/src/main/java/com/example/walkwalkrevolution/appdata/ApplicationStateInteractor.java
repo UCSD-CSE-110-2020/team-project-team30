@@ -20,11 +20,13 @@ public interface ApplicationStateInteractor {
     void addUserToTeam(UserID userID, TeamID teamID);
 
     List<UserID> getTeamMemberIDs(UserID userID);
-    Teammate getTeammate(UserID userID);
-    List<Teammate> getTeammates(UserID userID);
+  //  Teammate getTeammate(UserID userID);
+  //  List<Teammate> getTeammates(UserID userID);
     TeamID getUsersTeamID(UserID userID);
     List<Route> getUserRoutes(UserID userID);
     void addUserRoute(UserID userID, Route route);
+    List<Route> getExtraFavRoutes(UserID userID);
+    void addExtraFavRoutes(UserID userID, Route route);
 
     void setRouteFavorite(UserID userID, Route route, Boolean favoriteStatus);
     Boolean getRouteFavorite(UserID userID, Route route);

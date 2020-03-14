@@ -64,7 +64,42 @@ public class Route {
         return routes;
     }
 
+    public static List<Route> deserializeListFromFirestore2(List<Map<String, Object>> rawList) {
+        List<Route> routes = new ArrayList<>();
+
+        for (Map<String, Object> rawRouteData : rawList) {
+            Route r = deserializeFromFirestore2(rawRouteData);
+
+            routes.add(r);
+        }
+
+        return routes;
+    }
+
+
     public static Route deserializeFromFirestore(Map<String, Object> rawRouteData) {
+
+        String name  = (String) rawRouteData.get(KEY_NAME);
+        String date  = (String) rawRouteData.get(KEY_DATE);
+        String start = (String) rawRouteData.get(KEY_START);
+
+        String notes = (String) rawRouteData.get(KEY_NOTES);
+        boolean fav = (boolean) rawRouteData.get(KEY_FAV);
+
+        Route route = new Route(name, date, start);
+        route.setNotes(notes);
+        route.setFavorite(fav);
+
+        route.setFeatureDifficulty(((Long) rawRouteData.get(KEY_FEAT_DIFF)).intValue());
+        route.setFeatureEven(((Long) rawRouteData.get(KEY_FEAT_EVEN)).intValue());
+        route.setFeatureLoop(((Long) rawRouteData.get(KEY_FEAT_LOOP)).intValue());
+        route.setFeatureFlatHilly(((Long) rawRouteData.get(KEY_FEAT_FLAT)).intValue());
+        route.setFeatureStreetTrail(((Long) rawRouteData.get(KEY_FEAT_STREET)).intValue());
+
+        return route;
+    }
+
+    public static Route deserializeFromFirestore2(Map<String, Object> rawRouteData) {
 
         String name  = (String) rawRouteData.get(KEY_NAME);
         String date  = (String) rawRouteData.get(KEY_DATE);

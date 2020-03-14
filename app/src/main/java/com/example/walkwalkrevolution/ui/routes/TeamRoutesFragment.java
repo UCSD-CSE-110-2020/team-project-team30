@@ -78,7 +78,6 @@ public class TeamRoutesFragment extends Fragment {
         ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
         UserID localUserID = appdata.getLocalUserID();
 
-        //List<Teammate> teammatesList = appdata.getTeammates(appdata.getLocalUserID());
         List<UserID> teammateIDs = appdata.getTeamMemberIDs(localUserID);
 
         //Log.d("000", String.valueOf(teammatesList.size()));

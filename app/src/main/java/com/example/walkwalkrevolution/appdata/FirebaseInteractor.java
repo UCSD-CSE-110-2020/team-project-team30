@@ -36,6 +36,7 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
 
     private Map<TeamID, WalkPlan> localWalkPlanMap;
 
+
     public FirebaseInteractor(Context context) {
         firestore = FirebaseFirestore.getInstance();
         collection_users = firestore.collection("users");
@@ -207,15 +208,6 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
         return false;
     }
 
-    @Override
-    public Teammate getTeammate(UserID userID) {
-        return null;
-    }
-
-    @Override
-    public List<Teammate> getTeammates(UserID userID) {
-        return null;
-    }
 
 
     @Override
@@ -235,6 +227,18 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
                 .addOnSuccessListener(documentReference -> Log.d(TAG, "Added route " + route.getName()))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding route", e));
     }
+
+
+    public List<Route> getExtraFavRoutes(UserID userID) {
+        return (localExistingUserMap.get(userID)).getExtraFavoriteRoutes();
+    }
+    public void addExtraFavRoutes(UserID userID, Route fav_route) {
+        DocumentReference userDocument = collection_users.document(userID.toString());
+        userDocument.update(UserData.KEY_EXTRA_FAVORITE_ROUTES, FieldValue.arrayUnion(fav_route))
+                .addOnSuccessListener(documentReference -> Log.d(TAG, "Added extra route " + fav_route.getName()))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding route", e));
+    }
+
 
     @Override
     public boolean getWalkPlanExists(TeamID teamID) {

@@ -23,6 +23,7 @@ public class UserData {
     public static String KEY_TEAM_INV   = "team_invite";
     public static String KEY_ROUTES     = "routes";
     public static String KEY_COLOR      = "color";
+    public static String KEY_EXTRA_FAVORITE_ROUTES = "extra_favorite_routes";
 
     private String firstName;
     private String lastName;
@@ -39,6 +40,7 @@ public class UserData {
     private TeamID pendingTeamInvite;
 
     private List<Route> routes;
+    private List<Route> extraFavoriteRoutes;
 
     public UserData(String email, String password, String firstName, String lastName) {
         this.firstName = firstName;
@@ -48,6 +50,7 @@ public class UserData {
 
         this.userID = new UserID(email);
         this.routes = new ArrayList<Route>();
+        this.extraFavoriteRoutes = new ArrayList<Route>();
 
         this.teamID = null;
         this.pendingTeamInvite = null;
@@ -68,6 +71,8 @@ public class UserData {
 
         UserData userData = new UserData(email, password, firstName, lastName);
         userData.setRoutes(Route.deserializeListFromFirestore((List<Map<String, Object>>) data.get(KEY_ROUTES)));
+        //userData.setExtraFavoriteRoutes(Route.deserializeListFromFirestore2((List<Map<String, Object>>) data.get(KEY_EXTRA_FAVORITE_ROUTES)));
+
 
         String teamID = (String) data.get(KEY_TEAMID);
         userData.setTeamID(teamID == null ? null : new TeamID(teamID));
@@ -96,9 +101,9 @@ public class UserData {
         return userID;
     }
 
-    public List<Route> getRoutes() {
-        return routes;
-    }
+    public List<Route> getRoutes() { return routes; }
+
+    public List<Route> getExtraFavoriteRoutes() { return extraFavoriteRoutes;}
 
     public void addRoute(Route route) {
         routes.add(route);
@@ -132,6 +137,8 @@ public class UserData {
         this.routes = routes;
     }
 
+    public void setExtraFavoriteRoutes(List<Route> extraRoutes) {this.extraFavoriteRoutes = extraRoutes;}
+
     @Override
     public String toString() {
         return String.format("{%s %s}", this.firstName, this.lastName);
@@ -151,6 +158,7 @@ public class UserData {
         firebaseDocData.put(KEY_TEAM_INV, this.pendingTeamInvite);
         firebaseDocData.put(KEY_ROUTES, this.routes);
         firebaseDocData.put(KEY_COLOR, this.color);
+        firebaseDocData.put(KEY_EXTRA_FAVORITE_ROUTES, this.extraFavoriteRoutes);
 
         return firebaseDocData;
     }

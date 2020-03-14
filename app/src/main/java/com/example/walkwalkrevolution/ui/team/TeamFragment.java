@@ -149,6 +149,8 @@ public class TeamFragment extends Fragment {
         appdata.addUserRoute(ellenID, r3);
         appdata.addUserRoute(saraID, r4);
 
+        appdata.addExtraFavRoutes(saraID, r1);
+
         List<UserID> teamMembers = new ArrayList<>();
         teamMembers.add(deonID);
         teamMembers.add(ellenID);

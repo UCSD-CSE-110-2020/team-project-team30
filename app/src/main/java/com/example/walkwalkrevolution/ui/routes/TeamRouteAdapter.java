@@ -21,9 +21,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
 
 import com.example.walkwalkrevolution.DescriptionActivity;
+import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.Route;
 import com.example.walkwalkrevolution.Teammate;
+import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +82,18 @@ public class TeamRouteAdapter extends ArrayAdapter {
                 launchActivity(currentRoute.getName());
             }
         });
+
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        List<Route> teamatesRoutesThatIFavor = appdata.getExtraFavRoutes(appdata.getLocalUserID());
+        for(Route route : teamatesRoutesThatIFavor) {
+            if(route.getName() == currentRoute.getName()) {
+                if (currentRoute.getIsFavorite()) {
+                    name.setTextColor(Color.RED);
+                } else {
+                    name.setTextColor(Color.WHITE);
+                }
+            }
+        }
 
         /* Favorite
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);

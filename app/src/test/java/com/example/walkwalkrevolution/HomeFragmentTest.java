@@ -65,7 +65,9 @@ public class HomeFragmentTest {
     //Testing the mock button
     @Test
     public void testMockButton() {
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+        intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             scenario.onActivity(activity -> {
                 Button mock = activity.findViewById(R.id.btn_goToMock);
                 Button mockStep = activity.findViewById(R.id.btn_mockStep);
@@ -83,7 +85,9 @@ public class HomeFragmentTest {
     //Test that if performing the click switch the activity
     @Test
     public void testStartWalk() {
-        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(MainActivity.class)) {
+        intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
+        try (ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent)) {
             scenario.onActivity(activity -> {
                 Button startWalk = activity.findViewById(R.id.btn_GoToWalk);
                 startWalk.performClick();

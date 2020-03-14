@@ -39,6 +39,8 @@ public class AcceptInvitationBDDTest2 {
 
     @Test
     public void seeVisibleButton(){
+        intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
         ActivityScenario<JoinTeamPromptActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
             accept = activity.findViewById(R.id.btn_acc_invite);
@@ -52,6 +54,8 @@ public class AcceptInvitationBDDTest2 {
 
     @Test
     public void clickDecline(){
+        intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
+        intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
         ActivityScenario<JoinTeamPromptActivity> scenario = ActivityScenario.launch(intent);
         scenario.onActivity(activity -> {
             Button decInvite = activity.findViewById(R.id.btn_dec_invite);

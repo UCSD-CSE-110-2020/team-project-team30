@@ -142,6 +142,15 @@ public class MockInteractor implements  ApplicationStateInteractor{
 
     }
 
+
+    public void setRouteFavorite(UserID userID, Route route, Boolean favoriteStatus) {
+
+    }
+    public Boolean getRouteFavorite(UserID userID, Route route) {
+        return false;
+    }
+
+
     public static String dummyGetTeammateEmail(String email){
         for(Teammate teammate: teammates){
             return teammate.getEmail();

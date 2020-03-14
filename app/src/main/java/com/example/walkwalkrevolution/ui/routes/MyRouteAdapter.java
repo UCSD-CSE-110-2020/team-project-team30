@@ -61,10 +61,13 @@ public class MyRouteAdapter extends ArrayAdapter {
         final Button addNewRouteButton = (Button) listItem.findViewById(R.id.button_add_new_route);
         addNewRouteButton.setVisibility(View.GONE);
 
+        /*
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+         */
 
-        if(sharedPreferences.getBoolean(currentRoute.getName(), false)){
+        ApplicationStateInteractor appdata = MainActivity.getAppDataInteractor();
+        if(appdata.getRouteFavorite(appdata.getLocalUserID(), currentRoute)) {
             name.setTextColor(Color.RED);
         }else{
             name.setTextColor(Color.WHITE);
@@ -74,13 +77,15 @@ public class MyRouteAdapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 if(name.getCurrentTextColor() == Color.WHITE) {
-                    editor.putBoolean(currentRoute.getName(), true);
-                    editor.apply();
+                    ///editor.putBoolean(currentRoute.getName(), true);
+                    ///editor.apply();
+                    appdata.setRouteFavorite(appdata.getLocalUserID(), currentRoute, true);
                     name.setTextColor(Color.RED);
                 }else{
-                    editor.putBoolean(currentRoute.getName(), false);
+                    ///editor.putBoolean(currentRoute.getName(), false);
+                    appdata.setRouteFavorite(appdata.getLocalUserID(), currentRoute, false);
                     name.setTextColor(Color.WHITE);
-                    editor.apply();
+                    ///editor.apply();
                 }
             }
         });

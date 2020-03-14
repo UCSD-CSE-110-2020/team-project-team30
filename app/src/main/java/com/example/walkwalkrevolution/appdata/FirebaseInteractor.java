@@ -179,6 +179,34 @@ public class FirebaseInteractor implements ApplicationStateInteractor {
         return teammates;
     }
 
+
+    public void setRouteFavorite(UserID userID, Route route, Boolean favoriteStatus) {
+
+        List<Route> routes = getUserRoutes(userID);
+        if(routes.size() == 0) {
+            Log.v(TAG, String.format("Route %s is not found for this user %s ", route, userID));
+            return;
+        }
+        DocumentReference userDocument = collection_users.document(userID.toString());
+        userDocument.update(UserData.KEY_ROUTES, FieldValue.arrayRemove(route));
+        route.setFavorite(favoriteStatus);
+        userDocument.update(UserData.KEY_ROUTES, FieldValue.arrayUnion(route))
+                .addOnSuccessListener(documentReference -> Log.d(TAG, String.format("set %s to be favorite", route)))
+                .addOnFailureListener(e -> Log.w(TAG, String.format("failed to set %s as favorite", route)));
+    }
+
+
+    public Boolean getRouteFavorite(UserID userID, Route route) {
+        List<Route> routes = getUserRoutes(userID);
+        for(Route __route : routes) {
+            if(__route.getName() == route.getName()) {
+                return __route.getIsFavorite();
+            }
+        }
+        Log.v(TAG, String.format("Route %s is not found for this user %s ", route, userID));
+        return false;
+    }
+
     @Override
     public Teammate getTeammate(UserID userID) {
         return null;

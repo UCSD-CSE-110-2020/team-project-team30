@@ -26,6 +26,9 @@ public interface ApplicationStateInteractor {
     List<Route> getUserRoutes(UserID userID);
     void addUserRoute(UserID userID, Route route);
 
+    void setRouteFavorite(UserID userID, Route route, Boolean favoriteStatus);
+    Boolean getRouteFavorite(UserID userID, Route route);
+
     boolean getWalkPlanExists(TeamID teamID);
     void addWalkPlan(WalkPlan walkPlan);
     WalkPlan getWalkPlanData(TeamID teamID);

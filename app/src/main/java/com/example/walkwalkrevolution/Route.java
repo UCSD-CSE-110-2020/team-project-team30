@@ -64,19 +64,6 @@ public class Route {
         return routes;
     }
 
-    public static List<Route> deserializeListFromFirestore2(List<Map<String, Object>> rawList) {
-        List<Route> routes = new ArrayList<>();
-
-        for (Map<String, Object> rawRouteData : rawList) {
-            Route r = deserializeFromFirestore2(rawRouteData);
-
-            routes.add(r);
-        }
-
-        return routes;
-    }
-
-
     public static Route deserializeFromFirestore(Map<String, Object> rawRouteData) {
 
         String name  = (String) rawRouteData.get(KEY_NAME);

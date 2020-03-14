@@ -124,6 +124,7 @@ public class TeamFragment extends Fragment {
         appdata.addUserToDatabase(ellenID, userEllen);
         appdata.addUserToDatabase(deonID, userDeondre);
         appdata.addUserToDatabase(saraID, userSara);
+        appdata.addUserToDatabase(jiayiID, userJiayi);
 
         appdata.addUserToTeam(ariannaID, teamID);
         appdata.addUserToTeam(ellenID, teamID);

@@ -71,8 +71,7 @@ public class UserData {
 
         UserData userData = new UserData(email, password, firstName, lastName);
         userData.setRoutes(Route.deserializeListFromFirestore((List<Map<String, Object>>) data.get(KEY_ROUTES)));
-        //userData.setExtraFavoriteRoutes(Route.deserializeListFromFirestore2((List<Map<String, Object>>) data.get(KEY_EXTRA_FAVORITE_ROUTES)));
-
+        userData.setExtraFavoriteRoutes(Route.deserializeListFromFirestore((List<Map<String, Object>>) data.get(KEY_EXTRA_FAVORITE_ROUTES)));
 
         String teamID = (String) data.get(KEY_TEAMID);
         userData.setTeamID(teamID == null ? null : new TeamID(teamID));

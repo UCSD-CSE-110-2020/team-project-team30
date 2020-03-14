@@ -19,6 +19,7 @@ import com.example.walkwalkrevolution.MainActivity;
 import com.example.walkwalkrevolution.R;
 import com.example.walkwalkrevolution.appdata.ApplicationStateInteractor;
 import com.example.walkwalkrevolution.appdata.TeamID;
+import com.example.walkwalkrevolution.appdata.UserData;
 import com.example.walkwalkrevolution.appdata.UserID;
 import com.example.walkwalkrevolution.appdata.WalkPlan;
 import com.example.walkwalkrevolution.appdata.WalkRSVPStatus;
@@ -196,6 +197,26 @@ public class WalkPlanFragment extends Fragment {
         String pending = "";
         String decline = "";
         String going = "";
+
+        Map<UserID, WalkRSVPStatus> allTeammateStatuses = appdata.getWalkPlanData(teamID).getAllMemberRSVPStatus();
+        for(UserID teammateID : allTeammateStatuses.keySet() ){
+
+            UserData teammateData = appdata.getUserData(teammateID);
+            String firstName = teammateData.getFirstName();
+            WalkRSVPStatus teammateStatus = allTeammateStatuses.get(teammateID);
+
+            if(teammateStatus == WalkRSVPStatus.PENDING){
+                pending += firstName + " ";
+            }
+            if(teammateStatus == WalkRSVPStatus.GOING){
+                going += firstName + " ";
+            }
+            if(teammateStatus == WalkRSVPStatus.BAD_ROUTE || teammateStatus == WalkRSVPStatus.BAD_TIME){
+                decline += firstName + " ";
+            }
+        }
+
+        /*
         for(Map.Entry<UserID, WalkRSVPStatus> entry: appdata.getWalkPlanData(teamID).getAllMemberRSVPStatus().entrySet()){
             String firstName = appdata.getUserData(entry.getKey()).getFirstName();
             if(entry.getValue() == WalkRSVPStatus.PENDING){
@@ -208,6 +229,7 @@ public class WalkPlanFragment extends Fragment {
                 decline += firstName + " ";
             }
         }
+        */
 
         return pending + "is pending" + "\n"
                 + decline + "declined" + "\n"

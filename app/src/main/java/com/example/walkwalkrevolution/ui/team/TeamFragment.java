@@ -38,7 +38,8 @@ public class TeamFragment extends Fragment {
     private String[] myStringArray;
     private TeamViewModel teamViewModel;
     private View root;
-
+    boolean testing = true;
+    
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         teamViewModel =
@@ -88,9 +89,11 @@ public class TeamFragment extends Fragment {
             launchJoinTeamActivity();
         }
 
-        root.findViewById(R.id.btn_initFirebase).setOnClickListener(v -> initFirebaseData(v));
-        root.findViewById(R.id.btn_runTests).setOnClickListener(v -> performFirebaseTests(v));
-        root.findViewById(R.id.btn_login).setOnClickListener(v -> startActivity(new Intent(getActivity(), Login.class)));
+        if (testing) {
+            root.findViewById(R.id.btn_initFirebase).setOnClickListener(v -> initFirebaseData(v));
+            root.findViewById(R.id.btn_runTests).setOnClickListener(v -> performFirebaseTests(v));
+            root.findViewById(R.id.btn_login).setOnClickListener(v -> startActivity(new Intent(getActivity(), Login.class)));
+        }
     }
 
     public void launchPromptActivity(){

@@ -63,7 +63,6 @@ public class TeammatesExistBDDTest1 {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("height", "65");
         editor.apply();
-        //MockInteractor.dummyAddTeammates(new Teammate("Amy", "Zhu", Color.LTGRAY), "Zhu@gmail.com");
         intent = new Intent(ApplicationProvider.getApplicationContext(), MainActivity.class);
         ActivityScenario<MainActivity> scenario = ActivityScenario.launch(intent);
         intent.putExtra(MainActivity.INTENT_KEY_FIREBASE_INTERACTOR, MainActivity.INTENT_USE_MOCK_INTERACTOR);
